@@ -126,7 +126,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  //shift_data(0xFFFFFFFE);
-	  HAL_Delay(100);
+	  HAL_Delay(200);
 
 	  MAL_HC595_SendTrigger(&HC595_Wheel);
 
