@@ -64,6 +64,8 @@ void Error_Handler(void);
 #define STCP_GPIO_Port GPIOC
 #define SHCP_Pin GPIO_PIN_9
 #define SHCP_GPIO_Port GPIOC
+#define OE_Pin GPIO_PIN_10
+#define OE_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
