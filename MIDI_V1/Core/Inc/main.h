@@ -60,10 +60,10 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define HC595_BTN_DATA_Pin GPIO_PIN_5
 #define HC595_BTN_DATA_GPIO_Port GPIOA
-#define HC595_BTN_LATCH_Pin GPIO_PIN_10
-#define HC595_BTN_LATCH_GPIO_Port GPIOD
-#define HC595_BTN_CLK_Pin GPIO_PIN_12
-#define HC595_BTN_CLK_GPIO_Port GPIOD
+#define HC595_BTN_CLK_Pin GPIO_PIN_7
+#define HC595_BTN_CLK_GPIO_Port GPIOA
+#define HC595_BTN_LATCH_Pin GPIO_PIN_5
+#define HC595_BTN_LATCH_GPIO_Port GPIOC
 #define HC595_WHEEL_DATA_Pin GPIO_PIN_7
 #define HC595_WHEEL_DATA_GPIO_Port GPIOC
 #define HC595_WHEEL_LATCH_Pin GPIO_PIN_8

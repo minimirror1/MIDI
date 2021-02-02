@@ -44,6 +44,7 @@ TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN PV */
 HC595_HandleTypeDef HC595_Wheel;
+HC595_HandleTypeDef HC595_BTN;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -66,16 +67,38 @@ void MX_HC595_Wheel_Init(void)
 
 	sConfig.gpio_default_out = GPIO_PIN_SET;
 
-	sConfig.CLK_GPIO = SHCP_GPIO_Port;
-	sConfig.CLK_GPIO_Pin = SHCP_Pin;
+	sConfig.CLK_GPIO = HC595_WHEEL_CLK_GPIO_Port;
+	sConfig.CLK_GPIO_Pin = HC595_WHEEL_CLK_Pin;
 
-	sConfig.DATA_GPIO = DATA_GPIO_Port;
-	sConfig.DATA_GPIO_Pin = DATA_Pin;
+	sConfig.DATA_GPIO = HC595_WHEEL_DATA_GPIO_Port;
+	sConfig.DATA_GPIO_Pin = HC595_WHEEL_DATA_Pin;
 
-	sConfig.LATCH_GPIO = STCP_GPIO_Port;
-	sConfig.LATCH_GPIO_Pin = STCP_Pin;
+	sConfig.LATCH_GPIO = HC595_WHEEL_LATCH_GPIO_Port;
+	sConfig.LATCH_GPIO_Pin = HC595_WHEEL_LATCH_Pin;
 
 	MAL_HC595_Init(&HC595_Wheel, &sConfig);
+}
+
+void MX_HC595_BTN_Init(void)
+{
+
+	HC595_ConfigTypeDef sConfig;
+
+	sConfig.htim = &htim3;
+	sConfig.io_count = 104;
+
+	sConfig.gpio_default_out = GPIO_PIN_SET;
+
+	sConfig.CLK_GPIO = HC595_BTN_CLK_GPIO_Port;
+	sConfig.CLK_GPIO_Pin = HC595_BTN_CLK_Pin;
+
+	sConfig.DATA_GPIO = HC595_BTN_DATA_GPIO_Port;
+	sConfig.DATA_GPIO_Pin = HC595_BTN_DATA_Pin;
+
+	sConfig.LATCH_GPIO = HC595_BTN_LATCH_GPIO_Port;
+	sConfig.LATCH_GPIO_Pin = HC595_BTN_LATCH_Pin;
+
+	MAL_HC595_Init(&HC595_BTN, &sConfig);
 }
 
 
@@ -113,6 +136,8 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   MX_HC595_Wheel_Init();
+  //MX_HC595_BTN_Init();
+  uint32_t test_cnt = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -127,8 +152,10 @@ int main(void)
 	  HAL_Delay(100);
 
 	  MAL_HC595_SendTrigger(&HC595_Wheel);
+	  //MAL_HC595_SendTrigger(&HC595_BTN);
 
 	  MAL_HC595_WritePin(&HC595_Wheel,test_cnt,0);
+	  //MAL_HC595_WritePin(&HC595_BTN,test_cnt,0);
 
 	  test_cnt++;
 	  if(test_cnt > 104)
@@ -253,44 +280,40 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(HC595_BTN_DATA_GPIO_Port, HC595_BTN_DATA_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, HC595_BTN_DATA_Pin|HC595_BTN_CLK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, HC595_BTN_LATCH_Pin|HC595_BTN_CLK_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, HC595_BTN_LATCH_Pin|HC595_WHEEL_LATCH_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, HC595_WHEEL_DATA_Pin|HC595_WHEEL_CLK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(HC595_WHEEL_LATCH_GPIO_Port, HC595_WHEEL_LATCH_Pin, GPIO_PIN_SET);
-
-  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(HC595_ENABLE_GPIO_Port, HC595_ENABLE_Pin, GPIO_PIN_SET);
 
-  /*Configure GPIO pins : HC595_BTN_DATA_Pin HC595_ENABLE_Pin */
-  GPIO_InitStruct.Pin = HC595_BTN_DATA_Pin|HC595_ENABLE_Pin;
+  /*Configure GPIO pins : HC595_BTN_DATA_Pin HC595_BTN_CLK_Pin */
+  GPIO_InitStruct.Pin = HC595_BTN_DATA_Pin|HC595_BTN_CLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : HC595_BTN_LATCH_Pin HC595_BTN_CLK_Pin */
-  GPIO_InitStruct.Pin = HC595_BTN_LATCH_Pin|HC595_BTN_CLK_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : HC595_WHEEL_DATA_Pin HC595_WHEEL_LATCH_Pin HC595_WHEEL_CLK_Pin */
-  GPIO_InitStruct.Pin = HC595_WHEEL_DATA_Pin|HC595_WHEEL_LATCH_Pin|HC595_WHEEL_CLK_Pin;
+  /*Configure GPIO pins : HC595_BTN_LATCH_Pin HC595_WHEEL_DATA_Pin HC595_WHEEL_LATCH_Pin HC595_WHEEL_CLK_Pin */
+  GPIO_InitStruct.Pin = HC595_BTN_LATCH_Pin|HC595_WHEEL_DATA_Pin|HC595_WHEEL_LATCH_Pin|HC595_WHEEL_CLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : HC595_ENABLE_Pin */
+  GPIO_InitStruct.Pin = HC595_ENABLE_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(HC595_ENABLE_GPIO_Port, &GPIO_InitStruct);
 
 }
 
