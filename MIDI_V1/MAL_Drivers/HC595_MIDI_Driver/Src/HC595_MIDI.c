@@ -65,6 +65,14 @@ void MAL_HC595_MIDI_LCD_BTN_WritePin(uint32_t pinNum, GPIO_PinState PinStatus)//
 	}
 }
 
+void MAL_HC595_MIDI_All_Off(void)
+{
+	//출력 초기화
+	memset(hc595_wheel.ioData, 0x01,HC595_WHEEL_IO_COUNT);
+	memset(hc595_bar_lcd_btn.ioData_bar, 0x01,HC595_BAR_IO_COUNT);	//LATCH CLK 공통으로 더 많은 쪽의 버퍼개수 사용
+	memset(hc595_bar_lcd_btn.ioData_lcdBtn, 0x01,HC595_BAR_IO_COUNT);
+}
+
 
 
 //=============================================================================

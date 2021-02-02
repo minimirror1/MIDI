@@ -86,6 +86,7 @@ void MAL_HC595_MIDI_SendTrigger(void);
 void MAL_HC595_MIDI_Wheel_WritePin(uint32_t pinNum, GPIO_PinState PinStatus);
 void MAL_HC595_MIDI_Bar_WritePin(uint32_t pinNum, GPIO_PinState PinStatus);
 void MAL_HC595_MIDI_LCD_BTN_WritePin(uint32_t pinNum, GPIO_PinState PinStatus);
+void MAL_HC595_MIDI_All_Off(void);
 
 
 //=====드라이버 함수.

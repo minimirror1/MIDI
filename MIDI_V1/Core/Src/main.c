@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "HC595_MIDI.h"
+#include "HC595_MIDI_Control.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,7 +58,7 @@ static void MX_TIM3_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if(htim->Instance == TIM3)//HC595 ???´ë¨?
+	if(htim->Instance == TIM3)//HC595 ???ï¿½ï¿½ï¿½?
 	{
 		MAL_HC595_MIDI_TIM_Manager();
 	}
@@ -97,8 +98,11 @@ int main(void)
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   MAL_HC595_MIDI_Init();
+  MAL_LED_Control_Init();
 
-  uint8_t test_cnt=0;
+  uint8_t test_cnt1=0;
+  uint8_t test_cnt2=5;
+  uint8_t test_cnt3 = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -110,12 +114,137 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 
-	  MAL_HC595_MIDI_Wheel_WritePin(test_cnt, GPIO_PIN_RESET);
+/*	  MAL_HC595_MIDI_Wheel_WritePin(test_cnt, GPIO_PIN_RESET);
 	  MAL_HC595_MIDI_Bar_WritePin(test_cnt, GPIO_PIN_RESET);
-	  MAL_HC595_MIDI_LCD_BTN_WritePin(test_cnt, GPIO_PIN_RESET);
-	  test_cnt++;
+	  MAL_HC595_MIDI_LCD_BTN_WritePin(test_cnt, GPIO_PIN_RESET);*/
+
+
+/*	  MAL_LED_Wheel_Control(1,test_cnt1);
+
+	  MAL_LED_Wheel_Control(2,test_cnt1);
+
+	  MAL_LED_Wheel_Control(3,test_cnt1);
+
+	  MAL_LED_Wheel_Control(4,test_cnt1);
+
+	  MAL_LED_Wheel_Control(5,test_cnt1);
+
+	  MAL_LED_Wheel_Control(6,test_cnt1);
+
+	  MAL_LED_Wheel_Control(7,test_cnt1);
+
+	  MAL_LED_Wheel_Control(8,test_cnt1);
+
+	  test_cnt1++;
+	  if(test_cnt1 >13)
+		  test_cnt1 = 0;
+		  */
+
+	  MAL_LED_Wheel_Control(1,test_cnt1++);
+	  if(test_cnt1 >8)
+	  		  test_cnt1 = 0;
+
+	  MAL_LED_Wheel_Control(2,test_cnt1++);
+	  if(test_cnt1 >8)
+	  		  test_cnt1 = 0;
+
+	  MAL_LED_Wheel_Control(3,test_cnt1++);
+	  if(test_cnt1 >8)
+	  		  test_cnt1 = 0;
+
+	  MAL_LED_Wheel_Control(4,test_cnt1++);
+	  if(test_cnt1 >8)
+	  		  test_cnt1 = 0;
+
+	  MAL_LED_Wheel_Control(5,test_cnt1++);
+	  if(test_cnt1 >8)
+	  		  test_cnt1 = 0;
+
+	  MAL_LED_Wheel_Control(6,test_cnt1++);
+	  if(test_cnt1 >8)
+	  		  test_cnt1 = 0;
+
+	  MAL_LED_Wheel_Control(7,test_cnt1++);
+	  if(test_cnt1 >8)
+	  		  test_cnt1 = 0;
+
+	  MAL_LED_Wheel_Control(8,test_cnt1++);
+
+	  if(test_cnt1 >8)
+		  test_cnt1 = 0;
+
+
+
+		MAL_LED_BackLight_Control(1, LED_BLACK);
+		MAL_LED_BackLight_Control(2, LED_RED);
+		MAL_LED_BackLight_Control(3, LED_GREEN);
+		MAL_LED_BackLight_Control(4, LED_BLUE);
+		MAL_LED_BackLight_Control(5, LED_MAGENTA);
+		MAL_LED_BackLight_Control(6, LED_YELLOW);
+		MAL_LED_BackLight_Control(7, LED_CYAN);
+		MAL_LED_BackLight_Control(8, LED_WHITE);
+
+		MAL_LED_Button_Control(1, LED_REC, LED_ON);
+		MAL_LED_Button_Control(2, LED_SOLO, LED_ON);
+		MAL_LED_Button_Control(3, LED_MUTE, LED_ON);
+		MAL_LED_Button_Control(4, LED_SELECT, LED_ON);
+
+		MAL_LED_Button_Control(1, LED_SELECT, LED_ON);
+		MAL_LED_Button_Control(2, LED_MUTE, LED_ON);
+		MAL_LED_Button_Control(3, LED_SOLO, LED_ON);
+		MAL_LED_Button_Control(4, LED_REC, LED_ON);
+
+		MAL_LED_Button_Control(5, LED_REC, LED_ON);
+		MAL_LED_Button_Control(6, LED_SOLO, LED_ON);
+		MAL_LED_Button_Control(7, LED_MUTE, LED_ON);
+		MAL_LED_Button_Control(8, LED_SELECT, LED_ON);
+
+		MAL_LED_Button_Control(5, LED_SELECT, LED_ON);
+		MAL_LED_Button_Control(6, LED_MUTE, LED_ON);
+		MAL_LED_Button_Control(7, LED_SOLO, LED_ON);
+		MAL_LED_Button_Control(8, LED_REC, LED_ON);
+
+
+
+		MAL_LED_BarGauge_Control(1, test_cnt3++);
+		if(test_cnt3 > 8)
+				  test_cnt3 = 0;
+		MAL_LED_BarGauge_Control(2, test_cnt3++);
+		if(test_cnt3 > 8)
+				  test_cnt3 = 0;
+		MAL_LED_BarGauge_Control(3, test_cnt3++);
+		if(test_cnt3 > 8)
+				  test_cnt3 = 0;
+		MAL_LED_BarGauge_Control(4, test_cnt3++);
+		if(test_cnt3 > 8)
+				  test_cnt3 = 0;
+		MAL_LED_BarGauge_Control(5, test_cnt3++);
+		if(test_cnt3 > 8)
+				  test_cnt3 = 0;
+		MAL_LED_BarGauge_Control(6, test_cnt3++);
+		if(test_cnt3 > 8)
+				  test_cnt3 = 0;
+		MAL_LED_BarGauge_Control(7, test_cnt3++);
+		if(test_cnt3 > 8)
+				  test_cnt3 = 0;
+		MAL_LED_BarGauge_Control(8, test_cnt3++);
+		if(test_cnt3 > 8)
+				  test_cnt3 = 0;
+	 //MAL_HC595_MIDI_LCD_BTN_WritePin(31, 0);
+
+	  MAL_LED_Refresh();
+
+/*	  test_cnt1++;
+	  if(test_cnt1 >13)
+		  test_cnt1 = 0;*/
+
+	  test_cnt2++;
+	  if(test_cnt2 >13)
+		  test_cnt2 = 0;
+
+
 	  MAL_HC595_MIDI_SendTrigger();
-	  HAL_Delay(200);
+	  HAL_Delay(100);
 
   }
   /* USER CODE END 3 */
@@ -187,7 +316,7 @@ static void MX_TIM3_Init(void)
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 359;
+  htim3.Init.Period = 1799;//3599;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
