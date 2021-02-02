@@ -24,6 +24,8 @@
 /* USER CODE BEGIN Includes */
 #include "HC595_MIDI.h"
 #include "HC595_MIDI_Control.h"
+
+#include "HC165_MIDI.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
