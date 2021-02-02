@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "HC595.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,7 +43,6 @@
 TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN PV */
-HC595_HandleTypeDef HC595_Wheel;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -56,29 +55,10 @@ static void MX_TIM3_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void MX_HC595_Wheel_Init(void)
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 
-	HC595_ConfigTypeDef sConfig;
-
-	sConfig.htim = &htim3;
-	sConfig.io_count = 104;
-
-	sConfig.gpio_default_out = GPIO_PIN_SET;
-
-	sConfig.CLK_GPIO = SHCP_GPIO_Port;
-	sConfig.CLK_GPIO_Pin = SHCP_Pin;
-
-	sConfig.DATA_GPIO = DATA_GPIO_Port;
-	sConfig.DATA_GPIO_Pin = DATA_Pin;
-
-	sConfig.LATCH_GPIO = STCP_GPIO_Port;
-	sConfig.LATCH_GPIO_Pin = STCP_Pin;
-
-	MAL_HC595_Init(&HC595_Wheel, &sConfig);
 }
-
-
 
 /* USER CODE END 0 */
 
@@ -112,10 +92,7 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  MX_HC595_Wheel_Init();
   /* USER CODE END 2 */
-
-  uint32_t test_cnt = 0;
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -126,15 +103,6 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  //shift_data(0xFFFFFFFE);
-	  HAL_Delay(200);
-
-	  MAL_HC595_SendTrigger(&HC595_Wheel);
-
-	  MAL_HC595_WritePin(&HC595_Wheel,test_cnt,0);
-
-	  test_cnt++;
-	  if(test_cnt > 104)
-		  test_cnt = 0;
 
   }
   /* USER CODE END 3 */
@@ -199,7 +167,6 @@ static void MX_TIM3_Init(void)
 
   TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
-  TIM_OC_InitTypeDef sConfigOC = {0};
 
   /* USER CODE BEGIN TIM3_Init 1 */
 
@@ -207,7 +174,7 @@ static void MX_TIM3_Init(void)
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 3599;//7199;
+  htim3.Init.Period = 359;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
@@ -219,21 +186,9 @@ static void MX_TIM3_Init(void)
   {
     Error_Handler();
   }
-  if (HAL_TIM_OC_Init(&htim3) != HAL_OK)
-  {
-    Error_Handler();
-  }
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigOC.OCMode = TIM_OCMODE_TIMING;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_OC_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
   {
     Error_Handler();
   }
@@ -254,31 +209,31 @@ static void MX_GPIO_Init(void)
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, DATA_Pin|SHCP_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, HC595_LCD_BTN_DATA_Pin|HC595_BAR_DATA_Pin|HC595_COMMON_CLK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(STCP_GPIO_Port, STCP_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOC, HC595_COMMON_LATCH_Pin|HC595_WHEEL_DATA_Pin|HC595_WHEEL_LATCH_Pin|HC595_WHEEL_CLK_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(OE_GPIO_Port, OE_Pin, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(HC595_ALL_ENABLE_GPIO_Port, HC595_ALL_ENABLE_Pin, GPIO_PIN_SET);
 
-  /*Configure GPIO pins : DATA_Pin STCP_Pin SHCP_Pin */
-  GPIO_InitStruct.Pin = DATA_Pin|STCP_Pin|SHCP_Pin;
+  /*Configure GPIO pins : HC595_LCD_BTN_DATA_Pin HC595_BAR_DATA_Pin HC595_COMMON_CLK_Pin HC595_ALL_ENABLE_Pin */
+  GPIO_InitStruct.Pin = HC595_LCD_BTN_DATA_Pin|HC595_BAR_DATA_Pin|HC595_COMMON_CLK_Pin|HC595_ALL_ENABLE_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : HC595_COMMON_LATCH_Pin HC595_WHEEL_DATA_Pin HC595_WHEEL_LATCH_Pin HC595_WHEEL_CLK_Pin */
+  GPIO_InitStruct.Pin = HC595_COMMON_LATCH_Pin|HC595_WHEEL_DATA_Pin|HC595_WHEEL_LATCH_Pin|HC595_WHEEL_CLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : OE_Pin */
-  GPIO_InitStruct.Pin = OE_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(OE_GPIO_Port, &GPIO_InitStruct);
 
 }
 

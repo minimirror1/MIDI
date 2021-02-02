@@ -58,14 +58,22 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define DATA_Pin GPIO_PIN_7
-#define DATA_GPIO_Port GPIOC
-#define STCP_Pin GPIO_PIN_8
-#define STCP_GPIO_Port GPIOC
-#define SHCP_Pin GPIO_PIN_9
-#define SHCP_GPIO_Port GPIOC
-#define OE_Pin GPIO_PIN_10
-#define OE_GPIO_Port GPIOA
+#define HC595_LCD_BTN_DATA_Pin GPIO_PIN_4
+#define HC595_LCD_BTN_DATA_GPIO_Port GPIOA
+#define HC595_BAR_DATA_Pin GPIO_PIN_6
+#define HC595_BAR_DATA_GPIO_Port GPIOA
+#define HC595_COMMON_CLK_Pin GPIO_PIN_7
+#define HC595_COMMON_CLK_GPIO_Port GPIOA
+#define HC595_COMMON_LATCH_Pin GPIO_PIN_5
+#define HC595_COMMON_LATCH_GPIO_Port GPIOC
+#define HC595_WHEEL_DATA_Pin GPIO_PIN_7
+#define HC595_WHEEL_DATA_GPIO_Port GPIOC
+#define HC595_WHEEL_LATCH_Pin GPIO_PIN_8
+#define HC595_WHEEL_LATCH_GPIO_Port GPIOC
+#define HC595_WHEEL_CLK_Pin GPIO_PIN_9
+#define HC595_WHEEL_CLK_GPIO_Port GPIOC
+#define HC595_ALL_ENABLE_Pin GPIO_PIN_10
+#define HC595_ALL_ENABLE_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
