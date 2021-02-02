@@ -60,7 +60,7 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define HC595_LCD_BTN_DATA_Pin GPIO_PIN_4
 #define HC595_LCD_BTN_DATA_GPIO_Port GPIOA
-#define HC595_BAR_DATA_Pin GPIO_PIN_6
+#define HC595_BAR_DATA_Pin GPIO_PIN_5
 #define HC595_BAR_DATA_GPIO_Port GPIOA
 #define HC595_COMMON_CLK_Pin GPIO_PIN_7
 #define HC595_COMMON_CLK_GPIO_Port GPIOA

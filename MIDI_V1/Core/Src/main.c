@@ -22,7 +22,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "HC595_MIDI.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,6 +57,10 @@ static void MX_TIM3_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+	if(htim->Instance == TIM3)//HC595 ???´ë¨?
+	{
+		MAL_HC595_MIDI_TIM_Manager();
+	}
 
 }
 
@@ -92,6 +96,9 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
+  MAL_HC595_MIDI_Init();
+
+  uint8_t test_cnt=0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -102,7 +109,13 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  //shift_data(0xFFFFFFFE);
+
+	  MAL_HC595_MIDI_Wheel_WritePin(test_cnt, GPIO_PIN_RESET);
+	  MAL_HC595_MIDI_Bar_WritePin(test_cnt, GPIO_PIN_RESET);
+	  MAL_HC595_MIDI_LCD_BTN_WritePin(test_cnt, GPIO_PIN_RESET);
+	  test_cnt++;
+	  MAL_HC595_MIDI_SendTrigger();
+	  HAL_Delay(200);
 
   }
   /* USER CODE END 3 */
