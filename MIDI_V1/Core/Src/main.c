@@ -62,9 +62,13 @@ static void MX_TIM4_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if(htim->Instance == TIM3)//HC595 ???ï¿½ï¿½ï¿??
+	if(htim->Instance == TIM3)//HC595 ???ï¿½ï¿½ï¿½???
 	{
 		MAL_HC595_MIDI_TIM_Manager();
+	}
+	else if(htim->Instance == TIM4)
+	{
+		MAL_HC165_MIDI_TIM_Manager();
 	}
 
 }
@@ -103,6 +107,7 @@ int main(void)
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
   MAL_HC595_MIDI_Init();
+  MAL_HC165_MIDI_Init();
   MAL_LED_Control_Init();
 
   /* USER CODE END 2 */
@@ -114,7 +119,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
+	MAL_HC165_MIDI_ReadTrigger();
+	HAL_Delay(50);
 
   }
   /* USER CODE END 3 */
@@ -232,7 +238,7 @@ static void MX_TIM4_Init(void)
   htim4.Instance = TIM4;
   htim4.Init.Prescaler = 0;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 3599;
+  htim4.Init.Period = 1799;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
