@@ -65,7 +65,7 @@ static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if(htim->Instance == TIM3)//HC595 ???ï¿½ï¿½ï¿?????
+	if(htim->Instance == TIM3)//HC595 ???ï¿½ï¿½ï¿½?????
 	{
 		MAL_HC595_MIDI_TIM_Manager();
 	}
@@ -113,6 +113,8 @@ int main(void)
   MAL_HC595_MIDI_Init();
   MAL_HC165_MIDI_Init();
   MAL_LED_Control_Init();
+  MAL_UART_Init();
+
 
   /* USER CODE END 2 */
 
