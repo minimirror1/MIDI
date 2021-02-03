@@ -26,6 +26,8 @@
 #include "HC595_MIDI_Control.h"
 
 #include "HC165_MIDI.h"
+
+#include "X_Touch_Extender_MotorAdc_packet.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -113,9 +115,14 @@ int main(void)
   MAL_HC595_MIDI_Init();
   MAL_HC165_MIDI_Init();
   MAL_LED_Control_Init();
+
   MAL_UART_Init();
+  MAL_X_TouchExtender_Packet_Init();
 
 
+  MAL_X_touch_test();
+
+  uint16_t test_cnt = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -125,8 +132,95 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+	  MAL_LED_Wheel_Control(1, test_cnt);
+
+	  Slide_control(0, test_cnt*100);
+	  MAL_LED_BackLight_Control(1, test_cnt);
+	  MAL_LED_BarGauge_Control(1, test_cnt);
+	  MAL_LED_Wheel_Control(1, test_cnt);
+	  MAL_LED_Button_Control(1, test_cnt/2 , 0);
+	  MAL_LED_Button_Control(5, test_cnt/2 , 0);
+
+	  test_cnt++;
+	  if(test_cnt > 8)
+		  test_cnt = 0;
+
+	  Slide_control(1, test_cnt*100);
+	  MAL_LED_BackLight_Control(2, test_cnt);
+	  MAL_LED_BarGauge_Control(2, test_cnt);
+	  MAL_LED_Wheel_Control(2, test_cnt);
+	  	  MAL_LED_Button_Control(2, test_cnt/2 , 0);
+	  	MAL_LED_Button_Control(6, test_cnt/2 , 0);
+	  test_cnt++;
+	  	  if(test_cnt > 8)
+	  		  test_cnt = 0;
+
+	  Slide_control(2, test_cnt*100);
+	  MAL_LED_BackLight_Control(3, test_cnt);
+	  MAL_LED_BarGauge_Control(3, test_cnt);
+	  MAL_LED_Wheel_Control(3, test_cnt);
+	  	  MAL_LED_Button_Control(3, test_cnt/2 , 0);
+	  	MAL_LED_Button_Control(7, test_cnt/2 , 0);
+	  test_cnt++;
+	  	  if(test_cnt > 8)
+	  		  test_cnt = 0;
+
+	  Slide_control(3, test_cnt*100);
+	  MAL_LED_BackLight_Control(4, test_cnt);
+	  MAL_LED_BarGauge_Control(4, test_cnt);
+	  MAL_LED_Wheel_Control(4, test_cnt);
+	  	  MAL_LED_Button_Control(4, test_cnt/2 , 0);
+	  	MAL_LED_Button_Control(8, test_cnt/2 , 0);
+	  test_cnt++;
+	  	  if(test_cnt > 8)
+	  		  test_cnt = 0;
+
+	  Slide_control(4, test_cnt*100);
+	  MAL_LED_BackLight_Control(5, test_cnt);
+	  MAL_LED_BarGauge_Control(5, test_cnt);
+	  MAL_LED_Wheel_Control(5, test_cnt);
+	  	  MAL_LED_Button_Control(1, test_cnt/2 , 1);
+	  	MAL_LED_Button_Control(5, test_cnt/2 , 1);
+	  test_cnt++;
+	  	  if(test_cnt > 8)
+	  		  test_cnt = 0;
+
+	  Slide_control(5, test_cnt*100);
+	  MAL_LED_BackLight_Control(6, test_cnt);
+	  MAL_LED_BarGauge_Control(6, test_cnt);
+	  MAL_LED_Wheel_Control(6, test_cnt);
+	  	  	  MAL_LED_Button_Control(2, test_cnt/2 , 1);
+	  	  	MAL_LED_Button_Control(6, test_cnt/2 , 1);
+	  test_cnt++;
+	  	  if(test_cnt > 8)
+	  		  test_cnt = 0;
+
+	  Slide_control(6, test_cnt*100);
+	  MAL_LED_BackLight_Control(7, test_cnt);
+	  MAL_LED_BarGauge_Control(7, test_cnt);
+	  MAL_LED_Wheel_Control(7, test_cnt);
+	  	  	  MAL_LED_Button_Control(3, test_cnt/2 , 1);
+	  	  	MAL_LED_Button_Control(7, test_cnt/2 , 1);
+	  test_cnt++;
+	  	  if(test_cnt > 8)
+	  		  test_cnt = 0;
+
+	  Slide_control(7, test_cnt*100);
+	  MAL_LED_BackLight_Control(8, test_cnt);
+	  MAL_LED_BarGauge_Control(8, test_cnt);
+	  MAL_LED_Wheel_Control(8, test_cnt);
+	  	  	  MAL_LED_Button_Control(4, test_cnt/2 , 1);
+	  	  	MAL_LED_Button_Control(8, test_cnt/2 , 1);
+	  test_cnt++;
+	  	  if(test_cnt > 8)
+	  		  test_cnt = 0;
+
+
+	MAL_LED_Refresh();
 	MAL_HC165_MIDI_ReadTrigger();
-	HAL_Delay(50);
+	MAL_HC595_MIDI_SendTrigger();
+	HAL_Delay(40);
 
   }
   /* USER CODE END 3 */
