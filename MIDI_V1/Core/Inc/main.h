@@ -58,6 +58,16 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define LCD_DAT_2_Pin GPIO_PIN_2
+#define LCD_DAT_2_GPIO_Port GPIOE
+#define LCD_DAT_3_Pin GPIO_PIN_3
+#define LCD_DAT_3_GPIO_Port GPIOE
+#define LCD_DAT_4_Pin GPIO_PIN_4
+#define LCD_DAT_4_GPIO_Port GPIOE
+#define LCD_DAT_5_Pin GPIO_PIN_5
+#define LCD_DAT_5_GPIO_Port GPIOE
+#define LCD_DAT_6_Pin GPIO_PIN_6
+#define LCD_DAT_6_GPIO_Port GPIOE
 #define HC595_LCD_BTN_DATA_Pin GPIO_PIN_4
 #define HC595_LCD_BTN_DATA_GPIO_Port GPIOA
 #define HC595_BAR_DATA_Pin GPIO_PIN_5
@@ -66,6 +76,20 @@ void Error_Handler(void);
 #define HC595_COMMON_CLK_GPIO_Port GPIOA
 #define HC595_COMMON_LATCH_Pin GPIO_PIN_5
 #define HC595_COMMON_LATCH_GPIO_Port GPIOC
+#define LCD_DAT_7_Pin GPIO_PIN_7
+#define LCD_DAT_7_GPIO_Port GPIOE
+#define LCD_SEL_A0_Pin GPIO_PIN_8
+#define LCD_SEL_A0_GPIO_Port GPIOE
+#define LCD_SEL_A1_Pin GPIO_PIN_9
+#define LCD_SEL_A1_GPIO_Port GPIOE
+#define LCD_SEL_A2_Pin GPIO_PIN_10
+#define LCD_SEL_A2_GPIO_Port GPIOE
+#define LCD_CLK_Pin GPIO_PIN_11
+#define LCD_CLK_GPIO_Port GPIOE
+#define LCD_CD_Pin GPIO_PIN_13
+#define LCD_CD_GPIO_Port GPIOE
+#define LCD_EN_Pin GPIO_PIN_14
+#define LCD_EN_GPIO_Port GPIOE
 #define HC595_WHEEL_DATA_Pin GPIO_PIN_7
 #define HC595_WHEEL_DATA_GPIO_Port GPIOC
 #define HC595_WHEEL_LATCH_Pin GPIO_PIN_8
@@ -86,6 +110,10 @@ void Error_Handler(void);
 #define HC165_BTN_CLK_GPIO_Port GPIOD
 #define HC165_BTN_DATA_Pin GPIO_PIN_7
 #define HC165_BTN_DATA_GPIO_Port GPIOD
+#define LCD_DAT_0_Pin GPIO_PIN_0
+#define LCD_DAT_0_GPIO_Port GPIOE
+#define LCD_DAT_1_Pin GPIO_PIN_1
+#define LCD_DAT_1_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
