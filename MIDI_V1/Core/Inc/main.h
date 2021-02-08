@@ -84,12 +84,12 @@ void Error_Handler(void);
 #define LCD_SEL_A1_GPIO_Port GPIOE
 #define LCD_SEL_A2_Pin GPIO_PIN_10
 #define LCD_SEL_A2_GPIO_Port GPIOE
-#define LCD_CLK_Pin GPIO_PIN_11
+#define LCD_SEL_EN_Pin GPIO_PIN_11
+#define LCD_SEL_EN_GPIO_Port GPIOE
+#define LCD_CMD_Pin GPIO_PIN_13
+#define LCD_CMD_GPIO_Port GPIOE
+#define LCD_CLK_Pin GPIO_PIN_14
 #define LCD_CLK_GPIO_Port GPIOE
-#define LCD_CD_Pin GPIO_PIN_13
-#define LCD_CD_GPIO_Port GPIOE
-#define LCD_EN_Pin GPIO_PIN_14
-#define LCD_EN_GPIO_Port GPIOE
 #define HC595_WHEEL_DATA_Pin GPIO_PIN_7
 #define HC595_WHEEL_DATA_GPIO_Port GPIOC
 #define HC595_WHEEL_LATCH_Pin GPIO_PIN_8

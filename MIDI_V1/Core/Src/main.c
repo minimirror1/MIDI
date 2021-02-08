@@ -28,6 +28,8 @@
 #include "HC165_MIDI.h"
 
 #include "X_Touch_Extender_MotorAdc_packet.h"
+#include "LCD_MIDI.h"
+#include "LCD_MIDI_Control.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -69,15 +71,18 @@ static void MX_TIM2_Init(void);
 /* USER CODE BEGIN 0 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if(htim->Instance == TIM3)//HC595 ???ï¿½ï¿½ï¿??????
+	switch((uint32_t)htim->Instance)
 	{
+	case (uint32_t)TIM3:
 		MAL_HC595_MIDI_TIM_Manager();
-	}
-	else if(htim->Instance == TIM4)
-	{
+		break;
+	case (uint32_t)TIM4:
 		MAL_HC165_MIDI_TIM_Manager();
+		break;
+	case (uint32_t)TIM2:
+		MAL_LCD_MIDI_TIM_Manager();
+		break;
 	}
-
 }
 
 /* USER CODE END 0 */
@@ -115,17 +120,18 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  MAL_HC595_MIDI_Init();
+/*  MAL_HC595_MIDI_Init();
   MAL_HC165_MIDI_Init();
   MAL_LED_Control_Init();
-
   MAL_UART_Init();
   MAL_X_TouchExtender_Packet_Init();
-
-
-  MAL_X_touch_test();
-
+  MAL_X_touch_test();*/
   uint16_t test_cnt = 0;
+
+  MAL_LCD_Init();
+  uint8_t test_bit = 0x01;
+  uint8_t test_bit2 = 0x01;
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -135,7 +141,28 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+/*
+	  MAL_LCD_DATA_TEST(test_bit);
 
+	  test_bit = test_bit<<1;
+	  if(test_bit == 0)
+		  test_bit = 0x01;
+
+	  MAL_LCD_SEL_TEST(test_bit2);
+	  test_bit2 = test_bit2<<1;
+	  if(test_bit2 == 0x08)
+		  test_bit2 = 0x01;*/
+/*	  if(MAL_LCD_SendDataSequnce(test_bit))
+	  {
+			test_bit = test_bit << 1;
+			if (test_bit == 0)
+				test_bit = 0x01;
+		}*/
+
+	  MAL_LCD_Control_test();
+
+	  HAL_Delay(50);
+/*
 	  MAL_LED_Wheel_Control(1, test_cnt);
 
 	  Slide_control(0, test_cnt*100);
@@ -223,7 +250,7 @@ int main(void)
 	MAL_LED_Refresh();
 	MAL_HC165_MIDI_ReadTrigger();
 	MAL_HC595_MIDI_SendTrigger();
-	HAL_Delay(40);
+	HAL_Delay(40);*/
 
   }
   /* USER CODE END 3 */
@@ -462,7 +489,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOE, LCD_DAT_2_Pin|LCD_DAT_3_Pin|LCD_DAT_4_Pin|LCD_DAT_5_Pin
                           |LCD_DAT_6_Pin|LCD_DAT_7_Pin|LCD_SEL_A0_Pin|LCD_SEL_A1_Pin
-                          |LCD_SEL_A2_Pin|LCD_CLK_Pin|LCD_CD_Pin|LCD_EN_Pin
+                          |LCD_SEL_A2_Pin|LCD_SEL_EN_Pin|LCD_CMD_Pin|LCD_CLK_Pin
                           |LCD_DAT_0_Pin|LCD_DAT_1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -479,11 +506,11 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : LCD_DAT_2_Pin LCD_DAT_3_Pin LCD_DAT_4_Pin LCD_DAT_5_Pin
                            LCD_DAT_6_Pin LCD_DAT_7_Pin LCD_SEL_A0_Pin LCD_SEL_A1_Pin
-                           LCD_SEL_A2_Pin LCD_CLK_Pin LCD_CD_Pin LCD_EN_Pin
+                           LCD_SEL_A2_Pin LCD_SEL_EN_Pin LCD_CMD_Pin LCD_CLK_Pin
                            LCD_DAT_0_Pin LCD_DAT_1_Pin */
   GPIO_InitStruct.Pin = LCD_DAT_2_Pin|LCD_DAT_3_Pin|LCD_DAT_4_Pin|LCD_DAT_5_Pin
                           |LCD_DAT_6_Pin|LCD_DAT_7_Pin|LCD_SEL_A0_Pin|LCD_SEL_A1_Pin
-                          |LCD_SEL_A2_Pin|LCD_CLK_Pin|LCD_CD_Pin|LCD_EN_Pin
+                          |LCD_SEL_A2_Pin|LCD_SEL_EN_Pin|LCD_CMD_Pin|LCD_CLK_Pin
                           |LCD_DAT_0_Pin|LCD_DAT_1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
