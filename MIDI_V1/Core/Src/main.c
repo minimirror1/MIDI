@@ -120,9 +120,10 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-/*  MAL_HC595_MIDI_Init();
-  MAL_HC165_MIDI_Init();
+  MAL_HC595_MIDI_Init();
   MAL_LED_Control_Init();
+/*    MAL_HC165_MIDI_Init();
+
   MAL_UART_Init();
   MAL_X_TouchExtender_Packet_Init();
   MAL_X_touch_test();*/
@@ -161,7 +162,21 @@ int main(void)
 
 	  MAL_LCD_Control_test();
 
-	  HAL_Delay(50);
+
+	  MAL_LED_BackLight_Control(1, LED_WHITE);
+	  MAL_LED_BackLight_Control(2, LED_WHITE);
+	  MAL_LED_BackLight_Control(3, LED_WHITE);
+	  MAL_LED_BackLight_Control(4, LED_WHITE);
+	  MAL_LED_BackLight_Control(5, LED_WHITE);
+	  MAL_LED_BackLight_Control(6, LED_WHITE);
+	  MAL_LED_BackLight_Control(7, LED_WHITE);
+	  MAL_LED_BackLight_Control(8, LED_WHITE);
+
+		MAL_LED_Refresh();
+
+		MAL_HC595_MIDI_SendTrigger();
+
+	  HAL_Delay(1000);
 /*
 	  MAL_LED_Wheel_Control(1, test_cnt);
 
@@ -320,9 +335,9 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 0;
+  htim2.Init.Prescaler = 5;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 23;
+  htim2.Init.Period = 0;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)

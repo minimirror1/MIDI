@@ -114,11 +114,11 @@ void MAL_LCD_CMD_Ctr(void)
 {
 	if(hlcd.buff.cmd_en)
 	{
-		hlcd.pinout.LCD_CMD.GPIO->ODR |= hlcd.pinout.LCD_CMD.Pin;
+		hlcd.pinout.LCD_CMD.GPIO->ODR &= ~hlcd.pinout.LCD_CMD.Pin;
 	}
 	else
 	{
-		hlcd.pinout.LCD_CMD.GPIO->ODR &= hlcd.pinout.LCD_CMD.Pin;
+		hlcd.pinout.LCD_CMD.GPIO->ODR |= hlcd.pinout.LCD_CMD.Pin;
 	}
 }
 
@@ -174,6 +174,7 @@ void MAL_LCD_MIDI_SendTrigger(void)
 {
 	if(hlcd.ctr.status != LCD_MIDI_STOP)
 		return;
+
 
 	hlcd.ctr.status = LCD_MIDI_RUN;
 	hlcd.ctr.seq_num = 0;

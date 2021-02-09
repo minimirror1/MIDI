@@ -12,6 +12,31 @@
 #include "LCD_MIDI_Control.h"
 
 
+void LCD_control(uint8_t cmd, uint8_t pdata)
+{
+	uint8_t data[150] = { 0, };
+
+	// cmd
+	data[0] = cmd;
+	data[1] = LCDcontrolStart0;
+	data[2] = LCDcontrolStart1;
+	MAL_LCD_MIDI_AddQueue(0, 1, data, 3);
+
+	MAL_LCD_MIDI_SendTrigger();
+
+	HAL_Delay(1);
+
+	// data
+	for (int i = 0; i < 128; i++)
+		data[i] = pdata;
+
+	data[128] = 0x00;
+
+	MAL_LCD_MIDI_AddQueue(0, 0, data, 128);
+
+	MAL_LCD_MIDI_SendTrigger();
+}
+
 void MAL_LCD_Control_test(void)
 {
 	uint8_t data[150] = { 0,};
@@ -57,10 +82,15 @@ void MAL_LCD_Control_test(void)
 
 	HAL_Delay(1);
 
-	memset(data,0x55,128);
-	MAL_LCD_MIDI_AddQueue(0,1, data, 128);
 
-	MAL_LCD_MIDI_SendTrigger();
+
+
+	   for (int i = 0; i < 8; i++) {
+		LCD_control(0xB0 + i, 0x00);
+		HAL_Delay(0);
+	}
+
+	//MAL_LCD_MIDI_SendTrigger();
 
 	HAL_Delay(1);
 
