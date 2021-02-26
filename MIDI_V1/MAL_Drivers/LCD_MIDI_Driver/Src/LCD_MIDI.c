@@ -13,13 +13,13 @@
 
 
 LCD_Handle_TypeDef	hlcd;
-extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim1;
 
 
 void MAL_LCD_Init(void)
 {
 
-	hlcd.htim = &htim2;
+	hlcd.htim = &htim1;
 	//==============================================================
 	//D0 ~ D7
 	hlcd.pinout.ParaData.GPIO = LCD_DAT_0_GPIO_Port;
