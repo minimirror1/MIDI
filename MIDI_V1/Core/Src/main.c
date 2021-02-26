@@ -100,7 +100,8 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+
+	HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -160,7 +161,23 @@ int main(void)
 				test_bit = 0x01;
 		}*/
 
-	  MAL_LCD_Control_test();
+	  //MAL_LCD_Control_test();
+	  MAL_LCD_Control_test2(0);
+	  //HAL_Delay(5);
+	  MAL_LCD_Control_test2(1);
+	  //HAL_Delay(5);
+	  MAL_LCD_Control_test2(2);
+	  //HAL_Delay(5);
+	  MAL_LCD_Control_test2(3);
+	  //HAL_Delay(5);
+	  MAL_LCD_Control_test2(4);
+	  //HAL_Delay(5);
+	  MAL_LCD_Control_test2(5);
+	  //HAL_Delay(5);
+	  MAL_LCD_Control_test2(6);
+	  //HAL_Delay(5);
+	  MAL_LCD_Control_test2(7);
+	  //HAL_Delay(5);
 
 
 	  MAL_LED_BackLight_Control(1, LED_WHITE);
@@ -176,7 +193,7 @@ int main(void)
 
 		MAL_HC595_MIDI_SendTrigger();
 
-	  HAL_Delay(1000);
+	  HAL_Delay(100);
 /*
 	  MAL_LED_Wheel_Control(1, test_cnt);
 

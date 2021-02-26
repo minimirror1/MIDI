@@ -43,5 +43,6 @@
 
 
 void MAL_LCD_Control_test(void);
+void MAL_LCD_Control_test2(uint8_t selNum);
 
 #endif /* LCD_MIDI_DRIVER_INC_LCD_MIDI_CONTROL_H_ */
