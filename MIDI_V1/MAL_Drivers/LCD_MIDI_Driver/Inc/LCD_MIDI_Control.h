@@ -40,7 +40,8 @@
 #define LCDcontrol6  ((uint8_t) 0xB6 )
 #define LCDcontrol7  ((uint8_t) 0xB7 )
 
-
+void MAL_LCD_InitSeq(void);
+void MAL_LCD_SetData(uint8_t selNum,uint8_t data);
 
 void MAL_LCD_Control_test(void);
 void MAL_LCD_Control_test2(uint8_t selNum);

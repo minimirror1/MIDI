@@ -101,6 +101,7 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
 
+
 	HAL_Init();
 
   /* USER CODE BEGIN Init */
@@ -131,8 +132,25 @@ int main(void)
   uint16_t test_cnt = 0;
 
   MAL_LCD_Init();
+
+  MAL_LCD_InitSeq();
+
   uint8_t test_bit = 0x01;
   uint8_t test_bit2 = 0x01;
+
+
+  for(int sk = 0; sk < 8; sk++)
+  {
+	  MAL_LCD_SetData(sk,0x00);
+  }
+
+  uint8_t toggle = 0;
+
+
+  uint8_t testData=0x30;
+
+ // LCD_control2(6,&LCDtext);
+
 
   /* USER CODE END 2 */
 
@@ -162,22 +180,47 @@ int main(void)
 		}*/
 
 	  //MAL_LCD_Control_test();
-	  MAL_LCD_Control_test2(0);
+	 // MAL_LCD_SetData(0,0x05);
 	  //HAL_Delay(5);
-	  MAL_LCD_Control_test2(1);
+	  //MAL_LCD_SetData(1,0x05);
 	  //HAL_Delay(5);
-	  MAL_LCD_Control_test2(2);
+	  //MAL_LCD_SetData(2,0x05);
 	  //HAL_Delay(5);
-	  MAL_LCD_Control_test2(3);
+	  //MAL_LCD_SetData(3,0x05);
 	  //HAL_Delay(5);
-	  MAL_LCD_Control_test2(4);
+	  //MAL_LCD_SetData(4,0x05);
 	  //HAL_Delay(5);
-	  MAL_LCD_Control_test2(5);
+	  //MAL_LCD_SetData(5,0x05);
 	  //HAL_Delay(5);
-	  MAL_LCD_Control_test2(6);
+/*
+	  MAL_LCD_SetData(6,0x00);
 	  //HAL_Delay(5);
-	  MAL_LCD_Control_test2(7);
+	  MAL_LCD_SetData(7,0xff);
 	  //HAL_Delay(5);
+	  if(toggle == 0)
+	  {
+		  toggle = 1;
+		  MAL_LCD_SetData(6,0x00);
+		  MAL_LCD_SetData(7,0xff);
+
+	  }else if(toggle == 1)
+	  {
+		  toggle = 0;
+		  MAL_LCD_SetData(6,0xFF);
+		  MAL_LCD_SetData(7,0x00);
+	  }
+*/
+
+
+	  for (uint8_t i=0;i<20;i++)
+	          LCD_pixel_write_sizeA(&LCDtext, testData + i,i);
+
+	  LCD_control2(6,&LCDtext);
+
+	  testData++;
+	  if(testData >= 0x32)
+		  testData = 0x30;
+
 
 
 	  MAL_LED_BackLight_Control(1, LED_WHITE);
@@ -193,7 +236,7 @@ int main(void)
 
 		MAL_HC595_MIDI_SendTrigger();
 
-	  HAL_Delay(100);
+	  HAL_Delay(500);
 /*
 	  MAL_LED_Wheel_Control(1, test_cnt);
 

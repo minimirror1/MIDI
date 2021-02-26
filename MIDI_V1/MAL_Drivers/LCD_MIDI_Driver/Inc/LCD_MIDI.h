@@ -9,6 +9,8 @@
 #define LCD_MIDI_DRIVER_INC_LCD_MIDI_H_
 
 
+#include "MIDI_LCD_textData2.h"
+
 
 #define LCD_BUFF_SIZE	150
 
@@ -80,6 +82,7 @@ typedef struct{
 }LCD_Handle_TypeDef;
 
 
+void LCD_control2(uint8_t selNum, LCDtextData_typedef *LCDtext);
 
 void MAL_LCD_Init(void);
 void MAL_LCD_MIDI_TIM_Manager(void);
