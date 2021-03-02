@@ -133,7 +133,9 @@ int main(void)
 
   MAL_LCD_Init();
 
-  MAL_LCD_InitSeq();
+  MAL_LCD_MIDI_SendTrigger();
+
+/*  MAL_LCD_InitSeq();
 
   uint8_t test_bit = 0x01;
   uint8_t test_bit2 = 0x01;
@@ -147,7 +149,7 @@ int main(void)
   uint8_t toggle = 0;
 
 
-  uint8_t testData=0x30;
+  uint8_t testData=0x30;*/
 
  // LCD_control2(6,&LCDtext);
 
@@ -212,14 +214,14 @@ int main(void)
 */
 
 
-	  for (uint8_t i=0;i<20;i++)
+/*	  for (uint8_t i=0;i<20;i++)
 	          LCD_pixel_write_sizeA(&LCDtext, testData + i,i);
 
 	  LCD_control2(6,&LCDtext);
 
 	  testData++;
 	  if(testData >= 0x32)
-		  testData = 0x30;
+		  testData = 0x30;*/
 
 
 
@@ -395,7 +397,7 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 0;
+  htim1.Init.Prescaler = 719;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim1.Init.Period = 1;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;

@@ -8,12 +8,17 @@
 
 #include "main.h"
 #include "string.h"
+#include "LCD_MIDI_Control.h"
 #include "LCD_MIDI.h"
 
 
 
-LCD_Handle_TypeDef	hlcd;
+LCD_Handle_TypeDef	hlcd = {0,};
 extern TIM_HandleTypeDef htim1;
+
+const uint8_t cmd_set_0[12]= {CMD0_1,CMD0_2,CMD0_3,CMD0_4,CMD0_5,CMD0_6,CMD0_7,CMD0_8,CMD0_9,CMD0_10,CMD0_11,CMD0_12};
+const uint8_t cmd_set_1[4] = {CMD1_1,CMD1_a,CMD1_3,CMD1_4};
+const uint8_t cmd_set_2[4] = {CMD1_1,CMD1_b,CMD1_3,CMD1_4};
 
 
 void MAL_LCD_Init(void)
@@ -105,14 +110,14 @@ void MAL_LCD_IoSetAddress(uint8_t selNum)
 }
 
 //==============================================================================
-void MAL_LCD_Sel_Address(void)
+void MAL_LCD_Sel_Address(uint8_t selNum)
 {
-	MAL_LCD_IoSetAddress(hlcd.buff.selNum);
+	MAL_LCD_IoSetAddress(selNum);
 }
 
-void MAL_LCD_CMD_Ctr(void)
+void MAL_LCD_CMD_Ctr(uint8_t cmd_mode)
 {
-	if(hlcd.buff.cmd_en)
+	if(cmd_mode)
 	{
 		hlcd.pinout.LCD_CMD.GPIO->ODR &= ~hlcd.pinout.LCD_CMD.Pin;
 	}
@@ -123,11 +128,166 @@ void MAL_LCD_CMD_Ctr(void)
 }
 
 
+void MAL_LCD_MIDI_ALL_Init(void)
+{
+	switch (hlcd.ctr.seq_num) {
+	//============================================================================================
+	case 0:
+		MAL_LCD_Sel_Address(hlcd.initLcdNum);
+		MAL_LCD_CMD_Ctr(LCD_IO_CMD);
+		hlcd.ctr.seq_num = 1;
+		break;
+
+	case 1:
+		hlcd.pinout.LCD_SEL_EN.GPIO->ODR &= ~hlcd.pinout.LCD_SEL_EN.Pin;
+		hlcd.ctr.seq_num = 2;
+		break;
+
+	case 2:
+
+		if (MAL_LCD_SendDataSequnce(cmd_set_0[hlcd.lcd[hlcd.initLcdNum].send_cnt])) {
+			hlcd.lcd[hlcd.initLcdNum].send_cnt++;
+			if (hlcd.lcd[hlcd.initLcdNum].send_cnt > 12) {
+				hlcd.lcd[hlcd.initLcdNum].send_cnt = 0;
+				hlcd.ctr.seq_num = 3;
+			}
+		}
+		break;
+
+	case 3:
+		hlcd.pinout.LCD_SEL_EN.GPIO->ODR |= hlcd.pinout.LCD_SEL_EN.Pin;
+		hlcd.lcd[hlcd.initLcdNum].send_cnt = 0;
+		hlcd.ctr.seq_num = 4;
+		break;
+	//============================================================================================
+	case 4:
+		MAL_LCD_Sel_Address(hlcd.initLcdNum);
+		MAL_LCD_CMD_Ctr(LCD_IO_CMD);
+		hlcd.ctr.seq_num = 5;
+		break;
+
+	case 5:
+		hlcd.pinout.LCD_SEL_EN.GPIO->ODR &= ~hlcd.pinout.LCD_SEL_EN.Pin;
+		hlcd.ctr.seq_num = 6;
+		break;
+
+	case 6:
+
+		if (MAL_LCD_SendDataSequnce(cmd_set_1[hlcd.lcd[hlcd.initLcdNum].send_cnt])) {
+			hlcd.lcd[hlcd.initLcdNum].send_cnt++;
+			if (hlcd.lcd[hlcd.initLcdNum].send_cnt > 4) {
+				hlcd.lcd[hlcd.initLcdNum].send_cnt = 0;
+				hlcd.ctr.seq_num = 7;
+			}
+		}
+		break;
+
+	case 7:
+		hlcd.pinout.LCD_SEL_EN.GPIO->ODR |= hlcd.pinout.LCD_SEL_EN.Pin;
+		hlcd.lcd[hlcd.initLcdNum].send_cnt = 0;
+		hlcd.ctr.seq_num = 8;
+		break;
+		//===================================================================================
+
+	case 8:
+		MAL_LCD_Sel_Address(hlcd.initLcdNum);
+		MAL_LCD_CMD_Ctr(LCD_IO_CMD);
+		hlcd.ctr.seq_num = 9;
+		break;
+
+	case 9:
+		hlcd.pinout.LCD_SEL_EN.GPIO->ODR &= ~hlcd.pinout.LCD_SEL_EN.Pin;
+		hlcd.ctr.seq_num = 10;
+		break;
+
+	case 10:
+
+		if (MAL_LCD_SendDataSequnce(cmd_set_2[hlcd.lcd[hlcd.initLcdNum].send_cnt])) {
+			hlcd.lcd[hlcd.initLcdNum].send_cnt++;
+			if (hlcd.lcd[hlcd.initLcdNum].send_cnt > 4) {
+				hlcd.lcd[hlcd.initLcdNum].send_cnt = 0;
+				hlcd.ctr.seq_num = 11;
+			}
+		}
+		break;
+
+	case 11:
+		hlcd.pinout.LCD_SEL_EN.GPIO->ODR |= hlcd.pinout.LCD_SEL_EN.Pin;
+		hlcd.lcd[hlcd.initLcdNum].send_cnt = 0;
+		hlcd.ctr.seq_num = 0;
+
+		hlcd.initLcdNum++;
+
+		if(hlcd.initLcdNum >= 8)
+		{
+			hlcd.f_init = 1;
+			hlcd.initLcdNum = 0;
+
+/*			hlcd.ctr.status = LCD_MIDI_STOP;
+			HAL_TIM_Base_Stop_IT(hlcd.htim);	*/
+		}
+		break;
+	}
+}
+
+void MAL_LCD_MIDI_ALL_SCAN(void)
+{
+	switch (hlcd.ctr.seq_num) {
+		//============================================================================================
+		case 0:
+			MAL_LCD_Sel_Address(hlcd.LcdScanNum);
+			MAL_LCD_CMD_Ctr(LCD_IO_CMD);
+			hlcd.ctr.seq_num = 1;
+			break;
+
+		case 1:
+			hlcd.pinout.LCD_SEL_EN.GPIO->ODR &= ~hlcd.pinout.LCD_SEL_EN.Pin;
+			hlcd.ctr.seq_num = 2;
+			break;
+
+		case 2:
+
+			if (MAL_LCD_SendDataSequnce(hlcd.lcd[hlcd.lcd[hlcd.LcdScanNum].send_cnt].frame[hlcd.lcd[hlcd.LcdScanNum].send_cnt])) {
+				hlcd.lcd[hlcd.LcdScanNum].send_cnt++;
+				if (hlcd.lcd[hlcd.LcdScanNum].send_cnt > LCD_BUFF_SIZE) {
+					hlcd.lcd[hlcd.LcdScanNum].send_cnt = 0;
+					hlcd.ctr.seq_num = 3;
+				}
+			}
+			break;
+
+		case 3:
+			hlcd.pinout.LCD_SEL_EN.GPIO->ODR |= hlcd.pinout.LCD_SEL_EN.Pin;
+			hlcd.lcd[hlcd.LcdScanNum].send_cnt = 0;
+			hlcd.ctr.seq_num = 0;
+
+			hlcd.LcdScanNum++;
+			if(hlcd.LcdScanNum > 8)
+			{
+				hlcd.LcdScanNum = 0;
+			}
+			break;
+		default :
+			hlcd.ctr.seq_num = 0;
+			hlcd.LcdScanNum = 0;
+	}
+}
+
 void MAL_LCD_MIDI_TIM_Manager(void)
 {
 
+	if(hlcd.f_init)
+	{
+		//lcd scan
+		MAL_LCD_MIDI_ALL_SCAN();
+	}
+	else
+	{
+		//lcd init
+		MAL_LCD_MIDI_ALL_Init();
+	}
 
-	switch(hlcd.ctr.seq_num)
+/*	switch(hlcd.ctr.seq_num)
 	{
 	case 0:
 		MAL_LCD_Sel_Address();
@@ -160,7 +320,7 @@ void MAL_LCD_MIDI_TIM_Manager(void)
 		hlcd.ctr.status = LCD_MIDI_STOP;
 		HAL_TIM_Base_Stop_IT(hlcd.htim);
 		break;
-	}
+	}*/
 
 }
 
@@ -172,7 +332,9 @@ void MAL_LCD_MIDI_TIM_Manager(void)
 
 void MAL_LCD_MIDI_SendTrigger(void)
 {
-	if(hlcd.ctr.status != LCD_MIDI_STOP)
+	hlcd.ctr.seq_num = 0;
+	HAL_TIM_Base_Start_IT(hlcd.htim);
+/*	if(hlcd.ctr.status != LCD_MIDI_STOP)
 		return;
 
 
@@ -180,11 +342,12 @@ void MAL_LCD_MIDI_SendTrigger(void)
 	hlcd.ctr.seq_num = 0;
 	hlcd.buff.send_cnt = 0;
 
-	HAL_TIM_Base_Start_IT(hlcd.htim);
+	HAL_TIM_Base_Start_IT(hlcd.htim);*/
 }
 
 uint8_t MAL_LCD_MIDI_AddQueue(uint8_t selNum, uint8_t cmd_en, uint8_t *data, uint8_t size)
 {
+/*
 	if(hlcd.ctr.status != LCD_MIDI_STOP)
 		return HAL_BUSY;//
 
@@ -201,6 +364,7 @@ uint8_t MAL_LCD_MIDI_AddQueue(uint8_t selNum, uint8_t cmd_en, uint8_t *data, uin
 		return HAL_ERROR;
 	}
 	return HAL_OK;//
+*/
 }
 
 

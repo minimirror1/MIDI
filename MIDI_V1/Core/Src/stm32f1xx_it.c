@@ -216,11 +216,11 @@ void TIM1_UP_IRQHandler(void)
 
 	if (__HAL_TIM_GET_FLAG(&htim1, TIM_FLAG_UPDATE) != RESET)
 	  {
-	    //if (__HAL_TIM_GET_IT_SOURCE(&htim1, TIM_IT_UPDATE) != RESET)
-	    //{
+	    if (__HAL_TIM_GET_IT_SOURCE(&htim1, TIM_IT_UPDATE) != RESET)
+	    {
 	      __HAL_TIM_CLEAR_IT(&htim1, TIM_IT_UPDATE);
 	      MAL_LCD_MIDI_TIM_Manager();
-	    //}
+	    }
 	  }
 
   /* USER CODE END TIM1_UP_IRQn 1 */
