@@ -133,7 +133,7 @@ int main(void)
 
   MAL_LCD_Init();
 
-  MAL_LCD_MIDI_SendTrigger();
+
 
 /*  MAL_LCD_InitSeq();
 
@@ -163,66 +163,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-/*
-	  MAL_LCD_DATA_TEST(test_bit);
-
-	  test_bit = test_bit<<1;
-	  if(test_bit == 0)
-		  test_bit = 0x01;
-
-	  MAL_LCD_SEL_TEST(test_bit2);
-	  test_bit2 = test_bit2<<1;
-	  if(test_bit2 == 0x08)
-		  test_bit2 = 0x01;*/
-/*	  if(MAL_LCD_SendDataSequnce(test_bit))
-	  {
-			test_bit = test_bit << 1;
-			if (test_bit == 0)
-				test_bit = 0x01;
-		}*/
-
-	  //MAL_LCD_Control_test();
-	 // MAL_LCD_SetData(0,0x05);
-	  //HAL_Delay(5);
-	  //MAL_LCD_SetData(1,0x05);
-	  //HAL_Delay(5);
-	  //MAL_LCD_SetData(2,0x05);
-	  //HAL_Delay(5);
-	  //MAL_LCD_SetData(3,0x05);
-	  //HAL_Delay(5);
-	  //MAL_LCD_SetData(4,0x05);
-	  //HAL_Delay(5);
-	  //MAL_LCD_SetData(5,0x05);
-	  //HAL_Delay(5);
-/*
-	  MAL_LCD_SetData(6,0x00);
-	  //HAL_Delay(5);
-	  MAL_LCD_SetData(7,0xff);
-	  //HAL_Delay(5);
-	  if(toggle == 0)
-	  {
-		  toggle = 1;
-		  MAL_LCD_SetData(6,0x00);
-		  MAL_LCD_SetData(7,0xff);
-
-	  }else if(toggle == 1)
-	  {
-		  toggle = 0;
-		  MAL_LCD_SetData(6,0xFF);
-		  MAL_LCD_SetData(7,0x00);
-	  }
-*/
-
-
-/*	  for (uint8_t i=0;i<20;i++)
-	          LCD_pixel_write_sizeA(&LCDtext, testData + i,i);
-
-	  LCD_control2(6,&LCDtext);
-
-	  testData++;
-	  if(testData >= 0x32)
-		  testData = 0x30;*/
-
 
 
 	  MAL_LED_BackLight_Control(1, LED_WHITE);
@@ -397,7 +337,7 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 719;
+  htim1.Init.Prescaler = 359;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim1.Init.Period = 1;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
