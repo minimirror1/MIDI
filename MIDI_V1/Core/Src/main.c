@@ -124,19 +124,59 @@ int main(void)
   /* USER CODE BEGIN 2 */
   MAL_HC595_MIDI_Init();
   MAL_LED_Control_Init();
-/*    MAL_HC165_MIDI_Init();
+    MAL_HC165_MIDI_Init();
 
   MAL_UART_Init();
   MAL_X_TouchExtender_Packet_Init();
-  MAL_X_touch_test();*/
+  MAL_X_touch_test();
   uint16_t test_cnt = 0;
 
   MAL_LCD_Init();
 
 
+  LCD_Pixel_wirte_logo(0);
+  LCD_Pixel_wirte_logo(1);
+  LCD_Pixel_wirte_logo(2);
+  LCD_Pixel_wirte_logo(3);
+  LCD_Pixel_wirte_logo(4);
+  LCD_Pixel_wirte_logo(5);
+  LCD_Pixel_wirte_logo(6);
+  LCD_Pixel_wirte_logo(7);
 
-/*  MAL_LCD_InitSeq();
+/*  LCD_pixel_write_sizeA_p(1, 'G', 1);
+  LCD_pixel_write_sizeA_p(1, 'E', 2);
+  LCD_pixel_write_sizeA_p(1, 'N', 3);
+  LCD_pixel_write_sizeA_p(1, 'T', 4);
+  LCD_pixel_write_sizeA_p(1, 'L', 5);
+  LCD_pixel_write_sizeA_p(1, 'E', 6);
 
+  LCD_pixel_write_sizeA_p(2, 'M', 1);
+   LCD_pixel_write_sizeA_p(2, 'O', 2);
+   LCD_pixel_write_sizeA_p(2, 'N', 3);
+   LCD_pixel_write_sizeA_p(2, 'S', 4);
+   LCD_pixel_write_sizeA_p(2, 'T', 5);
+   LCD_pixel_write_sizeA_p(2, 'E', 6);
+   LCD_pixel_write_sizeA_p(2, 'R', 6);*/
+
+
+
+/*   LCD_pixel_write_sizeA_p(5, 'K', 1);
+    LCD_pixel_write_sizeA_p(5, 'i', 2);
+    LCD_pixel_write_sizeA_p(5, 'm', 3);
+
+    LCD_pixel_write_sizeA_p(5, 'H', 10);
+    LCD_pixel_write_sizeA_p(5, 'y', 11);
+    LCD_pixel_write_sizeA_p(5, 'u', 12);
+    LCD_pixel_write_sizeA_p(5, 'n', 13);
+    LCD_pixel_write_sizeA_p(5, 'j', 14);
+    LCD_pixel_write_sizeA_p(5, 'u', 15);*/
+
+
+    //LCD_pixel_write_sizeA_p(5, 0x50, 17);
+
+
+  //  MAL_LCD_InitSeq();
+/*
   uint8_t test_bit = 0x01;
   uint8_t test_bit2 = 0x01;
 
@@ -153,6 +193,8 @@ int main(void)
 
  // LCD_control2(6,&LCDtext);
 
+   uint8_t toggle = 0;
+
 
   /* USER CODE END 2 */
 
@@ -164,8 +206,49 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
+	/*  if(toggle)
+	  {
+		  toggle = 0;
+	  LCD_pixel_write_sizeA_p(2, 'M', 1);
+	   LCD_pixel_write_sizeA_p(2, 'O', 2);
+	   LCD_pixel_write_sizeA_p(2, 'N', 3);
+	   LCD_pixel_write_sizeA_p(2, 'S', 4);
+	   LCD_pixel_write_sizeA_p(2, 'T', 5);
+	   LCD_pixel_write_sizeA_p(2, 'E', 6);
+	   LCD_pixel_write_sizeA_p(2, 'R', 6);
 
-	  MAL_LED_BackLight_Control(1, LED_WHITE);
+		  LCD_pixel_write_sizeA_p(3, ' ', 1);
+	   LCD_pixel_write_sizeA_p(3, ' ', 2);
+	   LCD_pixel_write_sizeA_p(3, ' ', 3);
+	   LCD_pixel_write_sizeA_p(3, ' ', 4);
+	   LCD_pixel_write_sizeA_p(3, ' ', 5);
+	   LCD_pixel_write_sizeA_p(3, ' ', 6);
+	   LCD_pixel_write_sizeA_p(3, ' ', 6);
+	  }
+	  else
+	  {
+		  toggle = 1;
+		  LCD_pixel_write_sizeA_p(2, ' ', 1);
+		   LCD_pixel_write_sizeA_p(2, ' ', 2);
+		   LCD_pixel_write_sizeA_p(2, ' ', 3);
+		   LCD_pixel_write_sizeA_p(2, ' ', 4);
+		   LCD_pixel_write_sizeA_p(2, ' ', 5);
+		   LCD_pixel_write_sizeA_p(2, ' ', 6);
+		   LCD_pixel_write_sizeA_p(2, ' ', 6);
+
+
+		  LCD_pixel_write_sizeA_p(3, 'M', 1);
+	   LCD_pixel_write_sizeA_p(3, 'O', 2);
+	   LCD_pixel_write_sizeA_p(3, 'N', 3);
+	   LCD_pixel_write_sizeA_p(3, 'S', 4);
+	   LCD_pixel_write_sizeA_p(3, 'T', 5);
+	   LCD_pixel_write_sizeA_p(3, 'E', 6);
+	   LCD_pixel_write_sizeA_p(3, 'R', 6);
+	  }*/
+
+
+
+/*	  MAL_LED_BackLight_Control(1, LED_WHITE);
 	  MAL_LED_BackLight_Control(2, LED_WHITE);
 	  MAL_LED_BackLight_Control(3, LED_WHITE);
 	  MAL_LED_BackLight_Control(4, LED_WHITE);
@@ -178,8 +261,8 @@ int main(void)
 
 		MAL_HC595_MIDI_SendTrigger();
 
-	  HAL_Delay(500);
-/*
+	  HAL_Delay(100);*/
+
 	  MAL_LED_Wheel_Control(1, test_cnt);
 
 	  Slide_control(0, test_cnt*100);
@@ -267,7 +350,7 @@ int main(void)
 	MAL_LED_Refresh();
 	MAL_HC165_MIDI_ReadTrigger();
 	MAL_HC595_MIDI_SendTrigger();
-	HAL_Delay(40);*/
+	HAL_Delay(40);
 
   }
   /* USER CODE END 3 */
@@ -337,7 +420,7 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 359;
+  htim1.Init.Prescaler = 89;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim1.Init.Period = 1;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;

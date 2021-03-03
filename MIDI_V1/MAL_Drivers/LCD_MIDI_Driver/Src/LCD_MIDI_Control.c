@@ -8,6 +8,3 @@
 
 #include "main.h"
 #include "string.h"
-#include "LCD_MIDI.h"
-#include "LCD_MIDI_Control.h"
-

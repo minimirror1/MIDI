@@ -91,9 +91,13 @@ void MAL_LCD_Init(void)
 		for(int k = 0; k < 8; k++)
 		{
 			for (int j = 0; j < 128; j++) {
-				hlcd.lcd[i].frame[k][j] = 0xf0;
+				hlcd.lcd[i].frame[k][j] = 0x00;
 			}
 		}
+
+/*		for (int j = 0; j < 128; j++) {
+			hlcd.lcd[i].frame[0][j] = 0xFF;
+		}*/
 	}
 
 
@@ -123,6 +127,24 @@ uint8_t MAL_LCD_SendDataSequnce(uint8_t data)
 	switch(seq_num)
 	{
 	case 0:
+		hlcd.pinout.LCD_CLK.GPIO->ODR |= hlcd.pinout.LCD_CLK.Pin;
+		MAL_LCD_IoSetData(data);
+		seq_num = 1;
+		break;
+	case 1:
+		hlcd.pinout.LCD_CLK.GPIO->ODR &= ~hlcd.pinout.LCD_CLK.Pin;
+		seq_num = 0;
+		ret = 1;
+		break;
+	default :
+		seq_num = 0;
+		break;
+	}
+
+
+/*	switch(seq_num)
+	{
+	case 0:
 		hlcd.pinout.LCD_CLK.GPIO->ODR &= ~hlcd.pinout.LCD_CLK.Pin;
 		seq_num = 1;
 		break;
@@ -142,7 +164,7 @@ uint8_t MAL_LCD_SendDataSequnce(uint8_t data)
 	default :
 		seq_num = 0;
 		break;
-	}
+	}*/
 	return ret;
 }
 //------------------------------------------------------------------------------
@@ -189,7 +211,7 @@ void MAL_LCD_MIDI_TIM_Manager(void)
 
 		if (MAL_LCD_SendDataSequnce(cmd_init[hlcd.lcd[hlcd.initLcdNum].send_cnt])) {
 			hlcd.lcd[hlcd.initLcdNum].send_cnt++;
-			if (hlcd.lcd[hlcd.initLcdNum].send_cnt > 12) {
+			if (hlcd.lcd[hlcd.initLcdNum].send_cnt >= 12) {
 				hlcd.lcd[hlcd.initLcdNum].send_cnt = 0;
 				hlcd.ctr.seq_num = 3;
 			}
@@ -214,7 +236,7 @@ void MAL_LCD_MIDI_TIM_Manager(void)
 	case 5:
 		if (MAL_LCD_SendDataSequnce(set_inv[hlcd.lcd[hlcd.initLcdNum].send_cnt])) {
 			hlcd.lcd[hlcd.initLcdNum].send_cnt++;
-			if (hlcd.lcd[hlcd.initLcdNum].send_cnt > 2) {
+			if (hlcd.lcd[hlcd.initLcdNum].send_cnt >= 2) {
 				hlcd.lcd[hlcd.initLcdNum].send_cnt = 0;
 				hlcd.ctr.seq_num = 6;
 				hlcd.lcd[hlcd.initLcdNum].send_page = 0xB0;
@@ -238,7 +260,7 @@ void MAL_LCD_MIDI_TIM_Manager(void)
 	case 8:
 		if (MAL_LCD_SendDataSequnce(set_col[hlcd.lcd[hlcd.initLcdNum].send_cnt])) {
 			hlcd.lcd[hlcd.initLcdNum].send_cnt++;
-			if (hlcd.lcd[hlcd.initLcdNum].send_cnt > 2) {
+			if (hlcd.lcd[hlcd.initLcdNum].send_cnt >= 2) {
 				hlcd.lcd[hlcd.initLcdNum].send_cnt = 0;
 				hlcd.ctr.seq_num = 9;
 			}
@@ -250,9 +272,11 @@ void MAL_LCD_MIDI_TIM_Manager(void)
 		break;
 
 	case 10:
-		if (MAL_LCD_SendDataSequnce(hlcd.lcd[hlcd.initLcdNum].frame[hlcd.lcd[hlcd.lcd[hlcd.initLcdNum].send_page_num].send_page_num][hlcd.lcd[hlcd.initLcdNum].send_cnt])) {
+
+
+		if (MAL_LCD_SendDataSequnce(hlcd.lcd[hlcd.initLcdNum].frame[hlcd.lcd[hlcd.initLcdNum].send_page_num][hlcd.lcd[hlcd.initLcdNum].send_cnt])) {
 			hlcd.lcd[hlcd.initLcdNum].send_cnt++;
-			if (hlcd.lcd[hlcd.initLcdNum].send_cnt > LCD_BUFF_SIZE) {
+			if (hlcd.lcd[hlcd.initLcdNum].send_cnt >= LCD_BUFF_SIZE) {
 				hlcd.lcd[hlcd.initLcdNum].send_cnt = 0;
 
 				hlcd.lcd[hlcd.initLcdNum].send_page++;
