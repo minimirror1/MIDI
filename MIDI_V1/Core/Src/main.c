@@ -122,19 +122,22 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  MAL_HC595_MIDI_Init();
-  MAL_LED_Control_Init();
-    MAL_HC165_MIDI_Init();
 
   MAL_UART_Init();
   MAL_X_TouchExtender_Packet_Init();
   MAL_X_touch_test();
 
+  MAL_HC595_MIDI_Init();
+  MAL_LED_Control_Init();
+    MAL_HC165_MIDI_Init();
 
-//  MAL_LCD_Init();
 
 
-//  LCD_SetText_DEC(0,5);
+
+  MAL_LCD_Init();
+
+
+  //LCD_SetText_DEC(0,5);
 
 
 /*
@@ -213,14 +216,15 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 
-	  LCD_SetText_DEC(0,val);
+/*	  LCD_SetText_DEC(0,val);
 	  val++;
 
 	  if(val > 4095)
 		  val = 0;
 
-	  HAL_Delay(10);
+	  HAL_Delay(100);*/
 
+	  MAL_X_TouchExtender_ADC_Process();
 /*
 	  if(toggle)
 	  {

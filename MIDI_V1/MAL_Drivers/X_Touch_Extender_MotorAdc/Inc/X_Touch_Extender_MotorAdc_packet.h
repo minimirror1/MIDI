@@ -10,9 +10,24 @@
 
 #include "uart.h"
 
+
+typedef struct{
+
+	uint8_t seqNum;
+	uint8_t rxLen;
+	uint8_t rxbuff[30];
+	uint8_t checkSum;
+
+}X_Touch_Extender_RxData_TypeDef;
+
 typedef struct{
 	MAL_UART_HandleTypeDef *muart;
 
+
+	X_Touch_Extender_RxData_TypeDef rxHandle;
+
+	uint16_t adc[8];
+	uint16_t touch[8];
 
 }X_Touch_Extender_Packet_HandleTypeDef;
 
