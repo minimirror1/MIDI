@@ -419,49 +419,6 @@ void MAL_LCD_MIDI_ALL_Init(void)
 
 
 
-///참고용
-void MAL_LCD_MIDI_ALL_SCAN(void)
-{
-	switch (hlcd.ctr.seq_num) {
-		//============================================================================================
-		case 0:
-			MAL_LCD_Sel_Address(hlcd.LcdScanNum);
-			MAL_LCD_CMD_Ctr(LCD_IO_CMD);
-			hlcd.ctr.seq_num = 1;
-			break;
-
-		case 1:
-			hlcd.pinout.LCD_SEL_EN.GPIO->ODR &= ~hlcd.pinout.LCD_SEL_EN.Pin;
-			hlcd.ctr.seq_num = 2;
-			break;
-
-		case 2:
-
-			if (MAL_LCD_SendDataSequnce(hlcd.lcd[hlcd.lcd[hlcd.LcdScanNum].send_cnt].frame[hlcd.lcd[hlcd.LcdScanNum].send_cnt])) {
-				hlcd.lcd[hlcd.LcdScanNum].send_cnt++;
-				if (hlcd.lcd[hlcd.LcdScanNum].send_cnt > LCD_BUFF_SIZE) {
-					hlcd.lcd[hlcd.LcdScanNum].send_cnt = 0;
-					hlcd.ctr.seq_num = 3;
-				}
-			}
-			break;
-
-		case 3:
-			hlcd.pinout.LCD_SEL_EN.GPIO->ODR |= hlcd.pinout.LCD_SEL_EN.Pin;
-			hlcd.lcd[hlcd.LcdScanNum].send_cnt = 0;
-			hlcd.ctr.seq_num = 0;
-
-			hlcd.LcdScanNum++;
-			if(hlcd.LcdScanNum > 8)
-			{
-				hlcd.LcdScanNum = 0;
-			}
-			break;
-		default :
-			hlcd.ctr.seq_num = 0;
-			hlcd.LcdScanNum = 0;
-	}
-}
 
 
 

@@ -33,8 +33,7 @@ void MAL_LED_Control_Init(void)
 
 void MAL_LED_Wheel_Control(uint8_t ch, uint8_t value)
 {
-	ch--;
-	if(ch > MIDI_LED_GROUP_COUNT)
+	if(ch >= MIDI_LED_GROUP_COUNT)
 		return;
 
 	if(value > 13)
@@ -46,8 +45,7 @@ void MAL_LED_Wheel_Control(uint8_t ch, uint8_t value)
 
 void MAL_LED_BackLight_Control(uint8_t ch, HC595_LED_BacklightTypeDef color )
 {
-	ch--;
-	if(ch > MIDI_LED_GROUP_COUNT)
+	if(ch >= MIDI_LED_GROUP_COUNT)
 			return;
 
 	led_group[ch].backLight.color = color;
@@ -98,8 +96,7 @@ void MAL_LED_BackLight_Control(uint8_t ch, HC595_LED_BacklightTypeDef color )
 
 void MAL_LED_BarGauge_Control(uint8_t ch, uint8_t value)
 {
-	ch--;
-	if(ch > MIDI_LED_GROUP_COUNT)
+	if(ch >= MIDI_LED_GROUP_COUNT)
 			return;
 
 	if(value >= 8)
@@ -110,8 +107,7 @@ void MAL_LED_BarGauge_Control(uint8_t ch, uint8_t value)
 
 void MAL_LED_Button_Control(uint8_t ch, HC595_LED_ButtonTypeDef btn, HC595_LED_StatusTypeDef status)
 {
-	ch--;
-	if(ch > MIDI_LED_GROUP_COUNT)
+	if(ch >= MIDI_LED_GROUP_COUNT)
 			return;
 
 	switch(btn)
@@ -211,7 +207,6 @@ void MAL_LED_Button_Refresh(void)
 void MAL_LED_BarGauge_Refresh(void)
 {
 	uint8_t gauge = 0;
-	uint8_t gauge_temp = 0;
 	uint8_t calc_on_range_start;	//시작
 	uint8_t calc_on_range_end;	//끝
 	uint8_t calc_off_range_start;	//시작

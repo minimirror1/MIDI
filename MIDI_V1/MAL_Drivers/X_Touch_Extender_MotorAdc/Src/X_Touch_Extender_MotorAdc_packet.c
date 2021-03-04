@@ -18,6 +18,7 @@ X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
 void MAL_X_TouchExtender_Packet_Init(void)
 {
 	extenderPacket.muart = &muart1;
+
 }
 
 // CMD

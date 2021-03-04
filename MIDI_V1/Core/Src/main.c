@@ -129,11 +129,15 @@ int main(void)
   MAL_UART_Init();
   MAL_X_TouchExtender_Packet_Init();
   MAL_X_touch_test();
-  uint16_t test_cnt = 0;
-
-  MAL_LCD_Init();
 
 
+//  MAL_LCD_Init();
+
+
+//  LCD_SetText_DEC(0,5);
+
+
+/*
   LCD_Pixel_wirte_logo(0);
   LCD_Pixel_wirte_logo(1);
   LCD_Pixel_wirte_logo(2);
@@ -142,6 +146,7 @@ int main(void)
   LCD_Pixel_wirte_logo(5);
   LCD_Pixel_wirte_logo(6);
   LCD_Pixel_wirte_logo(7);
+*/
 
 /*  LCD_pixel_write_sizeA_p(1, 'G', 1);
   LCD_pixel_write_sizeA_p(1, 'E', 2);
@@ -193,8 +198,9 @@ int main(void)
 
  // LCD_control2(6,&LCDtext);
 
-   uint8_t toggle = 0;
+   //uint8_t toggle = 0;
 
+  uint32_t val = 0;
 
   /* USER CODE END 2 */
 
@@ -206,7 +212,17 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	/*  if(toggle)
+
+	  LCD_SetText_DEC(0,val);
+	  val++;
+
+	  if(val > 4095)
+		  val = 0;
+
+	  HAL_Delay(10);
+
+/*
+	  if(toggle)
 	  {
 		  toggle = 0;
 	  LCD_pixel_write_sizeA_p(2, 'M', 1);
@@ -244,11 +260,11 @@ int main(void)
 	   LCD_pixel_write_sizeA_p(3, 'T', 5);
 	   LCD_pixel_write_sizeA_p(3, 'E', 6);
 	   LCD_pixel_write_sizeA_p(3, 'R', 6);
-	  }*/
+	  }
 
 
 
-/*	  MAL_LED_BackLight_Control(1, LED_WHITE);
+	  MAL_LED_BackLight_Control(1, LED_WHITE);
 	  MAL_LED_BackLight_Control(2, LED_WHITE);
 	  MAL_LED_BackLight_Control(3, LED_WHITE);
 	  MAL_LED_BackLight_Control(4, LED_WHITE);
@@ -261,7 +277,7 @@ int main(void)
 
 		MAL_HC595_MIDI_SendTrigger();
 
-	  HAL_Delay(100);*/
+	  HAL_Delay(100);
 
 	  MAL_LED_Wheel_Control(1, test_cnt);
 
@@ -350,7 +366,7 @@ int main(void)
 	MAL_LED_Refresh();
 	MAL_HC165_MIDI_ReadTrigger();
 	MAL_HC595_MIDI_SendTrigger();
-	HAL_Delay(40);
+	HAL_Delay(40);*/
 
   }
   /* USER CODE END 3 */
