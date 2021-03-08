@@ -17,6 +17,9 @@ typedef enum{
 	HC165_MIDI_RUN
 }HC165_MIDI_StatusTypeDef;
 
+#define HC165_PUSH_ST	0x00
+
+
 /*
 
 typedef struct{

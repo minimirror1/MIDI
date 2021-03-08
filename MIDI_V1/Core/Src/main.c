@@ -26,6 +26,7 @@
 #include "HC595_MIDI_Control.h"
 
 #include "HC165_MIDI.h"
+#include "HC165_MIDI_wheel.h"
 
 #include "X_Touch_Extender_ADC.h"
 #include "X_Touch_Extender_MotorAdc_packet.h"
@@ -66,6 +67,8 @@ static void MX_TIM4_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_TIM1_Init(void);
 /* USER CODE BEGIN PFP */
+
+extern HC165_wheel_TypeDef wheel[8];
 extern X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
 /* USER CODE END PFP */
 
@@ -170,6 +173,13 @@ int main(void) {
 	 LCD_Pixel_wirte_logo(7);
 	 */
 
+	LCD_pixel_write_sizeA_p(1, 'A', 1);
+	LCD_pixel_write_sizeA_p(1, 'X', 2);
+	LCD_pixel_write_sizeA_p(1, 'L', 3);
+	LCD_pixel_write_sizeA_p(1, 'E', 4);
+	LCD_pixel_write_sizeA_p(1, ':', 5);
+	LCD_pixel_write_sizeA_p(1, '7', 6);
+
 	/*  LCD_pixel_write_sizeA_p(1, 'G', 1);
 	 LCD_pixel_write_sizeA_p(1, 'E', 2);
 	 LCD_pixel_write_sizeA_p(1, 'N', 3);
@@ -228,6 +238,8 @@ int main(void) {
 
 	uint32_t t_lcd = 0;
 
+	uint32_t t_wheel = 0;
+
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -267,7 +279,7 @@ int main(void) {
 			//LCD_SetText_DEC(7,extenderPacket.adc[7]);
 		}
 
-		if (MAL_NonStopDelay(&t_motor, 16) == 1) {
+		if (MAL_NonStopDelay(&t_motor, 20) == 1) {
 
 			sine_cnt++;
 
@@ -351,9 +363,9 @@ int main(void) {
 				test_cnt = 0;
 
 			//Slide_control(0, 16*sine_wave[sine_cnt]);
-			MAL_LED_BackLight_Control(1, LED_WHITE);
+			MAL_LED_BackLight_Control(1, LED_BLUE);
 			MAL_LED_BarGauge_Control(1, test_cnt);
-			MAL_LED_Wheel_Control(1, test_cnt);
+			//MAL_LED_Wheel_Control(1, wheel[1].status.wheelCnt);
 			MAL_LED_Button_Control(0, test_cnt / 2, 0);
 			MAL_LED_Button_Control(4, test_cnt / 2, 0);
 
@@ -363,9 +375,9 @@ int main(void) {
 
 			//sine_shift = 20 + sine_cnt;
 			//Slide_control(1, 16 * sine_wave[sine_shift]);
-			MAL_LED_BackLight_Control(2, LED_WHITE);
+			MAL_LED_BackLight_Control(2, LED_CYAN);
 			MAL_LED_BarGauge_Control(2, test_cnt);
-			MAL_LED_Wheel_Control(2, test_cnt);
+			//MAL_LED_Wheel_Control(2, wheel[2].status.wheelCnt);
 			MAL_LED_Button_Control(1, test_cnt / 2, 0);
 			MAL_LED_Button_Control(5, test_cnt / 2, 0);
 			test_cnt++;
@@ -374,9 +386,9 @@ int main(void) {
 
 			//sine_shift += 20;
 			//Slide_control(2, 16 * sine_wave[sine_shift]);
-			MAL_LED_BackLight_Control(3, LED_WHITE);
+			MAL_LED_BackLight_Control(3, LED_YELLOW);
 			MAL_LED_BarGauge_Control(3, test_cnt);
-			MAL_LED_Wheel_Control(3, test_cnt);
+			//MAL_LED_Wheel_Control(3, wheel[3].status.wheelCnt);
 			MAL_LED_Button_Control(2, test_cnt / 2, 0);
 			MAL_LED_Button_Control(6, test_cnt / 2, 0);
 			test_cnt++;
@@ -385,9 +397,9 @@ int main(void) {
 
 			//sine_shift += 20;
 			//Slide_control(3, 16 * sine_wave[sine_shift]);
-			MAL_LED_BackLight_Control(4, LED_WHITE);
+			MAL_LED_BackLight_Control(4, LED_MAGENTA);
 			MAL_LED_BarGauge_Control(4, test_cnt);
-			MAL_LED_Wheel_Control(4, test_cnt);
+			//MAL_LED_Wheel_Control(4, wheel[4].status.wheelCnt);
 			MAL_LED_Button_Control(3, test_cnt / 2, 0);
 			MAL_LED_Button_Control(7, test_cnt / 2, 0);
 			test_cnt++;
@@ -396,9 +408,9 @@ int main(void) {
 
 			//sine_shift += 20;
 			//Slide_control(4, 16 * sine_wave[sine_shift]);
-			MAL_LED_BackLight_Control(5, LED_WHITE);
+			MAL_LED_BackLight_Control(5, LED_GREEN);
 			MAL_LED_BarGauge_Control(5, test_cnt);
-			MAL_LED_Wheel_Control(5, test_cnt);
+			//MAL_LED_Wheel_Control(5, wheel[5].status.wheelCnt);
 			MAL_LED_Button_Control(0, test_cnt / 2, 1);
 			MAL_LED_Button_Control(4, test_cnt / 2, 1);
 			test_cnt++;
@@ -409,7 +421,7 @@ int main(void) {
 			//Slide_control(5, 16 * sine_wave[sine_shift]);
 			MAL_LED_BackLight_Control(6, LED_WHITE);
 			MAL_LED_BarGauge_Control(6, test_cnt);
-			MAL_LED_Wheel_Control(6, test_cnt);
+			//MAL_LED_Wheel_Control(6, wheel[6].status.wheelCnt);
 			MAL_LED_Button_Control(1, test_cnt / 2, 1);
 			MAL_LED_Button_Control(5, test_cnt / 2, 1);
 			test_cnt++;
@@ -420,7 +432,7 @@ int main(void) {
 			//Slide_control(6, 16 * sine_wave[sine_shift]);
 			MAL_LED_BackLight_Control(7, test_cnt+1);
 			MAL_LED_BarGauge_Control(7, test_cnt);
-			MAL_LED_Wheel_Control(7, test_cnt);
+			//MAL_LED_Wheel_Control(7, wheel[7].status.wheelCnt);
 			MAL_LED_Button_Control(2, test_cnt / 2, 1);
 			MAL_LED_Button_Control(6, test_cnt / 2, 1);
 			test_cnt++;
@@ -431,7 +443,7 @@ int main(void) {
 			//Slide_control(7, 16 * sine_wave[sine_shift]);
 			MAL_LED_BackLight_Control(0, test_cnt+1);
 			MAL_LED_BarGauge_Control(0, test_cnt);
-			MAL_LED_Wheel_Control(0, test_cnt);
+			//MAL_LED_Wheel_Control(0, wheel[0].status.wheelCnt);
 			MAL_LED_Button_Control(3, test_cnt / 2, 1);
 			MAL_LED_Button_Control(7, test_cnt / 2, 1);
 			/*	  test_cnt++;
@@ -439,10 +451,24 @@ int main(void) {
 			 test_cnt = 0;*/
 
 			MAL_LED_Refresh();
-			MAL_HC165_MIDI_ReadTrigger();
-			MAL_HC595_MIDI_SendTrigger();
+
+
 		}
 
+		if (MAL_NonStopDelay(&t_wheel, 5) == 1) {
+
+/*			MAL_LED_Wheel_Control(0, wheel[0].status.wheelCnt);
+			MAL_LED_Wheel_Control(1, wheel[1].status.wheelCnt);
+			MAL_LED_Wheel_Control(2, wheel[2].status.wheelCnt);
+			MAL_LED_Wheel_Control(3, wheel[3].status.wheelCnt);
+			MAL_LED_Wheel_Control(4, wheel[4].status.wheelCnt);
+			MAL_LED_Wheel_Control(5, wheel[5].status.wheelCnt);
+			MAL_LED_Wheel_Control(6, wheel[6].status.wheelCnt);
+			MAL_LED_Wheel_Control(7, wheel[7].status.wheelCnt);*/
+
+		}
+		MAL_HC595_MIDI_SendTrigger();
+		MAL_HC165_MIDI_ReadTrigger();
 		MAL_X_TouchExtender_ADC_Process();
 		/*
 		 if(toggle)
@@ -743,7 +769,7 @@ static void MX_TIM4_Init(void) {
 	htim4.Instance = TIM4;
 	htim4.Init.Prescaler = 0;
 	htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim4.Init.Period = 1799;
+	htim4.Init.Period = 999;
 	htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 	if (HAL_TIM_Base_Init(&htim4) != HAL_OK) {
