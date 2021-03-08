@@ -18,10 +18,10 @@ extern TIM_HandleTypeDef htim3;
 
 void MAL_HC595_MIDI_SendTrigger(void)
 {
-	if (hc595_wheel.send_status != HC595_MIDI_STOP)
+/*	if (hc595_wheel.send_status != HC595_MIDI_STOP)
 		return;
 	if (hc595_bar_lcd_btn.send_status != HC595_MIDI_STOP)
-		return;
+		return;*/
 
 	hc595_wheel.io_count = 0;
 	hc595_bar_lcd_btn.io_count = 0;
@@ -36,7 +36,7 @@ void MAL_HC595_MIDI_SendTrigger(void)
 	hc595_bar_lcd_btn.send_seq = 0;
 
 
-	HAL_TIM_Base_Start_IT(hc595_wheel.htim);
+	//HAL_TIM_Base_Start_IT(hc595_wheel.htim);
 	//HAL_TIM_Base_Start_IT(hc595_bar_lcd_btn.htim); //wheel과 같은 tim3
 }
 
@@ -117,6 +117,10 @@ void MAL_HC595_MIDI_Init(void)
 	memset(hc595_bar_lcd_btn.ioData_bar, 0x01,HC595_BAR_IO_COUNT);	//LATCH CLK 공통으로 더 많은 쪽의 버퍼개수 사용
 	memset(hc595_bar_lcd_btn.ioData_lcdBtn, 0x01,HC595_BAR_IO_COUNT);
 
+	MAL_HC595_MIDI_SendTrigger();
+
+	HAL_TIM_Base_Start_IT(&htim3);
+
 }
 
 
@@ -174,9 +178,12 @@ void MAL_HC595_Wheel_Sequence(void)
 		case 6:
 			hc595_wheel.LATCH_GPIO->ODR &= ~hc595_wheel.LATCH_GPIO_Pin;
 			hc595_wheel.send_status = HC595_MIDI_STOP;
+			hc595_wheel.send_seq = 7;
 			//HAL_TIM_Base_Stop_IT(hc595_wheel.htim);
 			break;
 
+		default:
+			break;
 		}
 }
 
@@ -244,7 +251,10 @@ void MAL_HC595_BAR_LCDBTN_Sequence(void)
 		case 6:
 			hc595_bar_lcd_btn.LATCH_GPIO->ODR &= ~hc595_bar_lcd_btn.LATCH_GPIO_Pin;
 			hc595_bar_lcd_btn.send_status = HC595_MIDI_STOP;
+			hc595_bar_lcd_btn.send_seq = 7;
 			//HAL_TIM_Base_Stop_IT(hc595_bar_lcd_btn.htim);
+			break;
+		default:
 			break;
 
 		}
@@ -256,6 +266,6 @@ void MAL_HC595_MIDI_TIM_Manager(void)
 	MAL_HC595_Wheel_Sequence();
 	MAL_HC595_BAR_LCDBTN_Sequence();
 
-	if((hc595_wheel.send_status == HC595_MIDI_STOP)&&(hc595_bar_lcd_btn.send_status = HC595_MIDI_STOP))
-		HAL_TIM_Base_Stop_IT(hc595_bar_lcd_btn.htim);
+	if((hc595_wheel.send_status == HC595_MIDI_STOP)&&(hc595_bar_lcd_btn.send_status == HC595_MIDI_STOP))
+		MAL_HC595_MIDI_SendTrigger();
 }

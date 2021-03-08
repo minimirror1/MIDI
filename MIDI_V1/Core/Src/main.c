@@ -117,6 +117,7 @@ static uint8_t sine_wave[256] = { 0x80, 0x83, 0x86, 0x89, 0x8C, 0x90, 0x93,
  * @brief  The application entry point.
  * @retval int
  */
+
 int main(void) {
 	/* USER CODE BEGIN 1 */
 
@@ -467,8 +468,8 @@ int main(void) {
 			MAL_LED_Wheel_Control(7, wheel[7].status.wheelCnt);*/
 
 		}
-		MAL_HC595_MIDI_SendTrigger();
-		MAL_HC165_MIDI_ReadTrigger();
+		//MAL_HC595_MIDI_SendTrigger();
+		//MAL_HC165_MIDI_ReadTrigger();
 		MAL_X_TouchExtender_ADC_Process();
 		/*
 		 if(toggle)
@@ -726,7 +727,7 @@ static void MX_TIM3_Init(void) {
 	htim3.Instance = TIM3;
 	htim3.Init.Prescaler = 0;
 	htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim3.Init.Period = 1799;
+	htim3.Init.Period = 3999;
 	htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 	if (HAL_TIM_Base_Init(&htim3) != HAL_OK) {
@@ -769,7 +770,7 @@ static void MX_TIM4_Init(void) {
 	htim4.Instance = TIM4;
 	htim4.Init.Prescaler = 0;
 	htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-	htim4.Init.Period = 999;
+	htim4.Init.Period = 1799;
 	htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 	htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 	if (HAL_TIM_Base_Init(&htim4) != HAL_OK) {
@@ -786,7 +787,7 @@ static void MX_TIM4_Init(void) {
 		Error_Handler();
 	}
 	/* USER CODE BEGIN TIM4_Init 2 */
-
+	//HAL_TIM_Base_Start_IT(&htim4);
 	/* USER CODE END TIM4_Init 2 */
 
 }

@@ -21,10 +21,10 @@ extern TIM_HandleTypeDef htim4;
 
 void MAL_HC165_MIDI_ReadTrigger(void)
 {
-	if (hc165_wheel.read_status != HC165_MIDI_STOP)
+/*	if (hc165_wheel.read_status != HC165_MIDI_STOP)
 		return;
 	if (hc165_button.read_status != HC165_MIDI_STOP)
-		return;
+		return;*/
 
 	hc165_wheel.io_count = 0;
 	hc165_button.io_count = 0;
@@ -39,7 +39,7 @@ void MAL_HC165_MIDI_ReadTrigger(void)
 	hc165_button.send_seq = 0;
 
 
-	HAL_TIM_Base_Start_IT(hc165_wheel.htim);
+	//HAL_TIM_Base_Start_IT(hc165_wheel.htim);
 
 
 	//HAL_TIM_Base_Start_IT(hc165_button.htim); //wheel과 같은 tim4
@@ -101,7 +101,9 @@ void MAL_HC165_MIDI_Init(void) {
 	hc165_button.clk_toggle = 1;
 	hc165_button.ioData = &buttonIoData[0];
 
+	MAL_HC165_MIDI_ReadTrigger();
 
+	HAL_TIM_Base_Start_IT(&htim4);
 	//memset(hc165_button.ioData, 0x00, HC165_BUTTON_IOCOUNT);
 }
 
@@ -244,7 +246,7 @@ void MAL_HC165_MIDI_TIM_Manager(void) {
 
 	if((hc165_wheel.read_status == HC165_MIDI_STOP)&&(hc165_button.read_status == HC165_MIDI_STOP))
 	{
-		HAL_TIM_Base_Stop_IT(hc165_button.htim);
+		MAL_HC165_MIDI_ReadTrigger();
 	}
 
 /*	MAL_HC165_Sequence(&hc165_button);
