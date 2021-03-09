@@ -234,9 +234,16 @@ void TIM3_IRQHandler(void)
   /* USER CODE BEGIN TIM3_IRQn 0 */
 
   /* USER CODE END TIM3_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim3);
+  //HAL_TIM_IRQHandler(&htim3);
   /* USER CODE BEGIN TIM3_IRQn 1 */
-
+	if (__HAL_TIM_GET_FLAG(&htim3, TIM_FLAG_UPDATE) != RESET)
+	  {
+	    if (__HAL_TIM_GET_IT_SOURCE(&htim3, TIM_IT_UPDATE) != RESET)
+	    {
+	      __HAL_TIM_CLEAR_IT(&htim3, TIM_IT_UPDATE);
+	      MAL_HC595_MIDI_TIM_Manager();
+	    }
+	  }
   /* USER CODE END TIM3_IRQn 1 */
 }
 
@@ -248,8 +255,16 @@ void TIM4_IRQHandler(void)
   /* USER CODE BEGIN TIM4_IRQn 0 */
 
   /* USER CODE END TIM4_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim4);
+  //HAL_TIM_IRQHandler(&htim4);
   /* USER CODE BEGIN TIM4_IRQn 1 */
+	if (__HAL_TIM_GET_FLAG(&htim4, TIM_FLAG_UPDATE) != RESET)
+	  {
+	    if (__HAL_TIM_GET_IT_SOURCE(&htim4, TIM_IT_UPDATE) != RESET)
+	    {
+	      __HAL_TIM_CLEAR_IT(&htim4, TIM_IT_UPDATE);
+	      MAL_HC165_MIDI_TIM_Manager();
+	    }
+	  }
 
   /* USER CODE END TIM4_IRQn 1 */
 }

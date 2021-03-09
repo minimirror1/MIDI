@@ -88,7 +88,7 @@ void HC165_MIDI_wheel_Event_Btn(uint8_t selNum)
 }
 void HC165_MIDI_wheel_Event_Wheel(uint8_t selNum)
 {
-/*	if(*wheel[selNum].map.cw != wheel[selNum].trigger.cw_old)
+	if(*wheel[selNum].map.cw != wheel[selNum].trigger.cw_old)
 	{
 		wheel[selNum].trigger.cw_old = *wheel[selNum].map.cw;
 		if(*wheel[selNum].map.cw == HC165_PUSH_ST)
@@ -112,7 +112,7 @@ void HC165_MIDI_wheel_Event_Wheel(uint8_t selNum)
 		{
 			wheel[selNum].status.ccw = 0;
 		}
-	}*/
+	}
 
 	wheel[selNum].status.ccw = *wheel[selNum].map.ccw;
 

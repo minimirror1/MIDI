@@ -256,6 +256,6 @@ void MAL_HC595_MIDI_TIM_Manager(void)
 	MAL_HC595_Wheel_Sequence();
 	MAL_HC595_BAR_LCDBTN_Sequence();
 
-	if((hc595_wheel.send_status == HC595_MIDI_STOP)&&(hc595_bar_lcd_btn.send_status = HC595_MIDI_STOP))
+	if((hc595_wheel.send_status == HC595_MIDI_STOP)&&(hc595_bar_lcd_btn.send_status == HC595_MIDI_STOP))
 		HAL_TIM_Base_Stop_IT(hc595_bar_lcd_btn.htim);
 }

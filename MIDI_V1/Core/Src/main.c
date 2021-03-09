@@ -257,7 +257,7 @@ int main(void) {
 
 		 HAL_Delay(100);*/
 
-		if (MAL_NonStopDelay(&t_lcd, 20) == 1) {
+		if (MAL_NonStopDelay(&t_lcd, 30) == 1) {
 
 			MAL_X_TouchExtender_ADC_Process();
 			MAL_X_TouchExtender_ADC_Process();
@@ -279,7 +279,7 @@ int main(void) {
 			//LCD_SetText_DEC(7,extenderPacket.adc[7]);
 		}
 
-		if (MAL_NonStopDelay(&t_motor, 20) == 1) {
+		if (MAL_NonStopDelay(&t_motor, 16) == 1) {
 
 			sine_cnt++;
 
@@ -456,7 +456,7 @@ int main(void) {
 		}
 
 		if (MAL_NonStopDelay(&t_wheel, 5) == 1) {
-
+			MAL_LED_Refresh();
 /*			MAL_LED_Wheel_Control(0, wheel[0].status.wheelCnt);
 			MAL_LED_Wheel_Control(1, wheel[1].status.wheelCnt);
 			MAL_LED_Wheel_Control(2, wheel[2].status.wheelCnt);
@@ -467,6 +467,7 @@ int main(void) {
 			MAL_LED_Wheel_Control(7, wheel[7].status.wheelCnt);*/
 
 		}
+
 		MAL_HC595_MIDI_SendTrigger();
 		MAL_HC165_MIDI_ReadTrigger();
 		MAL_X_TouchExtender_ADC_Process();
