@@ -32,6 +32,9 @@ void LCD_SetText_DEC(uint8_t lcdNum, uint32_t value)
 		++digit;
 	}
 
+	if(value == 0)
+		digit = 1;
+
 	k = 1;
 	for(int i = 0; i < digit; i ++)
 	{
