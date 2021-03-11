@@ -86,7 +86,7 @@ void MAL_LCD_Init(void)
 
 	for(int i = 0; i < 8 ; i++)
 	{
-		hlcd.lcd[i].ev_level = 45;
+		hlcd.lcd[i].ev_level = 0;
 
 		for(int k = 0; k < 8; k++)
 		{
@@ -107,6 +107,7 @@ void MAL_LCD_Init(void)
 
 
 }
+
 
 //=======================================================================
 static inline void MAL_LCD_IoSetData(uint8_t data)

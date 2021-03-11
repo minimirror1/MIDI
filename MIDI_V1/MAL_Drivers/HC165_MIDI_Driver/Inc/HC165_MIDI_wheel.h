@@ -8,7 +8,13 @@
 #ifndef HC165_MIDI_DRIVER_INC_HC165_MIDI_WHEEL_H_
 #define HC165_MIDI_DRIVER_INC_HC165_MIDI_WHEEL_H_
 
+typedef enum{
 
+	ROT_CLEAR = 0,
+	ROT_CW = 1,
+	ROT_CCW = 2
+
+}wheel_rot_TypeDef;
 
 typedef struct{
 	uint8_t *cw;
@@ -31,6 +37,8 @@ typedef struct{
 	uint8_t btn;
 
 	int8_t wheelCnt;
+
+	uint8_t f_rot; //0: clear, 1:cw, 2:ccw;
 }HC165_wheel_status_TypeDef;
 
 typedef struct{

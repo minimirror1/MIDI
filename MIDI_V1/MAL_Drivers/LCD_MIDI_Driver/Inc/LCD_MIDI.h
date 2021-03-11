@@ -79,7 +79,7 @@ typedef struct{
 
 typedef struct{
 
-	uint8_t ev_level;
+	uint8_t ev_level; 		//0~63
 
 	uint8_t cmd_en;
 	uint8_t send_size;	//보낼 데이터 길이

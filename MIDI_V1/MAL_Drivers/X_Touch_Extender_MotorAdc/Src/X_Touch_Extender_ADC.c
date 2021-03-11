@@ -121,7 +121,7 @@ void crc_check(uint8_t data)
 void MAL_X_TouchExtender_ADC_Parser(void)
 {
 	uint8_t data = 0;
-	if(MAL_UART_GetQueueData_Byte(extenderPacket.muart, &data) == MAL_UART_CONTAIN)
+	while(MAL_UART_GetQueueData_Byte(extenderPacket.muart, &data) == MAL_UART_CONTAIN)
 	{
 		switch(extenderPacket.rxHandle.seqNum)
 		{

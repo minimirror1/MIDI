@@ -7,13 +7,45 @@
 
 
 #include "main.h"
+#include "LCD_MIDI.h"
 #include "LCD_MIDI_Control.h"
 #include "stdio.h"
 #include "string.h"
 #include "math.h"
 
+extern LCD_Handle_TypeDef	hlcd;
 
+void MAL_LCD_Set_EvLevel(uint8_t val)
+{
+	if(val >= 64)
+		val = 63;
 
+	for(int i = 0; i < 8; i++)
+	{
+		hlcd.lcd[i].ev_level = val;
+	}
+}
+
+void MAL_LCD_Set_AllOn(void) {
+	for(int k = 0; k < 8 ; k++)
+	{
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 128; j++) {
+				hlcd.lcd[k].frame[i][j] = 0xff;
+			}
+		}
+	}
+}
+void MAL_LCD_Set_Clear(void) {
+	LCD_Pixel_wirte_logo(0, ' ');
+	LCD_Pixel_wirte_logo(1, ' ');
+	LCD_Pixel_wirte_logo(2, ' ');
+	LCD_Pixel_wirte_logo(3, ' ');
+	LCD_Pixel_wirte_logo(4, ' ');
+	LCD_Pixel_wirte_logo(5, ' ');
+	LCD_Pixel_wirte_logo(6, ' ');
+	LCD_Pixel_wirte_logo(7, ' ');
+}
 
 
 void LCD_SetText_DEC(uint8_t lcdNum, uint32_t value)
@@ -21,7 +53,7 @@ void LCD_SetText_DEC(uint8_t lcdNum, uint32_t value)
 	uint8_t digit = 0;
 	uint32_t k = 0;
 	char temp[10] = {0,};
-	char asciiDat[10] = {0,};
+	//char asciiDat[10] = {0,};
 
 	uint32_t n;
 

@@ -135,12 +135,13 @@ void HC165_MIDI_wheel_Event_Wheel(uint8_t selNum)
 			if(wheel[selNum].status.ccw == 1)
 			{
 				wheel[selNum].status.wheelCnt++;
+				wheel[selNum].status.f_rot = ROT_CW;//cw
 				if(wheel[selNum].status.wheelCnt >= 13)
 				{
 					wheel[selNum].status.wheelCnt = 13;
 				}
 				wheel[selNum].trigger.wheel_toggle = 0;
-				MAL_LED_Wheel_Control(selNum, wheel[selNum].status.wheelCnt);
+				//MAL_LED_Wheel_Control(selNum, wheel[selNum].status.wheelCnt);
 			}
 		}
 		else if(wheel[selNum].status.ccw == 0)
@@ -149,11 +150,12 @@ void HC165_MIDI_wheel_Event_Wheel(uint8_t selNum)
 			{
 
 				wheel[selNum].status.wheelCnt--;
+				wheel[selNum].status.f_rot = ROT_CCW;//ccw
 				if (wheel[selNum].status.wheelCnt <= 0) {
 					wheel[selNum].status.wheelCnt = 0;
 				}
 				wheel[selNum].trigger.wheel_toggle = 0;
-				MAL_LED_Wheel_Control(selNum, wheel[selNum].status.wheelCnt);
+				//MAL_LED_Wheel_Control(selNum, wheel[selNum].status.wheelCnt);
 			}
 		}
 	}
