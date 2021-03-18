@@ -347,7 +347,8 @@ int main(void) {
 
 			sine_shift += 20;
 			if (extenderPacket.touch[7] == 0x00) {
-				Slide_control(7, 16 * sine_wave[sine_shift]);
+				//Slide_control(7, 16 * sine_wave[sine_shift]);
+				Slide_control(7, extenderPacket.adc[6]);
 				//LCD_SetText_DEC(7, 16 * sine_wave[sine_shift]);
 			} else {
 				//LCD_SetText_DEC(7, extenderPacket.adc[7]);
