@@ -34,6 +34,8 @@
 #include "LCD_MIDI_Control.h"
 #include "non_stop_delay_main.h"
 
+#include "key_manager.h"
+
 
 /* USER CODE END Includes */
 
@@ -149,6 +151,7 @@ int main(void) {
 	MX_TIM1_Init();
 	/* USER CODE BEGIN 2 */
 
+	Key_Init();
 	MAL_UART_Init();
 	MAL_X_TouchExtender_Packet_Init();
 	MAL_X_touch_test();
@@ -253,6 +256,15 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
+		//=============================================
+		MAL_LED_Refresh();
+		MAL_HC595_MIDI_SendTrigger();
+		MAL_HC165_MIDI_ReadTrigger();
+		MAL_X_TouchExtender_ADC_Process();
+		//=============================================
+
+		Key_Manager();
+#if 0
 
 		/*	  LCD_SetText_DEC(0,val);
 		 val++;
@@ -347,7 +359,8 @@ int main(void) {
 
 			sine_shift += 20;
 			if (extenderPacket.touch[7] == 0x00) {
-				Slide_control(7, 16 * sine_wave[sine_shift]);
+				//Slide_control(7, 16 * sine_wave[sine_shift]);
+				Slide_control(7, extenderPacket.adc[6]);
 				//LCD_SetText_DEC(7, 16 * sine_wave[sine_shift]);
 			} else {
 				//LCD_SetText_DEC(7, extenderPacket.adc[7]);
@@ -623,6 +636,7 @@ int main(void) {
 		 MAL_HC165_MIDI_ReadTrigger();
 		 MAL_HC595_MIDI_SendTrigger();
 		 HAL_Delay(40);*/
+#endif
 
 	}
 	/* USER CODE END 3 */
