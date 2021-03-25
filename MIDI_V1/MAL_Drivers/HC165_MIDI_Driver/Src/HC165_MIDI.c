@@ -101,6 +101,8 @@ void MAL_HC165_MIDI_Init(void) {
 	hc165_button.clk_toggle = 1;
 	hc165_button.ioData = &buttonIoData[0];
 
+	HC165_MIDI_btn_Mapping();
+
 
 	//memset(hc165_button.ioData, 0x00, HC165_BUTTON_IOCOUNT);
 }
@@ -162,6 +164,7 @@ void MAL_HC165_Sequence_btn(HC165_ConfigTypeDef *hc165_handle) {
 	case 5:
 		hc165_handle->PL_GPIO->ODR |= hc165_handle->PL_GPIO_Pin;
 		hc165_handle->CLK_GPIO->ODR &= ~hc165_handle->CLK_GPIO_Pin;
+		HC165_MIDI_btn_EventProcses();
 		hc165_handle->read_status = HC165_MIDI_STOP;
 		hc165_handle->send_seq = 6;
 		break;

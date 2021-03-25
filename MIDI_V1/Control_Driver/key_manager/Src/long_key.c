@@ -17,7 +17,7 @@
 
 extern HC165_wheel_TypeDef wheel[8];
 
-LongKey_typeDef LongKeyWheel[8] = {0,};
+LongKey_TypeDef LongKeyWheel[8] = {0,};
 
 
 void LongKey_Init(void)
@@ -30,7 +30,7 @@ void LongKey_Init(void)
 
 }
 
-void LongKey_Detect(LongKey_typeDef *longKey)
+void LongKey_Detect(LongKey_TypeDef *longKey)
 {
 	if (longKey->fPress == 0) {
 		if (*longKey->pBtnSt == 1) {

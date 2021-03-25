@@ -24,7 +24,7 @@ typedef struct{
 	//=============
 	uint32_t PressTime;	//눌림 유지 시간
 
-}LongKey_typeDef;
+}LongKey_TypeDef;
 
 void LongKey(void);
 
