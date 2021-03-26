@@ -35,7 +35,7 @@
 #include "non_stop_delay_main.h"
 
 #include "key_manager.h"
-
+#include "panel_manager.h"
 
 /* USER CODE END Includes */
 
@@ -152,6 +152,7 @@ int main(void) {
 	/* USER CODE BEGIN 2 */
 
 	Key_Init();
+
 	MAL_UART_Init();
 	MAL_X_TouchExtender_Packet_Init();
 	MAL_X_touch_test();
@@ -161,6 +162,8 @@ int main(void) {
 	MAL_HC165_MIDI_Init();
 
 	MAL_LCD_Init();
+
+	Panel_Init();
 
 
 	welcome();
@@ -232,6 +235,7 @@ int main(void) {
 	 uint8_t testData=0x30;*/
 
 	// LCD_control2(6,&LCDtext);
+#if 0
 	uint8_t toggle = 0;
 
 	uint32_t test_cnt = 0;
@@ -247,6 +251,7 @@ int main(void) {
 	uint32_t t_lcd = 0;
 
 	uint32_t t_wheel = 0;
+#endif
 
 	/* USER CODE END 2 */
 
@@ -263,7 +268,9 @@ int main(void) {
 		MAL_X_TouchExtender_ADC_Process();
 		//=============================================
 
+
 		Key_Manager();
+		Panel_Manager();
 #if 0
 
 		/*	  LCD_SetText_DEC(0,val);

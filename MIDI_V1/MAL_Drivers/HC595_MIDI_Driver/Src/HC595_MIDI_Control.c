@@ -10,7 +10,7 @@
 #include "HC595_MIDI_Control.h"
 
 
-#define	MIDI_LED_GROUP_COUNT 	8
+
 HC595_LED_GroupTypeDef led_group[MIDI_LED_GROUP_COUNT] = {0,};
 
 void MAL_LED_Control_Init(void)

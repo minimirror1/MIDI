@@ -584,3 +584,34 @@ void LCD_pixel_write_sizeA_p(uint8_t lcdNum, char ascii, uint8_t No)
 
 }
                            
+void LCD_Write_String(uint8_t lcdNum,uint8_t line, char *str, uint8_t len)
+{
+	uint8_t stLen = 0;
+	if(lcdNum > 8)
+		return;
+
+	stLen = len;
+	if(stLen >= 10)
+		stLen = 10;
+
+	if(line == 1)
+	{
+		for (int i = 0; i < stLen; i++) {
+			LCD_pixel_write_sizeA_p(lcdNum, str[i], i);
+		}
+	}
+	else if(line == 2)
+	{
+		for (int i = 0; i < stLen; i++) {
+			LCD_pixel_write_sizeA_p(lcdNum, str[i], i+10);
+		}
+	}
+
+}
+
+
+
+
+
+
+

@@ -9,6 +9,9 @@
 #define HC595_MIDI_DRIVER_INC_HC595_MIDI_CONTROL_H_
 
 
+#define	MIDI_LED_GROUP_COUNT 	8
+
+
 typedef enum{
 	LED_BLACK = 0,	//R:X,G:X,B:X
 	LED_RED,		//R:O,G:X,B:X
