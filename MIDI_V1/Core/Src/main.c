@@ -32,10 +32,15 @@
 #include "X_Touch_Extender_MotorAdc_packet.h"
 #include "LCD_MIDI.h"
 #include "LCD_MIDI_Control.h"
+
 #include "non_stop_delay_main.h"
 
 #include "key_manager.h"
 #include "panel_manager.h"
+
+#include "welcome.h"
+
+#include "app_pid_init_cmd.h"
 
 /* USER CODE END Includes */
 
@@ -117,6 +122,43 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	}
 }
 
+
+void MAL_CAN_FilterConfig(CAN_HandleTypeDef *hcan)
+{
+	CAN_FilterTypeDef  sFilterConfig;
+
+	/*##-2- Configure the CAN Filter ###########################################*/
+	sFilterConfig.FilterBank = 0;
+	sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
+	sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
+	sFilterConfig.FilterIdHigh = 0x0000;
+	sFilterConfig.FilterIdLow = 0x0000;
+	sFilterConfig.FilterMaskIdHigh = 0x0000;
+	sFilterConfig.FilterMaskIdLow = 0x0000;
+	sFilterConfig.FilterFIFOAssignment = CAN_RX_FIFO0;
+	sFilterConfig.FilterActivation = ENABLE;
+	sFilterConfig.SlaveStartFilterBank = 14;
+
+	if (HAL_CAN_ConfigFilter(hcan, &sFilterConfig) != HAL_OK)
+	{
+		/* Filter configuration Error */
+		Error_Handler();
+	}
+
+	/*##-3- Start the CAN peripheral ###########################################*/
+	if (HAL_CAN_Start(hcan) != HAL_OK)
+	{
+		/* Start Error */
+		Error_Handler();
+	}
+
+	/*##-4- Activate CAN RX notification #######################################*/
+	if (HAL_CAN_ActivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)
+	{
+		/* Notification Error */
+		Error_Handler();
+	}
+}
 /* USER CODE END 0 */
 
 /**
@@ -153,7 +195,8 @@ int main(void)
   MX_TIM1_Init();
   MX_CAN1_Init();
   /* USER CODE BEGIN 2 */
-
+  can_init_data_save(&hcan1);
+  MAL_CAN_FilterConfig(&hcan1);
 	Key_Init();
 
 	MAL_UART_Init();
@@ -169,7 +212,7 @@ int main(void)
 	Panel_Init();
 
 
-	welcome();
+	//welcome();
 
 	//LCD_SetText_DEC(0,5);
 
@@ -256,6 +299,14 @@ int main(void)
 	uint32_t t_wheel = 0;
 #endif
 
+	uint32_t t_testss;
+
+
+	CAN_TxHeaderTypeDef pHeader;
+	uint8_t aData[8] = {0,};
+	uint32_t pTxMailbox;
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -274,6 +325,14 @@ int main(void)
 
 		Key_Manager();
 		Panel_Manager();
+		proc_can_rx();
+		proc_can_tx();
+
+		if(MAL_NonStopDelay(&t_testss, 100)==1)
+		{
+			//HAL_CAN_AddTxMessage(&hcan1, &pHeader, aData, &pTxMailbox);
+			app_tx_init_sub_pid_boot_ctl(0, 1, 1, 1, 1);
+		}
 #if 0
 
 		/*	  LCD_SetText_DEC(0,val);
@@ -847,7 +906,7 @@ static void MX_TIM4_Init(void)
   htim4.Instance = TIM4;
   htim4.Init.Prescaler = 0;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 1799;
+  htim4.Init.Period = 999;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim4) != HAL_OK)

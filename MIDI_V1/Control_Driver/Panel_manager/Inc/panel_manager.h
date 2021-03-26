@@ -53,6 +53,7 @@ typedef struct{
 
 }PanelManager_TypeDef;
 
+void Panel_Init(void);
 void Panel_Manager(void);
 
 #endif /* PANEL_MANAGER_INC_PANEL_MANAGER_H_ */

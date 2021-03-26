@@ -9,7 +9,7 @@
 #define KEY_MANAGER_INC_KEY_MANAGER_H_
 
 
-void LongKey_Init(void);
+void Key_Init(void);
 void Key_Manager(void);
 
 #endif /* KEY_MANAGER_INC_KEY_MANAGER_H_ */

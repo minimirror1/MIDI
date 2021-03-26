@@ -33,6 +33,22 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+/*************?ûê?ã†?óê RAMÎ≤ÑÌçº?óê ?î∞?ùº ?àò?†ï******************/
+#define CAN_Q_BUFF_SIZE 	512   //  ((?ó§?çî 4 Byte + ?ç∞?ù¥?Ñ∞ 8 Byte) x 512(CAN_Q_BUFF_SIZE)) x 2(rx,tx) = 12,288 Byte
+// CAN 1Í∞úÏùº Í≤ΩÏö∞
+#define CAN_1	0 // ?Ñ§?ù¥Î∞? ?ïå?ïÑ?Ñú define
+#define CAN_CNT 1
+/*
+// CAN 2Í∞úÏùº Í≤ΩÏö∞
+#define CAN_1	0 // ?Ñ§?ù¥Î∞? ?ïå?ïÑ?Ñú define
+#define CAN_2	1
+#define CAN_CNT 2
+*/
+
+/*************?ûê?ã†?óê RAMÎ≤ÑÌçº?óê ?î∞?ùº ?àò?†ï******************/
+
+#include "dl_can.h"
+#include "net_phd_pid.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

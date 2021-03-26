@@ -27,7 +27,7 @@ typedef struct{
 }LongKey_TypeDef;
 
 
-void Key_Init(void);
+void LongKey_Init(void);
 void LongKey(void);
 
 #endif /* KEY_MANAGER_INC_LONG_KEY_H_ */
