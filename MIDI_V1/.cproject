@@ -39,6 +39,12 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/key_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Panel_Driver}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/Panel_manager/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_APP/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_DL/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PDA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHD/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_PRTC/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.1720469951" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -66,6 +72,12 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/key_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Panel_Driver}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/Panel_manager/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_APP/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_DL/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PDA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHD/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_PRTC/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.648116166" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -92,10 +104,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Control_Driver"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="MAL_Drivers"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="gm_motion_CANprotocol"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Control_Driver"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -169,10 +182,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Control_Driver"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="MAL_Drivers"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="gm_motion_CANprotocol"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Control_Driver"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

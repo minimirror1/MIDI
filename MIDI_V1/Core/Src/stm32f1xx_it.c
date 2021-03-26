@@ -57,6 +57,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern CAN_HandleTypeDef hcan1;
 extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim4;
@@ -202,6 +203,34 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f1xx.s).                    */
 /******************************************************************************/
+
+/**
+  * @brief This function handles CAN1 TX interrupt.
+  */
+void CAN1_TX_IRQHandler(void)
+{
+  /* USER CODE BEGIN CAN1_TX_IRQn 0 */
+
+  /* USER CODE END CAN1_TX_IRQn 0 */
+  HAL_CAN_IRQHandler(&hcan1);
+  /* USER CODE BEGIN CAN1_TX_IRQn 1 */
+
+  /* USER CODE END CAN1_TX_IRQn 1 */
+}
+
+/**
+  * @brief This function handles CAN1 RX0 interrupt.
+  */
+void CAN1_RX0_IRQHandler(void)
+{
+  /* USER CODE BEGIN CAN1_RX0_IRQn 0 */
+
+  /* USER CODE END CAN1_RX0_IRQn 0 */
+  HAL_CAN_IRQHandler(&hcan1);
+  /* USER CODE BEGIN CAN1_RX0_IRQn 1 */
+
+  /* USER CODE END CAN1_RX0_IRQn 1 */
+}
 
 /**
   * @brief This function handles TIM1 update interrupt.

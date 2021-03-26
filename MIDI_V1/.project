@@ -30,4 +30,11 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>gm_motion_CANprotocol</name>
+			<type>2</type>
+			<locationURI>PARENT-3-PROJECT_LOC/driver/gm_motion_CANprotocol</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
