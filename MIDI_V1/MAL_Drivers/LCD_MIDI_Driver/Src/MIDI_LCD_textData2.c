@@ -549,6 +549,10 @@ void LCD_pixel_write_sizeA_p(uint8_t lcdNum, char ascii, uint8_t No)
   //LCDtext->size = TEXT_SIZE_A;
   // 텍스트 픽셀값 얻기
   uint8_t text[36];
+
+  if(ascii >= 128)
+	  return;
+
   for(int i=0;i<36;i++)
   {
     text[i] = ASCII_24[ascii][i];

@@ -50,6 +50,52 @@ void MAL_LCD_Set_Clear(void) {
 
 void LCD_SetText_DEC(uint8_t lcdNum, uint32_t value)
 {
+	uint8_t digit = 1;
+	char temp[10] = {0,};
+	sprintf(temp, "%d", (int)value);
+
+	if (value < 10)
+	{
+		digit = 1;
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 15);
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 16);
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 17);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 18);
+	}
+	else if (value < 100)
+	{
+		digit = 2;
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 15);
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 16);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 17);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 18);
+
+	}
+	else if (value < 1000)
+	{
+		digit = 3;
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 15);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 16);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 17);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[2], 18);
+
+	}
+	else if (value < 10000)
+	{
+		digit = 4;
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 15);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 16);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[2], 17);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[3], 18);
+
+	}
+	else if (value < 100000)
+	{
+		digit = 5;
+	}
+
+
+#if 0
 	uint8_t digit = 0;
 	uint32_t k = 0;
 	char temp[10] = {0,};
@@ -73,7 +119,7 @@ void LCD_SetText_DEC(uint8_t lcdNum, uint32_t value)
 		k*=10;
 	}
 
-	sprintf(temp, "%d", (int)value);
+
 
 	//공백 만들기
 	switch(digit)
@@ -98,5 +144,6 @@ void LCD_SetText_DEC(uint8_t lcdNum, uint32_t value)
 		LCD_pixel_write_sizeA_p(lcdNum, temp[digit-1-j], 19-j);
 	}
 
+#endif
 	//LCD_pixel_write_sizeA_p(lcdNum, ascii, No)
 }

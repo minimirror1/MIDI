@@ -41,7 +41,8 @@
 #include "welcome.h"
 
 #include "app_pid_init_cmd.h"
-
+#include "app_pid_midi_cmd.h"
+#include "prtc_data_pid_midi.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -104,6 +105,9 @@ static void MX_CAN1_Init(void);
 
 extern HC165_wheel_TypeDef wheel[8];
 extern X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
+
+
+extern uint8_t my_can_id;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -168,7 +172,7 @@ void MAL_CAN_FilterConfig(CAN_HandleTypeDef *hcan)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+	my_can_id = 1;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -212,8 +216,14 @@ int main(void)
 	Panel_Init();
 
 
-	//welcome();
+	welcome();
 
+	for(int k = 0; k < 8; k++)
+	{
+		MAL_LED_BackLight_Control(k, LED_WHITE);
+	}
+
+	app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, 0);
 	//LCD_SetText_DEC(0,5);
 
 	//LCD_Pixel_wirte_logo(0);
@@ -299,12 +309,12 @@ int main(void)
 	uint32_t t_wheel = 0;
 #endif
 
-	uint32_t t_testss;
+/*	uint32_t t_testss;
 
 
 	CAN_TxHeaderTypeDef pHeader;
 	uint8_t aData[8] = {0,};
-	uint32_t pTxMailbox;
+	uint32_t pTxMailbox;*/
 
 
   /* USER CODE END 2 */
@@ -328,11 +338,11 @@ int main(void)
 		proc_can_rx();
 		proc_can_tx();
 
-		if(MAL_NonStopDelay(&t_testss, 100)==1)
+/*		if(MAL_NonStopDelay(&t_testss, 100)==1)
 		{
 			//HAL_CAN_AddTxMessage(&hcan1, &pHeader, aData, &pTxMailbox);
 			app_tx_init_sub_pid_boot_ctl(0, 1, 1, 1, 1);
-		}
+		}*/
 #if 0
 
 		/*	  LCD_SetText_DEC(0,val);
