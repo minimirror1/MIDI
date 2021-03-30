@@ -5,7 +5,6 @@
  *      Author: shin
  */
 
-
 #include "main.h"
 #include "LCD_MIDI.h"
 #include "LCD_MIDI_Control.h"
@@ -13,24 +12,25 @@
 #include "string.h"
 #include "math.h"
 
-extern LCD_Handle_TypeDef	hlcd;
+extern LCD_Handle_TypeDef hlcd;
 
-void MAL_LCD_Set_EvLevel(uint8_t val)
-{
-	if(val >= 64)
+void MAL_LCD_Set_EvLevel(uint8_t val) {
+	if (val >= 64)
 		val = 63;
 
-	for(int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		hlcd.lcd[i].ev_level = val;
 	}
 }
 
 void MAL_LCD_Set_AllOn(void) {
-	for(int k = 0; k < 8 ; k++)
+	for (int k = 0; k < 8; k++)
 	{
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 128; j++) {
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 128; j++)
+			{
 				hlcd.lcd[k].frame[i][j] = 0xff;
 			}
 		}
@@ -46,14 +46,71 @@ void MAL_LCD_Set_Clear(void) {
 	LCD_Pixel_wirte_logo(6, ' ');
 	LCD_Pixel_wirte_logo(7, ' ');
 }
+void LCD_SetText_AXLENUM_DEC(uint8_t lcdNum, uint8_t axleNum) {
 
+	char temp[10] = { 0, };
+	sprintf(temp, "%d", (int) axleNum);
 
-void LCD_SetText_DEC(uint8_t lcdNum, uint32_t value)
-{
-	uint8_t digit = 1;
-	char temp[10] = {0,};
-	sprintf(temp, "%d", (int)value);
+	if (axleNum < 10)
+	{
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 10);
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 11);
+	}
+	else if (axleNum < 100)
+	{
+		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 10);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 11);
 
+	}
+}
+
+void LCD_SetText_ADC_DEC(uint8_t lcdNum, uint32_t value) {
+
+	char temp[10] = { 0, };
+	sprintf(temp, "%d", (int) value);
+
+	if (value < 10)
+	{
+
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 16);
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 17);
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 18);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 19);
+	}
+	else if (value < 100)
+	{
+
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 16);
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 17);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 18);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 19);
+
+	}
+	else if (value < 1000)
+	{
+
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 16);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 17);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 18);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[2], 19);
+
+	}
+	else if (value < 10000)
+	{
+
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 16);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 17);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[2], 18);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[3], 19);
+
+	}
+	else if (value < 100000)
+	{
+
+	}
+
+	//자리수이동
+#if 0
 	if (value < 10)
 	{
 		digit = 1;
@@ -94,7 +151,7 @@ void LCD_SetText_DEC(uint8_t lcdNum, uint32_t value)
 		digit = 5;
 	}
 
-
+#endif
 #if 0
 	uint8_t digit = 0;
 	uint32_t k = 0;

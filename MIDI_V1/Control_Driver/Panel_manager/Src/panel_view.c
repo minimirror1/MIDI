@@ -73,6 +73,15 @@ void View_Selector(void)
 			case VIEW_1_SETTING_PREVIEW:
 				panel.view.viewFnc = View_1_SettingPreview;
 				break;
+			case VIEW_2_SETTING_MENU:
+				panel.view.viewFnc = View_2_SettingMenu;
+				break;
+			case VIEW_3_AXLE_CHANGE:
+				panel.view.viewFnc = View_3_AxleChange;
+				break;
+			case VIEW_4_PAGE_CHANGE:
+				panel.view.viewFnc = View_4_PageChange;
+				break;
 			case VIEW_LAST_NUM:
 				panel.view.viewFnc = View_0_Main;
 				break;

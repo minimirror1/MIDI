@@ -376,7 +376,7 @@ void welcome_setting(void)
 		LCD_pixel_write_sizeA_p(7, 'L', 6);
 
 		MAL_LCD_Set_EvLevel(evlevel);
-		LCD_SetText_DEC(7, evlevel);
+		LCD_SetText_ADC_DEC(7, evlevel);
 	}
 
 	//lcd back light

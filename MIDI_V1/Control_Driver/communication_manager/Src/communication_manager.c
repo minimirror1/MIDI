@@ -16,6 +16,9 @@
 
 extern uint8_t my_can_id;
 
+extern uint8_t f_change_Page;
+extern uint8_t change_Page;
+
 Comm_Page_TypeDef com_page = { 0, };
 Comm_Axle_TypeDef com_axle = { 0, };
 //=============================================================================
@@ -71,6 +74,16 @@ void app_rx_midi_sub_pid_page_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pDat
 		com_page.pageInfo[data->page].slot_axle[pPh->sub_id].axleNum = data->motor_num;
 		com_page.pageInfo[data->page].slot_axle[pPh->sub_id].setPageNum = data->set_page_num;
 	}
+}
+
+
+void app_rx_midi_sub_pid_last_page_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData)
+{
+	prtc_data_ctl_midi_last_page_t *data = (prtc_data_ctl_midi_last_page_t *)pData;
+
+	f_change_Page = 1;
+	change_Page = data->last_page;
+
 }
 
 //=============================================================================

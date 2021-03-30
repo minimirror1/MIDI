@@ -15,4 +15,7 @@ void View_Manager(void);
 
 void View_0_Main(void);
 void View_1_SettingPreview(void);
+void View_2_SettingMenu(void);
+void View_3_AxleChange(void);
+void View_4_PageChange(void);
 #endif /* PANEL_MANAGER_INC_PANEL_VIEW_H_ */
