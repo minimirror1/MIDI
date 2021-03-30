@@ -5,7 +5,6 @@
  *      Author: shin
  */
 
-
 #include "main.h"
 
 #include "HC595_MIDI.h"
@@ -24,43 +23,56 @@
 #include "panel_manager.h"
 #include "panel_view.h"
 #include "panel_control.h"
+#include "panel_page.h"
 
 #include "long_key.h"
 
 extern LongKey_TypeDef LongKeyWheel[8];
 
-void View_1_SettingPreview(void)
-{
+void View_1_SettingPreview(void) {
 	static uint8_t f_toggle = 1;
 
-	if(f_toggle == 1)
+	if (f_toggle == 1)
 	{
 		f_toggle = 0;
 
-		LCD_Write_String(0, 1, "Axle", sizeof("Axle"));
-		LCD_Write_String(0, 2, "Change", sizeof("Change"));
+		LCD_Write_String(0, 1, "Setting", sizeof("Setting"));
+		LCD_Write_String(0, 2, "Menu", sizeof("Menu"));
 
-		LCD_Write_String(1, 1, "Page", sizeof("Page"));
-		LCD_Write_String(1, 2, "Change", sizeof("Change"));
 
-		LCD_Write_String(7, 1, "Device", sizeof("Device"));
-		LCD_Write_String(7, 2, "Setting", sizeof("Setting"));
 	}
 
-
-	if(LongKeyWheel[0].fLongKey)
+	if (LongKeyWheel[0].fLongKey)
 	{
-		if (LongKeyWheel[0].PressTime < 1000) {
+		if (LongKeyWheel[0].PressTime < 700)
+		{
 			MAL_LED_BarGauge_Control(0, 2);
-		} else if (LongKeyWheel[0].PressTime < 1500) {
+			LCD_pixel_write_sizeA_p(0, '.', 15);
+		}
+		else if (LongKeyWheel[0].PressTime < 1000)
+		{
 			MAL_LED_BarGauge_Control(0, 4);
-		} else if (LongKeyWheel[0].PressTime < 2000) {
+			LCD_pixel_write_sizeA_p(0, '.', 16);
+		}
+		else if (LongKeyWheel[0].PressTime < 1300)
+		{
 			MAL_LED_BarGauge_Control(0, 6);
-		} else if (LongKeyWheel[0].PressTime < 2500) {
+			LCD_pixel_write_sizeA_p(0, '.', 17);
+		}
+		else if (LongKeyWheel[0].PressTime < 1600)
+		{
 			MAL_LED_BarGauge_Control(0, 8);
+			LCD_pixel_write_sizeA_p(0, '.', 18);
+
+		}
+		else if (LongKeyWheel[0].PressTime < 1900)
+		{
+			f_toggle = 1;
+			View_Changer(VIEW_2_SETTING_MENU);
 		}
 	}
-	else{
+	else
+	{
 		f_toggle = 1;
 		View_Undo();
 	}

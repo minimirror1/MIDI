@@ -10,7 +10,7 @@
 
 
 
-#define KEY_LONG_TIME	500
+#define KEY_LONG_TIME	300
 
 typedef struct{
 

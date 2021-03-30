@@ -14,6 +14,8 @@
 #include "app_pid_midi_cmd.h"
 #include "prtc_data_pid_midi.h"
 
+#include "panel_page.h"
+
 extern uint8_t my_can_id;
 
 extern uint8_t f_change_Page;
@@ -39,12 +41,34 @@ uint8_t reg_flag(uint8_t axleNum) {
 
 	com_axle.setFlag.flag[buffNum] |= 1 << bitNum;
 }
+
+
 //-------------------------------------------------------------------
 void app_rx_midi_sub_pid_nick_name_h_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData) {
 	prtc_data_ctl_midi_nick_name_h_t *data = (prtc_data_ctl_midi_nick_name_h_t*) pData;
 
+	uint8_t f_newAxle = 1;
+
 	com_axle.axleInfo[data->motor_num].axle_num = data->motor_num;
 	memcpy(&com_axle.axleInfo[data->motor_num].nick_name[0], &data->nick_name[0], 6);
+
+	//	//add page data
+	for (int i = 0; i < com_axle.list.cnt; i++)
+	{
+		if (com_axle.list.pAxleInfo[i]->axle_num == data->motor_num)
+		{
+			f_newAxle = 0;
+		}
+	}
+
+	if(f_newAxle == 1)
+	{
+		//add axle data
+		com_axle.axleInfo[data->motor_num].listNum = com_axle.list.cnt;
+		com_axle.list.pAxleInfo[com_axle.list.cnt] = &com_axle.axleInfo[data->motor_num];
+		com_axle.list.cnt++;
+	}
+
 
 }
 void app_rx_midi_sub_pid_nick_name_l_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData) {
@@ -67,12 +91,28 @@ void app_rx_midi_sub_pid_range_data_ctl(uint8_t num, prtc_header_t *pPh, uint8_t
 void app_rx_midi_sub_pid_page_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData) {
 	prtc_data_ctl_midi_page_t *data = (prtc_data_ctl_midi_page_t*) pData;
 
+	uint8_t f_newPage = 1;
 	//pPh->sub_id --;
 	if (pPh->sub_id < 8)
 	{
 		com_page.pageInfo[data->page].pageNum = data->page;
 		com_page.pageInfo[data->page].slot_axle[pPh->sub_id].axleNum = data->motor_num;
 		com_page.pageInfo[data->page].slot_axle[pPh->sub_id].setPageNum = data->set_page_num;
+
+		//	//add page data
+		for (int i = 0; i < com_page.list.cnt; i++)
+		{
+			if (com_page.list.pPageInfo[i]->pageNum == data->page)
+			{
+				f_newPage = 0;
+			}
+		}
+		if (f_newPage == 1)
+		{
+			com_page.pageInfo[data->page].listNum = com_page.list.cnt;
+			com_page.list.pPageInfo[com_page.list.cnt] = &com_page.pageInfo[data->page];
+			com_page.list.cnt++;
+		}
 	}
 }
 
@@ -81,8 +121,7 @@ void app_rx_midi_sub_pid_last_page_ctl(uint8_t num, prtc_header_t *pPh, uint8_t 
 {
 	prtc_data_ctl_midi_last_page_t *data = (prtc_data_ctl_midi_last_page_t *)pData;
 
-	f_change_Page = 1;
-	change_Page = data->last_page;
+	Set_Page(data->last_page);
 
 }
 

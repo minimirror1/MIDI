@@ -24,6 +24,7 @@
 #include "panel_manager.h"
 #include "panel_view.h"
 #include "panel_control.h"
+#include "panel_page.h"
 
 #include "long_key.h"
 
@@ -35,7 +36,7 @@ uint8_t MenuSelect(void)
 {
 	for(uint8_t i = 0; i < 8; i++)
 	{
-		if(LongKeyWheel[i].fLongKey == 1)
+		if(LongKeyWheel[i].fPress == 1)
 			return i;
 	}
 	return 0xff;
@@ -43,6 +44,7 @@ uint8_t MenuSelect(void)
 void View_2_SettingMenu(void)
 {
 	static uint8_t f_toggle = 1;
+	static uint8_t f_release = 0;
 
 	if (f_toggle == 1)
 	{
@@ -58,29 +60,53 @@ void View_2_SettingMenu(void)
 		LCD_Write_String(7, 2, "Setting", sizeof("Setting"));
 	}
 
-
-	switch(MenuSelect())
+	if (LongKeyWheel[0].fLongKey == 0)
 	{
-		case 0:
-			View_Changer(VIEW_3_AXLE_CHANGE);
-			break;
-		case 1:
-			View_Changer(VIEW_4_PAGE_CHANGE);
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
-		case 4:
-			break;
-		case 5:
-			break;
-		case 6:
-			break;
-		case 7:
-			break;
-		default:
-			break;
+		f_release = 1;
+	}
+
+	if(f_release)
+	{
+		switch (MenuSelect())
+		{
+			case 0:
+				View_Changer(VIEW_3_AXLE_CHANGE);
+				f_toggle = 1;
+				f_release = 0;
+				break;
+			case 1:
+				View_Changer(VIEW_4_PAGE_CHANGE);
+				f_toggle = 1;
+				f_release = 0;
+				break;
+			case 2:
+				f_toggle = 1;
+				f_release = 0;
+				break;
+			case 3:
+				f_toggle = 1;
+				f_release = 0;
+				break;
+			case 4:
+				f_toggle = 1;
+				f_release = 0;
+				break;
+			case 5:
+				f_toggle = 1;
+				f_release = 0;
+				break;
+			case 6:
+				f_toggle = 1;
+				f_release = 0;
+				break;
+			case 7:
+				f_toggle = 1;
+				f_release = 0;
+				break;
+			default:
+
+				break;
+		}
 	}
 
 }

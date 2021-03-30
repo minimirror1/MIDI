@@ -23,9 +23,10 @@
 
 #include "panel_manager.h"
 #include "panel_view.h"
+#include "panel_page.h"
 
 extern PanelManager_TypeDef panel;
-
+extern Panel_Page_TypeDef page;
 //=======================================================================================
 //=======================================================================================
 
@@ -69,6 +70,7 @@ void View_Selector(void)
 			{
 			case VIEW_0_MAIN:
 				panel.view.viewFnc = View_0_Main;
+				page.f_change = 1;//페이지 불러오기
 				break;
 			case VIEW_1_SETTING_PREVIEW:
 				panel.view.viewFnc = View_1_SettingPreview;

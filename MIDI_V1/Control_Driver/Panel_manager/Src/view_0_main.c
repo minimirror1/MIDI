@@ -23,6 +23,7 @@
 #include "panel_manager.h"
 #include "panel_view.h"
 #include "panel_control.h"
+#include "panel_page.h"
 
 #include "long_key.h"
 
@@ -36,38 +37,15 @@ extern X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
 extern Comm_Page_TypeDef com_page;
 extern Comm_Axle_TypeDef com_axle;
 
-uint8_t f_change_Page = 0;
-uint8_t change_Page = 0;
-
-void Change_Page(uint8_t pageNum)
-{
-	for(int i = 0; i<8; i++)
-	{
-
-		if(com_axle.axleInfo[com_page.pageInfo[pageNum].slot_axle[i].axleNum].nick_name != 0)
-			LCD_Write_String(i, 1, com_axle.axleInfo[com_page.pageInfo[pageNum].slot_axle[i].axleNum].nick_name, 10);
-
-		if(com_axle.axleInfo[com_page.pageInfo[pageNum].slot_axle[i].axleNum].axle_num != 0)
-		{
-			LCD_SetText_AXLENUM_DEC(i,com_axle.axleInfo[com_page.pageInfo[pageNum].slot_axle[i].axleNum].axle_num);
-			LCD_pixel_write_sizeA_p(i, '|', 14);
-		}
-
-	}
-}
 
 
 void View_0_Main(void)//일반 조종화면
 {
 	static uint32_t t_adc;
 
+	panel_longKey();
+	Page_Display();
 
-
-	if (f_change_Page == 1)
-	{
-		f_change_Page = 0;
-		Change_Page(change_Page);
-	}
 
 	if (MAL_NonStopDelay(&t_adc, 50) == 1)
 	{

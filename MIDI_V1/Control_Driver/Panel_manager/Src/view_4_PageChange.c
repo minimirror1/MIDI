@@ -24,10 +24,12 @@
 #include "panel_manager.h"
 #include "panel_view.h"
 #include "panel_control.h"
+#include "panel_page.h"
 
 #include "long_key.h"
 
 void View_4_PageChange(void)
 {
-
+	LCD_Write_String(1, 1, "View4", sizeof("View4"));
+	LCD_Write_String(1, 2, "Change", sizeof("Change"));
 }

@@ -71,7 +71,7 @@ void Panel_Init(void)
 void Panel_Manager(void)
 {
 	View_Manager();
-	panel_longKey();
+
 }
 
 

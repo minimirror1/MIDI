@@ -58,8 +58,8 @@ void LCD_SetText_AXLENUM_DEC(uint8_t lcdNum, uint8_t axleNum) {
 	}
 	else if (axleNum < 100)
 	{
-		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 10);
-		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 11);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 10);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 11);
 
 	}
 }
