@@ -43,7 +43,10 @@ void Panel_Init(void)
 	panel.view.lastView = VIEW_0_MAIN;
 	panel.view.viewFnc = View_0_Main;
 
+
+
 	for (column = 0; column < 8; column++) {
+
 		panel.interface[column].in.btn[0] = &btn[column].status[0].btn;
 		panel.interface[column].in.btn[1] = &btn[column].status[1].btn;
 		panel.interface[column].in.btn[2] = &btn[column].status[2].btn;

@@ -42,6 +42,7 @@ void View_Changer(PanelViewName_TypeDef changeView )
 			MAL_LCD_Set_Clear();
 			for(int i = 0; i < 8; i++)
 			{
+				LCD_CenterLine(i);
 				MAL_LED_BackLight_Control(i, LED_WHITE);
 				MAL_LED_BarGauge_Control(i, 0);
 				MAL_LED_Wheel_Control(i, 0);
@@ -101,6 +102,8 @@ void View_Manager(void)
 	if(f_first)
 	{
 		f_first = 0;
+		for(int i = 0; i < 8 ; i++)
+			LCD_CenterLine(i);
 	}
 	View_Selector();
 	panel.view.viewFnc(); //선택된 뷰

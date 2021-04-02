@@ -45,6 +45,8 @@ void View_2_SettingMenu(void)
 {
 	static uint8_t f_toggle = 1;
 	static uint8_t f_release = 0;
+	static uint8_t toggleLed = 0;
+	static uint32_t t_SetLed;
 
 	if (f_toggle == 1)
 	{
@@ -60,7 +62,7 @@ void View_2_SettingMenu(void)
 		LCD_Write_String(7, 2, "Setting", sizeof("Setting"));
 	}
 
-	if (LongKeyWheel[0].fLongKey == 0)
+	if (LongKeyWheel[7].fLongKey == 0)
 	{
 		f_release = 1;
 	}
@@ -109,4 +111,21 @@ void View_2_SettingMenu(void)
 		}
 	}
 
+	if(MAL_NonStopDelay(&t_SetLed, 500) == 1)
+	{
+		toggleLed ^= 1;
+		if(toggleLed == 1)
+		{
+			MAL_LED_Wheel_Control(0, 13);
+			MAL_LED_Wheel_Control(1, 13);
+			MAL_LED_Wheel_Control(7, 13);
+		}
+		else
+		{
+			MAL_LED_Wheel_Control(0, 0);
+			MAL_LED_Wheel_Control(1, 0);
+			MAL_LED_Wheel_Control(7, 0);
+		}
+
+	}
 }

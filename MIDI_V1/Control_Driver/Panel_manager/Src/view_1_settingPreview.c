@@ -29,6 +29,8 @@
 
 extern LongKey_TypeDef LongKeyWheel[8];
 
+#define SETTING_BUTTON_NUM	7
+
 void View_1_SettingPreview(void) {
 	static uint8_t f_toggle = 1;
 
@@ -36,36 +38,36 @@ void View_1_SettingPreview(void) {
 	{
 		f_toggle = 0;
 
-		LCD_Write_String(0, 1, "Setting", sizeof("Setting"));
-		LCD_Write_String(0, 2, "Menu", sizeof("Menu"));
+		LCD_Write_String(SETTING_BUTTON_NUM, 1, "Setting", sizeof("Setting"));
+		LCD_Write_String(SETTING_BUTTON_NUM, 2, "Menu", sizeof("Menu"));
 
 
 	}
 
-	if (LongKeyWheel[0].fLongKey)
+	if (LongKeyWheel[SETTING_BUTTON_NUM].fLongKey)
 	{
-		if (LongKeyWheel[0].PressTime < 700)
+		if (LongKeyWheel[SETTING_BUTTON_NUM].PressTime < 700)
 		{
-			MAL_LED_BarGauge_Control(0, 2);
-			LCD_pixel_write_sizeA_p(0, '.', 15);
+			MAL_LED_BarGauge_Control(SETTING_BUTTON_NUM, 2);
+			LCD_pixel_write_sizeA_p(SETTING_BUTTON_NUM, '.', 15);
 		}
-		else if (LongKeyWheel[0].PressTime < 1000)
+		else if (LongKeyWheel[SETTING_BUTTON_NUM].PressTime < 1000)
 		{
-			MAL_LED_BarGauge_Control(0, 4);
-			LCD_pixel_write_sizeA_p(0, '.', 16);
+			MAL_LED_BarGauge_Control(SETTING_BUTTON_NUM, 4);
+			LCD_pixel_write_sizeA_p(SETTING_BUTTON_NUM, '.', 16);
 		}
-		else if (LongKeyWheel[0].PressTime < 1300)
+		else if (LongKeyWheel[SETTING_BUTTON_NUM].PressTime < 1300)
 		{
-			MAL_LED_BarGauge_Control(0, 6);
-			LCD_pixel_write_sizeA_p(0, '.', 17);
+			MAL_LED_BarGauge_Control(SETTING_BUTTON_NUM, 6);
+			LCD_pixel_write_sizeA_p(SETTING_BUTTON_NUM, '.', 17);
 		}
-		else if (LongKeyWheel[0].PressTime < 1600)
+		else if (LongKeyWheel[SETTING_BUTTON_NUM].PressTime < 1600)
 		{
-			MAL_LED_BarGauge_Control(0, 8);
-			LCD_pixel_write_sizeA_p(0, '.', 18);
+			MAL_LED_BarGauge_Control(SETTING_BUTTON_NUM, 8);
+			LCD_pixel_write_sizeA_p(SETTING_BUTTON_NUM, '.', 18);
 
 		}
-		else if (LongKeyWheel[0].PressTime < 1900)
+		else if (LongKeyWheel[SETTING_BUTTON_NUM].PressTime < 1900)
 		{
 			f_toggle = 1;
 			View_Changer(VIEW_2_SETTING_MENU);

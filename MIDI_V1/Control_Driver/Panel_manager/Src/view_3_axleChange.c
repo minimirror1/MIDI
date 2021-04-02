@@ -59,7 +59,7 @@ void now_AxleNumber_Copy(void)
 	}
 }
 
-void Change_Display(void)
+void ChangeAxle_Display(void)
 {
 	if (f_axleChange == SET)
 	{
@@ -108,15 +108,15 @@ void Change_Axle(void)
 	}
 }
 
-void applyManager(void)
+void AxleApplyManager(void)
 {
-	if(btn[0].status[2].btn == 1)//취소
+	if(btn[7].status[2].btn == 1)//취소
 	{
 		View_Changer(VIEW_0_MAIN);
 		f_v3_first = 1;
 
 	}
-	else if(btn[0].status[3].btn == 1)//적용
+	else if(btn[7].status[3].btn == 1)//적용
 	{
 		f_v3_first = 1;
 
@@ -137,20 +137,26 @@ void View_3_AxleChange(void)
 	if(f_v3_first == 1)
 	{
 		f_v3_first = 0;
+
 		now_AxleNumber_Copy();
+		f_axleChange = SET;
+		panel_wheel_Led_rot(7,1);
 
 	}
 	Change_Axle();
-	Change_Display();
-	applyManager();
+	ChangeAxle_Display();
+	AxleApplyManager();
 
 
 	if(MAL_NonStopDelay(&t_SetLed, 500) == 1)
 	{
-		MAL_LED_Button_Control(0, LED_SELECT, toggleLed);
-		MAL_LED_Button_Control(0, LED_MUTE, toggleLed);
+		MAL_LED_Button_Control(7, LED_SELECT, toggleLed);
+		MAL_LED_Button_Control(7, LED_MUTE, toggleLed);
 		toggleLed ^= 1;
 	}
+
+	for(int i = 0; i < 8; i++)
+		panel_wheel_Led_rot(i,0);
 
 
 

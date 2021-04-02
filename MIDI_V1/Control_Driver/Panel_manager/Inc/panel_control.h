@@ -11,5 +11,6 @@
 
 
 void panel_longKey(void);
+void panel_wheel_Led_rot(uint8_t num, uint8_t cntClear);
 
 #endif /* PANEL_MANAGER_INC_PANEL_CONTROL_H_ */

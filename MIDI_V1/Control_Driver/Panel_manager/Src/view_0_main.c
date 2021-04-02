@@ -57,6 +57,9 @@ void View_0_Main(void)//일반 조종화면
 		LCD_SetText_ADC_DEC(5, extenderPacket.adc[5]);
 		LCD_SetText_ADC_DEC(6, extenderPacket.adc[6]);
 		LCD_SetText_ADC_DEC(7, extenderPacket.adc[7]);
+
+
+
 	}
 
 }
