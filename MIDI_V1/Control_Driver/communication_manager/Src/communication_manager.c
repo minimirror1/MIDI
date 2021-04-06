@@ -15,11 +15,14 @@
 #include "prtc_data_pid_midi.h"
 
 #include "panel_page.h"
+#include "panel_slide.h"
 
 extern uint8_t my_can_id;
 
 extern uint8_t f_change_Page;
 extern uint8_t change_Page;
+
+extern Slide_TypeDef slide_master;
 
 Comm_Page_TypeDef com_page = { 0, };
 Comm_Axle_TypeDef com_axle = { 0, };
@@ -124,5 +127,23 @@ void app_rx_midi_sub_pid_last_page_ctl(uint8_t num, prtc_header_t *pPh, uint8_t 
 	Set_Page(data->last_page);
 
 }
+
+//-------------------------------------------------------------------
+void app_rx_midi_sub_pid_adc_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData)
+{
+	prtc_data_ctl_midi_adc_t *data = (prtc_data_ctl_midi_adc_t *)pData;
+
+	uint8_t slot_id = 0xFF;
+	slot_id = slide_id_check(data->id);
+
+	if(slot_id != 0xFF)
+	{
+		slide_master.motorPosi[slot_id] = data->adc_val;
+		slide_master.f_motorPosi[slot_id] = 1;
+		slide_master.t_motorPosi[slot_id] = HAL_GetTick();
+	}
+
+}
+
 
 //=============================================================================

@@ -32,20 +32,22 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+//MASTER CAN ID
+#define MASTER_CAN_ID 0
 
-/*************??‹ ?— RAMë²„í¼?— ?”°?¼ ?ˆ˜? •******************/
-#define CAN_Q_BUFF_SIZE 	512   //  ((?—¤?” 4 Byte + ?°?´?„° 8 Byte) x 512(CAN_Q_BUFF_SIZE)) x 2(rx,tx) = 12,288 Byte
+/*************?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ RAMë²„í¼?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½******************/
+#define CAN_Q_BUFF_SIZE 	512   //  ((?ï¿½ï¿½?ï¿½ï¿½ 4 Byte + ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ 8 Byte) x 512(CAN_Q_BUFF_SIZE)) x 2(rx,tx) = 12,288 Byte
 // CAN 1ê°œì¼ ê²½ìš°
-#define CAN_1	0 // ?„¤?´ë°? ?•Œ?•„?„œ define
+#define CAN_1	0 // ?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ define
 #define CAN_CNT 1
 /*
 // CAN 2ê°œì¼ ê²½ìš°
-#define CAN_1	0 // ?„¤?´ë°? ?•Œ?•„?„œ define
+#define CAN_1	0 // ?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ define
 #define CAN_2	1
 #define CAN_CNT 2
 */
 
-/*************??‹ ?— RAMë²„í¼?— ?”°?¼ ?ˆ˜? •******************/
+/*************?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ RAMë²„í¼?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½******************/
 
 #include "dl_can.h"
 #include "net_phd_pid.h"

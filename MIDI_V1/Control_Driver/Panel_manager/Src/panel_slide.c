@@ -1,0 +1,147 @@
+/*
+ * panel_slide.c
+ *
+ *  Created on: 2021. 4. 2.
+ *      Author: shin
+ */
+
+
+#include "main.h"
+
+#include "HC595_MIDI.h"
+#include "HC595_MIDI_Control.h"
+
+#include "HC165_MIDI.h"
+#include "HC165_MIDI_wheel.h"
+#include "HC165_MIDI_btn.h"
+
+#include "X_Touch_Extender_ADC.h"
+#include "X_Touch_Extender_MotorAdc_packet.h"
+#include "LCD_MIDI.h"
+#include "LCD_MIDI_Control.h"
+#include "non_stop_delay_main.h"
+
+#include "panel_manager.h"
+#include "panel_view.h"
+#include "panel_control.h"
+#include "panel_page.h"
+#include "panel_slide.h"
+
+#include "long_key.h"
+
+#include "communication_info.h"
+
+#include "app_pid_midi_cmd.h"
+
+extern Panel_Page_TypeDef page;
+extern PanelManager_TypeDef panel;
+
+extern X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
+
+extern Comm_Page_TypeDef com_page;
+extern Comm_Axle_TypeDef com_axle;
+
+extern uint8_t my_can_id;
+
+
+Slide_TypeDef slide_master = {0,};
+
+uint8_t slide_id_check(uint8_t motor_id)
+{
+	for(int i = 0; i < 8; i++)
+	{
+		if(motor_id == com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num)
+		{
+			return i;
+		}
+	}
+	return 0xff;
+}
+
+void slide_value_tx(void)
+{
+	//슬라이드에서 손땠을때 위치는?? 어떻게 처리하는가
+	for(int i = 0; i < 8; i++)
+	{
+
+
+		if (extenderPacket.touch[i] == 0x00)
+		{
+
+			if(slide_master.f_motorPosi[i] == 1)
+			{
+				MAL_LED_BackLight_Control(i, LED_YELLOW);
+				slide_master.f_motorPosi[i] = 0;
+				Slide_control(i, slide_master.motorPosi[i]);
+				LCD_SetText_ADC_DEC(i, slide_master.motorPosi[i]);
+			}
+			else
+			{
+				if (MAL_NonStopDelay(&slide_master.t_motorPosi[i], 25) == 1)
+					MAL_LED_BackLight_Control(i, LED_WHITE);
+			}
+
+			slide_master.t_txTime[i] = HAL_GetTick();
+		}
+		else
+		{
+			if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
+			{
+				MAL_LED_BackLight_Control(i, LED_CYAN);
+				if (slide_master.oldAdc[i] != extenderPacket.adc[i])
+				{
+					if (MAL_NonStopDelay(&slide_master.t_txTime[i], 20) == 1)
+					{
+						slide_master.oldAdc[i] = extenderPacket.adc[i];
+
+						app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
+								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, extenderPacket.adc[i]);
+						LCD_SetText_ADC_DEC(i, extenderPacket.adc[i]);
+					}
+				}
+			}
+		}
+	}
+}
+
+void slide_tx_manager(void)
+{
+
+	switch(panel.view.nowView)
+	{
+		case VIEW_0_MAIN:
+			slide_value_tx();
+			break;
+			//=====================================
+		case VIEW_1_SETTING_PREVIEW:
+		case VIEW_2_SETTING_MENU:
+		case VIEW_3_AXLE_CHANGE:
+		case VIEW_4_PAGE_CHANGE:
+		case VIEW_LAST_NUM:
+		default:
+			break;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

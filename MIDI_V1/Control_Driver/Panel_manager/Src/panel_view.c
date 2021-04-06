@@ -39,18 +39,7 @@ void View_Changer(PanelViewName_TypeDef changeView )
 		if (panel.view.nowView != changeView) {
 			panel.view.f_ViewChange = 1;
 			panel.view.changeView = changeView;
-			MAL_LCD_Set_Clear();
-			for(int i = 0; i < 8; i++)
-			{
-				LCD_CenterLine(i);
-				MAL_LED_BackLight_Control(i, LED_WHITE);
-				MAL_LED_BarGauge_Control(i, 0);
-				MAL_LED_Wheel_Control(i, 0);
-				MAL_LED_Button_Control(i,0,LED_OFF);
-				MAL_LED_Button_Control(i,1,LED_OFF);
-				MAL_LED_Button_Control(i,2,LED_OFF);
-				MAL_LED_Button_Control(i,3,LED_OFF);
-			}
+
 		}
 	}
 }
@@ -67,6 +56,21 @@ void View_Selector(void)
 		if (panel.view.changeView < VIEW_LAST_NUM) {
 			panel.view.lastView = panel.view.nowView;
 			panel.view.nowView = panel.view.changeView;
+
+			MAL_LCD_Set_Clear();
+			for(int i = 0; i < 8; i++)
+			{
+				LCD_CenterLine(i);
+				MAL_LED_BackLight_Control(i, LED_WHITE);
+				MAL_LED_BarGauge_Control(i, 0);
+				MAL_LED_Wheel_Control(i, 0);
+				MAL_LED_Button_Control(i,0,LED_OFF);
+				MAL_LED_Button_Control(i,1,LED_OFF);
+				MAL_LED_Button_Control(i,2,LED_OFF);
+				MAL_LED_Button_Control(i,3,LED_OFF);
+			}
+
+
 			switch(panel.view.nowView)
 			{
 			case VIEW_0_MAIN:
@@ -98,6 +102,10 @@ void View_Selector(void)
 
 void View_Manager(void)
 {
+
+
+	panel.view.viewFnc(); //선택된 뷰
+	View_Selector();
 	static uint8_t f_first = 1;
 	if(f_first)
 	{
@@ -105,6 +113,5 @@ void View_Manager(void)
 		for(int i = 0; i < 8 ; i++)
 			LCD_CenterLine(i);
 	}
-	View_Selector();
-	panel.view.viewFnc(); //선택된 뷰
+
 }

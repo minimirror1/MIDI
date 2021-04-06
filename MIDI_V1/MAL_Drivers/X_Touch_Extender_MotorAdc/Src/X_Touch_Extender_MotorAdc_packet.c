@@ -12,7 +12,7 @@
 
 extern MAL_UART_HandleTypeDef muart1;
 
-X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
+X_Touch_Extender_Packet_HandleTypeDef extenderPacket = {0,};
 
 
 void MAL_X_TouchExtender_Packet_Init(void)

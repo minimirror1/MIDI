@@ -24,6 +24,7 @@
 #include "panel_view.h"
 #include "panel_control.h"
 #include "panel_page.h"
+#include "panel_slide.h"
 
 #include "long_key.h"
 
