@@ -213,6 +213,7 @@ int main(void) {
 	}
 
 	app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, 0);
+
 	//LCD_SetText_DEC(0,5);
 
 	//LCD_Pixel_wirte_logo(0);

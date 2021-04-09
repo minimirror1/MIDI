@@ -38,6 +38,8 @@ extern X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
 extern Comm_Page_TypeDef com_page;
 extern Comm_Axle_TypeDef com_axle;
 
+extern Panel_Page_TypeDef page;
+
 extern HC165_btn_TypeDef btn[8];
 
 
@@ -49,29 +51,32 @@ void View_0_enable(void)
 {
 	for(int i = 0; i < 8; i++)
 	{
-		if(btn[i].status[3].btn == 1)
+		if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
 		{
-			if(f_enableToggle[i] == 0)
+			if (btn[i].status[3].btn == 1)
 			{
-				f_enableToggle[i] = 1;
+				if (f_enableToggle[i] == 0)
+				{
+					f_enableToggle[i] = 1;
 
-				if(get_slide_slot_flag(i) == 1)
-				{
-					set_slide_slot_flag(i, 0);
-					MAL_LED_Button_Control(i, 3, LED_OFF);
-				}
-				else if(get_slide_slot_flag(i) == 0)
-				{
-					set_slide_slot_flag(i, 1);
-					MAL_LED_Button_Control(i, 3, LED_ON);
+					if (get_slide_slot_flag(i) == 1)
+					{
+						set_slide_slot_flag(i, 0);
+						MAL_LED_Button_Control(i, 3, LED_OFF);
+					}
+					else if (get_slide_slot_flag(i) == 0)
+					{
+						set_slide_slot_flag(i, 1);
+						MAL_LED_Button_Control(i, 3, LED_ON);
+					}
 				}
 			}
-		}
-		else
-		{
-			if(f_enableToggle[i] == 1)
+			else
 			{
-				f_enableToggle[i] = 0;
+				if (f_enableToggle[i] == 1)
+				{
+					f_enableToggle[i] = 0;
+				}
 			}
 		}
 	}

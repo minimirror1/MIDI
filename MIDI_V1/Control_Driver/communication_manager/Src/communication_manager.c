@@ -24,6 +24,8 @@ extern uint8_t change_Page;
 
 extern Slide_TypeDef slide_master;
 
+extern uint8_t f_v0_first;
+
 Comm_Page_TypeDef com_page = { 0, };
 Comm_Axle_TypeDef com_axle = { 0, };
 //=============================================================================
@@ -125,6 +127,8 @@ void app_rx_midi_sub_pid_last_page_ctl(uint8_t num, prtc_header_t *pPh, uint8_t 
 	prtc_data_ctl_midi_last_page_t *data = (prtc_data_ctl_midi_last_page_t *)pData;
 
 	Set_Page(data->last_page);
+
+	f_v0_first = 1;//예외처리 : 녹화기 재부팅시 새로고침
 
 }
 

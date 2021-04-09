@@ -94,7 +94,7 @@ void Change_Axle(void) {
 			if (wheel[i].status.f_rot == ROT_CW)
 			{
 				changeSlotCnt[i]++;
-				if (changeSlotCnt[i] > com_axle.list.cnt)
+				if (changeSlotCnt[i] >= com_axle.list.cnt)
 					changeSlotCnt[i] = 0;
 
 				if (com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num != 0)
@@ -104,7 +104,7 @@ void Change_Axle(void) {
 						if (com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
 						{
 							changeSlotCnt[i]++;
-							if (changeSlotCnt[i] > com_axle.list.cnt)
+							if (changeSlotCnt[i] >= com_axle.list.cnt)
 								changeSlotCnt[i] = 0;
 
 							/*if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
@@ -118,7 +118,7 @@ void Change_Axle(void) {
 			{
 				changeSlotCnt[i]--;
 				if (changeSlotCnt[i] == 0xff)
-					changeSlotCnt[i] = com_axle.list.cnt;
+					changeSlotCnt[i] = com_axle.list.cnt-1;
 
 				if (com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num != 0)
 				{
@@ -128,7 +128,7 @@ void Change_Axle(void) {
 						{
 							changeSlotCnt[i]--;
 							if (changeSlotCnt[i] == 0xff)
-								changeSlotCnt[i] = com_axle.list.cnt;
+								changeSlotCnt[i] = com_axle.list.cnt-1;
 
 							/*if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
 							 changeSlotCnt[i]--;*/
