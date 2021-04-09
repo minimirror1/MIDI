@@ -31,7 +31,7 @@
 
 
 extern LongKey_TypeDef LongKeyWheel[8];
-
+extern uint8_t f_v0_first;
 
 uint8_t MenuSelect(void)
 {
@@ -52,6 +52,7 @@ void View_2_SettingMenu(void)
 	if (f_toggle == 1)
 	{
 		f_toggle = 0;
+		f_v0_first = 1; //view 0  초기값
 
 		LCD_Write_String(0, 1, "Axle", sizeof("Axle"));
 		LCD_Write_String(0, 2, "Change", sizeof("Change"));
@@ -61,6 +62,8 @@ void View_2_SettingMenu(void)
 
 		LCD_Write_String(7, 1, "Device", sizeof("Device"));
 		LCD_Write_String(7, 2, "Setting", sizeof("Setting"));
+
+
 	}
 
 	if (LongKeyWheel[7].fLongKey == 0)

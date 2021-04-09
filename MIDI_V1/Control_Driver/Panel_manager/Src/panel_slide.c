@@ -46,6 +46,37 @@ extern uint8_t my_can_id;
 
 Slide_TypeDef slide_master = {0,};
 
+void slide_slot_clear(void)
+{
+	for(int i = 0; i < 8; i++)
+	{
+		slide_master.f_slotEnable[i] = RESET;
+	}
+}
+
+void set_slide_slot_flag(uint8_t slotNum, uint8_t status)
+{
+	if(slotNum >8)
+		return;
+
+	if(status == SET)
+	{
+		slide_master.f_slotEnable[slotNum] = status;
+	}
+	else
+	{
+		slide_master.f_slotEnable[slotNum] = RESET;
+	}
+}
+
+uint8_t get_slide_slot_flag(uint8_t slotNum)
+{
+	if(slotNum >8)
+			return 0xff;
+
+	return slide_master.f_slotEnable[slotNum];
+}
+
 uint8_t slide_id_check(uint8_t motor_id)
 {
 	for(int i = 0; i < 8; i++)
@@ -64,39 +95,48 @@ void slide_value_tx(void)
 	for(int i = 0; i < 8; i++)
 	{
 
-
-		if (extenderPacket.touch[i] == 0x00)
+		if(slide_master.f_slotEnable[i] == RESET)// enable 일때만 동작함
 		{
+			MAL_LED_BackLight_Control(i, LED_WHITE);
 
-			if(slide_master.f_motorPosi[i] == 1)
-			{
-				MAL_LED_BackLight_Control(i, LED_YELLOW);
-				slide_master.f_motorPosi[i] = 0;
-				Slide_control(i, slide_master.motorPosi[i]);
-				LCD_SetText_ADC_DEC(i, slide_master.motorPosi[i]);
-			}
-			else
-			{
-				if (MAL_NonStopDelay(&slide_master.t_motorPosi[i], 25) == 1)
-					MAL_LED_BackLight_Control(i, LED_WHITE);
-			}
-
-			slide_master.t_txTime[i] = HAL_GetTick();
 		}
 		else
 		{
-			if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
-			{
-				MAL_LED_BackLight_Control(i, LED_CYAN);
-				if (slide_master.oldAdc[i] != extenderPacket.adc[i])
-				{
-					if (MAL_NonStopDelay(&slide_master.t_txTime[i], 20) == 1)
-					{
-						slide_master.oldAdc[i] = extenderPacket.adc[i];
 
-						app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
-								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, extenderPacket.adc[i]);
-						LCD_SetText_ADC_DEC(i, extenderPacket.adc[i]);
+			if (extenderPacket.touch[i] == 0x00)
+			{
+
+				if (slide_master.f_motorPosi[i] == 1)
+				{
+					MAL_LED_BackLight_Control(i, LED_YELLOW);
+					slide_master.f_motorPosi[i] = 0;
+					Slide_control(i, slide_master.motorPosi[i]);
+
+					LCD_SetText_ADC_DEC(i, slide_master.motorPosi[i]);
+				}
+				else
+				{
+					if (MAL_NonStopDelay(&slide_master.t_motorPosi[i], 25) == 1)
+						MAL_LED_BackLight_Control(i, LED_WHITE);
+				}
+
+				slide_master.t_txTime[i] = HAL_GetTick();
+			}
+			else
+			{
+				if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
+				{
+					MAL_LED_BackLight_Control(i, LED_CYAN);
+					if (slide_master.oldAdc[i] != extenderPacket.adc[i])
+					{
+						if (MAL_NonStopDelay(&slide_master.t_txTime[i], 20) == 1)
+						{
+							slide_master.oldAdc[i] = extenderPacket.adc[i];
+							//canprotocol
+							app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
+									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, extenderPacket.adc[i]);
+							LCD_SetText_ADC_DEC(i, extenderPacket.adc[i]);
+						}
 					}
 				}
 			}

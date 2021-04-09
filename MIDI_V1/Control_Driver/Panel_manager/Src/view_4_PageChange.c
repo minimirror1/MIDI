@@ -5,7 +5,6 @@
  *      Author: shin
  */
 
-
 #include "main.h"
 
 #include "HC595_MIDI.h"
@@ -31,6 +30,8 @@
 
 #include "communication_info.h"
 
+#include "app_pid_midi_cmd.h"
+
 extern Panel_Page_TypeDef page;
 
 extern Comm_Page_TypeDef com_page;
@@ -46,8 +47,7 @@ uint8_t changePageCnt = 0;
 
 uint8_t f_v4_first = 1;
 
-void ChangePage_Display(void)
-{
+void ChangePage_Display(void) {
 	if (f_pageChange == SET)
 	{
 		f_pageChange = RESET;
@@ -71,14 +71,11 @@ void ChangePage_Display(void)
 				LCD_Pixel_wirte_logo(i, ' ');
 			}
 
-
 		}
 	}
 }
 
-
-void Change_Page(void)
-{
+void Change_Page(void) {
 	int i = 7;
 	if (wheel[i].status.f_rot != ROT_CLEAR)
 	{
@@ -102,8 +99,58 @@ void Change_Page(void)
 
 }
 
-void PageApplyManager(void)
-{
+uint8_t f_v4_cancel = 0;
+uint8_t f_v4_apply = 0;
+void PageApplyManager(void) {
+
+	if (btn[7].status[2].btn == 1) //취소
+	{
+		if (f_v4_cancel == 0)
+			f_v4_cancel = 1;
+	}
+	else
+	{
+		if (f_v4_cancel == 1)
+			f_v4_cancel = 2;
+	}
+
+	if (btn[7].status[3].btn == 1) //적용
+	{
+		if (f_v4_apply == 0)
+			f_v4_apply = 1;
+	}
+	else
+	{
+		if (f_v4_apply == 1)
+			f_v4_apply = 2;
+	}
+
+	if (f_v4_apply == 2)
+	{
+		f_v4_apply = 0;
+		f_v4_cancel = 0;
+
+		f_v4_first = 1;
+
+		page.changeNum = tempPageNum;
+
+		//canprotocol
+		app_tx_midi_sub_pid_last_page_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST, page.changeNum);
+
+		View_Changer(VIEW_0_MAIN);
+
+	}
+	else if (f_v4_cancel == 2)
+	{
+		f_v4_apply = 0;
+		f_v4_cancel = 0;
+
+		View_Changer(VIEW_0_MAIN);
+		f_v4_first = 1;
+
+	}
+
+#if 0
 	if(btn[7].status[2].btn == 1)//취소
 	{
 		View_Changer(VIEW_0_MAIN);
@@ -115,58 +162,48 @@ void PageApplyManager(void)
 		f_v4_first = 1;
 
 		page.changeNum = tempPageNum;
+
+		//canprotocol
+		app_tx_midi_sub_pid_last_page_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST, page.changeNum);
+
 		View_Changer(VIEW_0_MAIN);
 
 	}
+#endif
 }
 
-void View_4_PageChange(void)
-{
+void View_4_PageChange(void) {
 	static uint8_t toggleLed = 0;
 	static uint32_t t_SetLed;
 
-	if(f_v4_first == 1)
+	if (f_v4_first == 1)
 	{
 		f_v4_first = 0;
 		f_pageChange = SET;
 		tempPageNum = page.changeNum;
 		changePageCnt = tempPageNum;
 
-		panel_wheel_Led_rot(7,1);
+		panel_wheel_Led_rot(7, 1);
 	}
 	Change_Page();
 	ChangePage_Display();
 	PageApplyManager();
 
-
-	if(MAL_NonStopDelay(&t_SetLed, 500) == 1)
+	if (MAL_NonStopDelay(&t_SetLed, 500) == 1)
 	{
 		MAL_LED_Button_Control(7, LED_SELECT, toggleLed);
 		MAL_LED_Button_Control(7, LED_MUTE, toggleLed);
 		toggleLed ^= 1;
 
-/*		if(toggleLed == 1)
-		{
-			MAL_LED_Wheel_Control(7, 13);
-		}
-		else
-		{
-			MAL_LED_Wheel_Control(7, 0);
-		}*/
+		/*		if(toggleLed == 1)
+		 {
+		 MAL_LED_Wheel_Control(7, 13);
+		 }
+		 else
+		 {
+		 MAL_LED_Wheel_Control(7, 0);
+		 }*/
 	}
-	panel_wheel_Led_rot(7,0);
+	panel_wheel_Led_rot(7, 0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 

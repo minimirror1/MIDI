@@ -35,6 +35,8 @@ extern X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
 
 PanelManager_TypeDef panel = {0,};
 
+
+
 void Panel_Init(void)
 {
 	uint8_t column = 0;

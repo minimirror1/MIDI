@@ -5,7 +5,6 @@
  *      Author: shin
  */
 
-
 #include "main.h"
 
 #include "HC595_MIDI.h"
@@ -31,6 +30,8 @@
 
 #include "communication_info.h"
 
+#include "app_pid_midi_cmd.h"
+
 extern Panel_Page_TypeDef page;
 
 extern Comm_Page_TypeDef com_page;
@@ -40,28 +41,28 @@ extern HC165_wheel_TypeDef wheel[8];
 extern HC165_btn_TypeDef btn[8];
 
 uint8_t tempPageNum;
-uint8_t tempAxleSlot[8] = {0,};
+uint8_t tempAxleSlot[8] = { 0, };
 
-uint8_t changeSlotCnt[8] = {0,};
+uint8_t f_changeAxleSlot[8] = { 0, };
 
+uint8_t changeSlotCnt[8] = { 0, };
 
 uint8_t f_axleChange = SET;
 
 uint8_t f_v3_first = 1;
 
-
-void now_AxleNumber_Copy(void)
-{
+void now_AxleNumber_Copy(void) {
 	tempPageNum = page.changeNum;
 
 	for (int i = 0; i < 8; i++)
 	{
 		tempAxleSlot[i] = com_page.pageInfo[page.changeNum].slot_axle[i].axleNum;
+
+		f_changeAxleSlot[i] = com_page.pageInfo[page.changeNum].slot_axle[i].axleNum;
 	}
 }
 
-void ChangeAxle_Display(void)
-{
+void ChangeAxle_Display(void) {
 	if (f_axleChange == SET)
 	{
 		f_axleChange = RESET;
@@ -82,10 +83,9 @@ void ChangeAxle_Display(void)
 	}
 }
 
-void Change_Axle(void)
-{
+void Change_Axle(void) {
 
-	for(int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		if (wheel[i].status.f_rot != ROT_CLEAR)
 		{
@@ -95,22 +95,106 @@ void Change_Axle(void)
 				if (changeSlotCnt[i] >= com_axle.list.cnt)
 					changeSlotCnt[i] = 0;
 
+				for(int j = 0; j < 8 ;j++){
+					if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+					{
+						changeSlotCnt[i]++;
+						if (changeSlotCnt[i] >= com_axle.list.cnt)
+							changeSlotCnt[i] = 0;
+
+						if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+							changeSlotCnt[i]++;
+					}
+				}
+
 			}
 			else if (wheel[i].status.f_rot == ROT_CCW)
 			{
 				changeSlotCnt[i]--;
 				if (changeSlotCnt[i] == 0xff)
 					changeSlotCnt[i] = com_axle.list.cnt - 1;
+
+				for (int j = 0; j < 8; j++)
+				{
+					if (com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+					{
+						changeSlotCnt[i]--;
+						if (changeSlotCnt[i] == 0xff)
+							changeSlotCnt[i] = com_axle.list.cnt - 1;
+
+						if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+							changeSlotCnt[i]--;
+					}
+				}
 			}
+
 			tempAxleSlot[i] = com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num;
+
+
+
 			wheel[i].status.f_rot = ROT_CLEAR;
 			f_axleChange = SET;
 		}
 	}
 }
 
-void AxleApplyManager(void)
-{
+uint8_t f_v3_cancel = 0;
+uint8_t f_v3_apply = 0;
+void AxleApplyManager(void) {
+	if (btn[7].status[2].btn == 1) //취소
+	{
+		if (f_v3_cancel == 0)
+			f_v3_cancel = 1;
+	}
+	else
+	{
+		if (f_v3_cancel == 1)
+			f_v3_cancel = 2;
+	}
+
+	if (btn[7].status[3].btn == 1) //적용
+	{
+		if (f_v3_apply == 0)
+			f_v3_apply = 1;
+	}
+	else
+	{
+		if (f_v3_apply == 1)
+			f_v3_apply = 2;
+	}
+
+	if (f_v3_apply == 2)
+	{
+		f_v3_apply = 0;
+		f_v3_cancel = 0;
+
+		f_v3_first = 1;
+
+		for (int i = 0; i < 8; i++)
+		{
+			com_page.pageInfo[tempPageNum].slot_axle[i].axleNum = tempAxleSlot[i];
+
+			if (f_changeAxleSlot[i] != tempAxleSlot[i])
+			{ //canprotocol
+				app_tx_midi_sub_pid_page_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST, tempPageNum, i, tempAxleSlot[i],
+						com_page.pageInfo[tempPageNum].slot_axle[i].setPageNum);
+			}
+		}
+
+		View_Changer(VIEW_0_MAIN);
+
+	}
+	else if (f_v3_cancel == 2)
+	{
+		f_v3_apply = 0;
+		f_v3_cancel = 0;
+
+		View_Changer(VIEW_0_MAIN);
+		f_v3_first = 1;
+
+	}
+
+#if 0
 	if(btn[7].status[2].btn == 1)//취소
 	{
 		View_Changer(VIEW_0_MAIN);
@@ -124,58 +208,45 @@ void AxleApplyManager(void)
 		for (int i = 0; i < 8; i++)
 		{
 			com_page.pageInfo[tempPageNum].slot_axle[i].axleNum = tempAxleSlot[i];
+
+			if(f_changeAxleSlot[i] != tempAxleSlot[i])
+			{//canprotocol
+				app_tx_midi_sub_pid_page_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,tempPageNum , i, tempAxleSlot[i], com_page.pageInfo[tempPageNum].slot_axle[i].setPageNum);
+			}
 		}
+
 		View_Changer(VIEW_0_MAIN);
 
 	}
+#endif
 }
 
-void View_3_AxleChange(void)
-{
+void View_3_AxleChange(void) {
 	static uint8_t toggleLed = 0;
 	static uint32_t t_SetLed;
 
-	if(f_v3_first == 1)
+	if (f_v3_first == 1)
 	{
 		f_v3_first = 0;
 
 		now_AxleNumber_Copy();
 		f_axleChange = SET;
-		panel_wheel_Led_rot(7,1);
+		panel_wheel_Led_rot(7, 1);
 
 	}
 	Change_Axle();
 	ChangeAxle_Display();
 	AxleApplyManager();
 
-
-	if(MAL_NonStopDelay(&t_SetLed, 500) == 1)
+	if (MAL_NonStopDelay(&t_SetLed, 500) == 1)
 	{
 		MAL_LED_Button_Control(7, LED_SELECT, toggleLed);
 		MAL_LED_Button_Control(7, LED_MUTE, toggleLed);
 		toggleLed ^= 1;
 	}
 
-	for(int i = 0; i < 8; i++)
-		panel_wheel_Led_rot(i,0);
-
-
-
+	for (int i = 0; i < 8; i++)
+		panel_wheel_Led_rot(i, 0);
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

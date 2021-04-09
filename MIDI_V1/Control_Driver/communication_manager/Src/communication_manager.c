@@ -95,12 +95,12 @@ void app_rx_midi_sub_pid_page_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pDat
 	prtc_data_ctl_midi_page_t *data = (prtc_data_ctl_midi_page_t*) pData;
 
 	uint8_t f_newPage = 1;
-	//pPh->sub_id --;
-	if (pPh->sub_id < 8)
+	//data->slot_num --;
+	if (data->slot_num < 8)
 	{
 		com_page.pageInfo[data->page].pageNum = data->page;
-		com_page.pageInfo[data->page].slot_axle[pPh->sub_id].axleNum = data->motor_num;
-		com_page.pageInfo[data->page].slot_axle[pPh->sub_id].setPageNum = data->set_page_num;
+		com_page.pageInfo[data->page].slot_axle[data->slot_num].axleNum = data->motor_num;
+		com_page.pageInfo[data->page].slot_axle[data->slot_num].setPageNum = data->set_page_num;
 
 		//	//add page data
 		for (int i = 0; i < com_page.list.cnt; i++)
