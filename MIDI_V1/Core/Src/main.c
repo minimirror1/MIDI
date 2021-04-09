@@ -43,6 +43,8 @@
 #include "app_pid_init_cmd.h"
 #include "app_pid_midi_cmd.h"
 #include "prtc_data_pid_midi.h"
+
+#include "communication_info.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,6 +96,7 @@ static void MX_CAN1_Init(void);
 extern HC165_wheel_TypeDef wheel[8];
 extern X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
 
+extern Comm_Axle_TypeDef com_axle;
 extern uint8_t my_can_id;
 /* USER CODE END PFP */
 
@@ -199,6 +202,8 @@ int main(void) {
 	MAL_LCD_Init();
 
 	Panel_Init();
+
+	com_axle.list.cnt = 1;
 
 	welcome();
 

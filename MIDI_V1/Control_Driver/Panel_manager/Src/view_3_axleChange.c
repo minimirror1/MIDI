@@ -68,14 +68,16 @@ void ChangeAxle_Display(void) {
 		f_axleChange = RESET;
 		for (int i = 0; i < 8; i++)
 		{
-
-			if (com_axle.axleInfo[tempAxleSlot[i]].nick_name != 0)
-				LCD_Write_String(i, 1, com_axle.axleInfo[tempAxleSlot[i]].nick_name, 10);
-
 			if (com_axle.axleInfo[tempAxleSlot[i]].axle_num != 0)
 			{
 				LCD_SetText_AXLENUM_DEC(i, com_axle.axleInfo[tempAxleSlot[i]].axle_num);
+				LCD_Write_String(i, 1, com_axle.axleInfo[tempAxleSlot[i]].nick_name, 10);
 				LCD_pixel_write_sizeA_p(i, '|', 14);
+			}
+			else
+			{
+				LCD_Write_String(i, 1, "          ", 10);
+				LCD_Write_String(i, 2, "    ", 4);
 			}
 			LCD_SetText_ADC_DEC(i, tempPageNum);
 			LCD_pixel_write_sizeA_p(i, 'P', 16);
@@ -92,18 +94,22 @@ void Change_Axle(void) {
 			if (wheel[i].status.f_rot == ROT_CW)
 			{
 				changeSlotCnt[i]++;
-				if (changeSlotCnt[i] >= com_axle.list.cnt)
+				if (changeSlotCnt[i] > com_axle.list.cnt)
 					changeSlotCnt[i] = 0;
 
-				for(int j = 0; j < 8 ;j++){
-					if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+				if (com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num != 0)
+				{
+					for (int j = 0; j < 8; j++)
 					{
-						changeSlotCnt[i]++;
-						if (changeSlotCnt[i] >= com_axle.list.cnt)
-							changeSlotCnt[i] = 0;
-
-						if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+						if (com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+						{
 							changeSlotCnt[i]++;
+							if (changeSlotCnt[i] > com_axle.list.cnt)
+								changeSlotCnt[i] = 0;
+
+							/*if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+							 changeSlotCnt[i]++;*/
+						}
 					}
 				}
 
@@ -112,18 +118,21 @@ void Change_Axle(void) {
 			{
 				changeSlotCnt[i]--;
 				if (changeSlotCnt[i] == 0xff)
-					changeSlotCnt[i] = com_axle.list.cnt - 1;
+					changeSlotCnt[i] = com_axle.list.cnt;
 
-				for (int j = 0; j < 8; j++)
+				if (com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num != 0)
 				{
-					if (com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+					for (int j = 0; j < 8; j++)
 					{
-						changeSlotCnt[i]--;
-						if (changeSlotCnt[i] == 0xff)
-							changeSlotCnt[i] = com_axle.list.cnt - 1;
-
-						if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+						if (com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+						{
 							changeSlotCnt[i]--;
+							if (changeSlotCnt[i] == 0xff)
+								changeSlotCnt[i] = com_axle.list.cnt;
+
+							/*if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+							 changeSlotCnt[i]--;*/
+						}
 					}
 				}
 			}
