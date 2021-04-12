@@ -85,7 +85,21 @@ void ChangeAxle_Display(void) {
 	}
 }
 
+uint8_t slotCheck(uint8_t axleNum)
+{
+	uint8_t f_check = 0;// 0 : 일치하는축 없음 ,1 : 일치하는축 있음
+	for(int i = 0 ; i < 8 ; i++)
+	{
+		if(com_axle.list.pAxleInfo[axleNum]->axle_num == tempAxleSlot[i])
+		{
+			f_check = 1;
+		}
+	}
+	return f_check;
+}
+
 void Change_Axle(void) {
+
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -93,7 +107,27 @@ void Change_Axle(void) {
 		{
 			if (wheel[i].status.f_rot == ROT_CW)
 			{
+
 				changeSlotCnt[i]++;
+				if (changeSlotCnt[i] >= com_axle.list.cnt)
+					changeSlotCnt[i] = 0;
+
+				do
+				{
+
+					if(slotCheck(changeSlotCnt[i]) == 1)
+					{
+						changeSlotCnt[i]++;
+						if (changeSlotCnt[i] >= com_axle.list.cnt)
+							changeSlotCnt[i] = 0;
+					}
+					else
+					{
+						break;
+					}
+				}while(changeSlotCnt[i] != 0);
+
+				/*changeSlotCnt[i]++;
 				if (changeSlotCnt[i] >= com_axle.list.cnt)
 					changeSlotCnt[i] = 0;
 
@@ -107,11 +141,11 @@ void Change_Axle(void) {
 							if (changeSlotCnt[i] >= com_axle.list.cnt)
 								changeSlotCnt[i] = 0;
 
-							/*if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
-							 changeSlotCnt[i]++;*/
+							if(com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num == tempAxleSlot[j])
+							 changeSlotCnt[i]++;
 						}
 					}
-				}
+				}*/
 
 			}
 			else if (wheel[i].status.f_rot == ROT_CCW)
