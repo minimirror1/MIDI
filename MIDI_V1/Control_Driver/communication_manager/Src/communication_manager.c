@@ -149,5 +149,19 @@ void app_rx_midi_sub_pid_adc_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData
 
 }
 
+extern void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi);
+void app_rx_midi_sub_pid_adc_rsp(uint8_t num, prtc_header_t *pPh, uint8_t *pData)
+{
+	prtc_data_ctl_midi_adc_t *data = (prtc_data_ctl_midi_adc_t *)pData;
+
+	uint8_t slot_id = 0xFF;
+	slot_id = slide_id_check(data->id);
+
+	if(slot_id != 0xFF)
+	{
+		View_0_enableRsp(slot_id, data->adc_val);
+	}
+}
+
 
 //=============================================================================

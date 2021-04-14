@@ -51,7 +51,10 @@ void slide_slot_clear(void)
 	for(int i = 0; i < 8; i++)
 	{
 		slide_master.f_slotEnable[i] = RESET;
+		MAL_LED_Button_Control(i, 3, LED_OFF);
 	}
+
+
 }
 
 void set_slide_slot_flag(uint8_t slotNum, uint8_t status)

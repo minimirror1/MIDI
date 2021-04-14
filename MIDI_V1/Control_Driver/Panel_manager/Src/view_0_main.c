@@ -30,6 +30,10 @@
 
 #include "communication_info.h"
 
+#include "app_pid_init_cmd.h"
+#include "app_pid_midi_cmd.h"
+#include "prtc_data_pid_midi.h"
+
 
 extern PanelManager_TypeDef panel;
 
@@ -41,6 +45,8 @@ extern Comm_Axle_TypeDef com_axle;
 extern Panel_Page_TypeDef page;
 
 extern HC165_btn_TypeDef btn[8];
+
+extern uint8_t my_can_id;
 
 
 uint8_t f_v0_first = 1;
@@ -66,8 +72,16 @@ void View_0_enable(void)
 					}
 					else if (get_slide_slot_flag(i) == 0)
 					{
-						set_slide_slot_flag(i, 1);
-						MAL_LED_Button_Control(i, 3, LED_ON);
+/*						set_slide_slot_flag(i, 1);
+						MAL_LED_Button_Control(i, 3, LED_ON);*/
+						//상위에 모터위치를 요청하고  응답받으면 활성화 한다.
+						app_tx_midi_sub_pid_adc_rqt(
+								0,
+								1,
+								my_can_id,
+								0,
+								31,
+								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num);
 					}
 				}
 			}
@@ -80,8 +94,26 @@ void View_0_enable(void)
 			}
 		}
 	}
+}
+void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
+{
+	if(slot_id > 8)
+		return;
 
+	set_slide_slot_flag(slot_id, 1);
+	MAL_LED_Button_Control(slot_id, 3, LED_ON);
 
+	extenderPacket.adc[slot_id] = set_posi;
+
+	Slide_control(slot_id, set_posi);
+/*	for(int i = 0; i < 8; i++)
+	{
+		if(com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num == axle_num)
+		{
+			set_slide_slot_flag(i, 1);
+			MAL_LED_Button_Control(i, 3, LED_ON);
+		}
+	}*/
 }
 
 

@@ -36,5 +36,10 @@
 			<type>2</type>
 			<locationURI>PARENT-3-PROJECT_LOC/driver/gm_motion_CANprotocol</locationURI>
 		</link>
+		<link>
+			<name>stm32f107xC_eepEmu</name>
+			<type>2</type>
+			<locationURI>PARENT-3-PROJECT_LOC/driver/eeprom_emu/stm32f1xx_emu/stm32f107xC_eepEmu</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>

@@ -298,8 +298,9 @@ int main(void) {
 
 	uint32_t t_wheel = 0;
 #endif
-
-	/*	uint32_t t_testss;
+/*	uint32_t t_testss;
+	uint32_t t_testss1;*/
+	/*
 
 
 	 CAN_TxHeaderTypeDef pHeader;
@@ -327,11 +328,15 @@ int main(void) {
 		proc_can_rx();
 		proc_can_tx();
 
-		/*		if(MAL_NonStopDelay(&t_testss, 100)==1)
-		 {
-		 //HAL_CAN_AddTxMessage(&hcan1, &pHeader, aData, &pTxMailbox);
-		 app_tx_init_sub_pid_boot_ctl(0, 1, 1, 1, 1);
-		 }*/
+/*		if (MAL_NonStopDelay(&t_testss, 2000) == 1)
+		{
+			Slide_control(3, 3000);
+		}
+
+		if (MAL_NonStopDelay(&t_testss1, 7000) == 1)
+		{
+			Slide_control(3, 1000);
+		}*/
 #if 0
 
 		/*	  LCD_SetText_DEC(0,val);
