@@ -52,6 +52,11 @@ void slide_slot_clear(void)
 	{
 		slide_master.f_slotEnable[i] = RESET;
 		MAL_LED_Button_Control(i, 3, LED_OFF);
+		Slide_control(i, 0);
+		LCD_pixel_write_sizeA_p(i, ' ', 16);
+		LCD_pixel_write_sizeA_p(i, 'O', 17);
+		LCD_pixel_write_sizeA_p(i, 'F', 18);
+		LCD_pixel_write_sizeA_p(i, 'F', 19);
 	}
 
 

@@ -69,6 +69,12 @@ void View_0_enable(void)
 					{
 						set_slide_slot_flag(i, 0);
 						MAL_LED_Button_Control(i, 3, LED_OFF);
+						Slide_control(i, 0);
+						LCD_pixel_write_sizeA_p(i, ' ', 16);
+						LCD_pixel_write_sizeA_p(i, 'O', 17);
+						LCD_pixel_write_sizeA_p(i, 'F', 18);
+						LCD_pixel_write_sizeA_p(i, 'F', 19);
+
 					}
 					else if (get_slide_slot_flag(i) == 0)
 					{
@@ -106,14 +112,8 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 	extenderPacket.adc[slot_id] = set_posi;
 
 	Slide_control(slot_id, set_posi);
-/*	for(int i = 0; i < 8; i++)
-	{
-		if(com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num == axle_num)
-		{
-			set_slide_slot_flag(i, 1);
-			MAL_LED_Button_Control(i, 3, LED_ON);
-		}
-	}*/
+	LCD_SetText_ADC_DEC(slot_id, set_posi);
+
 }
 
 
