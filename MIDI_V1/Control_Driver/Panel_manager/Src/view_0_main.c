@@ -30,6 +30,8 @@
 
 #include "communication_info.h"
 
+#include "filter_manager.h"
+
 #include "app_pid_init_cmd.h"
 #include "app_pid_midi_cmd.h"
 #include "prtc_data_pid_midi.h"
@@ -39,14 +41,18 @@ extern PanelManager_TypeDef panel;
 
 extern X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
 
+
 extern Comm_Page_TypeDef com_page;
 extern Comm_Axle_TypeDef com_axle;
 
 extern Panel_Page_TypeDef page;
 
 extern HC165_btn_TypeDef btn[8];
+extern HC165_wheel_TypeDef wheel[8];
 
 extern uint8_t my_can_id;
+
+extern filter_TypeDef filter[8];
 
 
 uint8_t f_v0_first = 1;
@@ -101,6 +107,7 @@ void View_0_enable(void)
 		}
 	}
 }
+
 void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 {
 	if(slot_id > 8)
@@ -111,11 +118,59 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 
 	extenderPacket.adc[slot_id] = set_posi;
 
+	filter[slot_id].filterData = set_posi;
+	filter[slot_id].SmoothData = set_posi;
+
 	Slide_control(slot_id, set_posi);
 	LCD_SetText_ADC_DEC(slot_id, set_posi);
 
 }
 
+//=============================================================================
+float filterMap[14] = {
+		1.0f,
+		0.95f,
+		0.9f,
+		0.85f,
+		0.8f,
+		0.7f,
+		0.6f,
+		0.5f,
+		0.4f,
+		0.3f,
+		0.2f,
+		0.15f,
+		0.1f,
+		0.05f
+};
+
+int16_t filterCnt[8] = {0,};
+void View_0_filterValChange(void) {
+
+	for(int i = 0; i < 8; i++)
+	{
+		if (wheel[i].status.f_rot != ROT_CLEAR)
+		{
+			if (wheel[i].status.f_rot == ROT_CW)
+			{
+				filterCnt[i]++;
+				if(filterCnt[i] >= 13)
+					filterCnt[i] = 13;
+			}
+			else if (wheel[i].status.f_rot == ROT_CCW)
+			{
+				filterCnt[i]--;
+				if (filterCnt[i] < 0)
+					filterCnt[i] = 0;
+			}
+			wheel[i].status.f_rot = ROT_CLEAR;
+
+			MAL_LED_Wheel_Control(i,filterCnt[i]);
+			filter[i].LPF_Beta = filterMap[filterCnt[i]];
+		}
+	}
+}
+//=============================================================================
 
 
 void View_0_Main(void)//일반 조종화면
@@ -124,20 +179,20 @@ void View_0_Main(void)//일반 조종화면
 	if(f_v0_first == 1)
 	{
 		f_v0_first = 0;
-		LCD_SetText_ADC_DEC(0, extenderPacket.adc[0]);
-		LCD_SetText_ADC_DEC(1, extenderPacket.adc[1]);
-		LCD_SetText_ADC_DEC(2, extenderPacket.adc[2]);
-		LCD_SetText_ADC_DEC(3, extenderPacket.adc[3]);
-		LCD_SetText_ADC_DEC(4, extenderPacket.adc[4]);
-		LCD_SetText_ADC_DEC(5, extenderPacket.adc[5]);
-		LCD_SetText_ADC_DEC(6, extenderPacket.adc[6]);
-		LCD_SetText_ADC_DEC(7, extenderPacket.adc[7]);
+		for(int k = 0; k < 8; k++)
+		{
+			LCD_SetText_ADC_DEC(k, filter[k].filterData);
+
+			filterCnt[k] = 0;
+			filter[k].LPF_Beta = filterMap[filterCnt[k]];
+			MAL_LED_Wheel_Control(k,filterCnt[k]);
+		}
 
 		slide_slot_clear();
 
 
 	}
-
+	View_0_filterValChange();
 	View_0_enable();
 
 

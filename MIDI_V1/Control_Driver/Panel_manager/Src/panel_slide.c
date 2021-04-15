@@ -31,7 +31,11 @@
 
 #include "communication_info.h"
 
+#include "filter_manager.h"
+
 #include "app_pid_midi_cmd.h"
+
+
 
 extern Panel_Page_TypeDef page;
 extern PanelManager_TypeDef panel;
@@ -42,6 +46,8 @@ extern Comm_Page_TypeDef com_page;
 extern Comm_Axle_TypeDef com_axle;
 
 extern uint8_t my_can_id;
+
+extern filter_TypeDef filter[8];
 
 
 Slide_TypeDef slide_master = {0,};
@@ -114,17 +120,16 @@ void slide_value_tx(void)
 
 			if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
 			{
-
-				if (slide_master.oldAdc[i] != extenderPacket.adc[i])
+				if (slide_master.oldAdc[i] != filter[i].filterData)
 				{
 					if (MAL_NonStopDelay(&slide_master.t_txTime[i], 20) == 1)
 					{
 						MAL_LED_BackLight_Control(i, LED_CYAN);
-						slide_master.oldAdc[i] = extenderPacket.adc[i];
+						slide_master.oldAdc[i] = filter[i].filterData;
 						//canprotocol
 						app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
-								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, extenderPacket.adc[i]);
-						LCD_SetText_ADC_DEC(i, extenderPacket.adc[i]);
+								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, filter[i].filterData);
+						LCD_SetText_ADC_DEC(i, filter[i].filterData);
 
 						slide_master.t_motorPosi[i] = HAL_GetTick();
 					}
@@ -141,7 +146,7 @@ void slide_value_tx(void)
 				}
 			}
 
-			if (MAL_NonStopDelay(&slide_master.t_motorPosi[i], 25) == 1)
+			if (MAL_NonStopDelay(&slide_master.t_motorPosi[i], 50) == 1)
 								MAL_LED_BackLight_Control(i, LED_WHITE);
 
 #if 0
@@ -169,15 +174,15 @@ void slide_value_tx(void)
 				if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
 				{
 					MAL_LED_BackLight_Control(i, LED_CYAN);
-					if (slide_master.oldAdc[i] != extenderPacket.adc[i])
+					if (slide_master.oldAdc[i] != filter[i].filterData)
 					{
 						if (MAL_NonStopDelay(&slide_master.t_txTime[i], 20) == 1)
 						{
-							slide_master.oldAdc[i] = extenderPacket.adc[i];
+							slide_master.oldAdc[i] = filter[i].filterData;
 							//canprotocol
 							app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
-									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, extenderPacket.adc[i]);
-							LCD_SetText_ADC_DEC(i, extenderPacket.adc[i]);
+									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, filter[i].filterData);
+							LCD_SetText_ADC_DEC(i, filter[i].filterData);
 						}
 					}
 				}

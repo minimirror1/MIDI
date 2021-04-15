@@ -45,6 +45,9 @@
 #include "prtc_data_pid_midi.h"
 
 #include "communication_info.h"
+
+
+#include "filter_manager.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -203,6 +206,8 @@ int main(void) {
 
 	Panel_Init();
 
+	filter_init();
+
 	com_axle.list.cnt = 1;
 
 	welcome();
@@ -323,6 +328,7 @@ int main(void) {
 		MAL_X_TouchExtender_ADC_Process();
 		//=============================================
 
+		filter_manager();
 		Key_Manager();
 		Panel_Manager();
 		proc_can_rx();
