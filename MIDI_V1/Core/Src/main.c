@@ -48,6 +48,9 @@
 
 
 #include "filter_manager.h"
+
+#include "eeprom.h"
+#include "eeprom_manager.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -157,13 +160,14 @@ void MAL_CAN_FilterConfig(CAN_HandleTypeDef *hcan) {
 }
 /* USER CODE END 0 */
 
+
 /**
  * @brief  The application entry point.
  * @retval int
  */
 int main(void) {
 	/* USER CODE BEGIN 1 */
-	my_can_id = 1;
+
 	/* USER CODE END 1 */
 
 	/* MCU Configuration--------------------------------------------------------*/
@@ -190,6 +194,10 @@ int main(void) {
 	MX_TIM1_Init();
 	MX_CAN1_Init();
 	/* USER CODE BEGIN 2 */
+
+
+
+
 	can_init_data_save(&hcan1);
 	MAL_CAN_FilterConfig(&hcan1);
 	Key_Init();
@@ -208,9 +216,16 @@ int main(void) {
 
 	filter_init();
 
+
 	com_axle.list.cnt = 1;
 
+
+
+
+
 	welcome();
+
+	eeprom_init();
 
 	for (int k = 0; k < 8; k++)
 	{
