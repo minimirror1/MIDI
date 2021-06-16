@@ -41,14 +41,14 @@ void factory_setting(void)
 {
 	uint16_t f_factory = 0;
 
-	eeprom_read_16(FACTORY_SETTING_FLAG, &f_factory);
+	eeprom_read_16(VADDR_FACTORY_SETTING_FLAG, &f_factory);
 
 	if(f_factory != FACTORY_VAL)
 	{
-		eeprom_write_16(FACTORY_SETTING_FLAG, FACTORY_VAL);
+		eeprom_write_16(VADDR_FACTORY_SETTING_FLAG, FACTORY_VAL);
 
 		my_can_id = 1;
-		eeprom_write_8(SETTING_CAN_ID, my_can_id);
+		eeprom_write_8(VADDR_SETTING_CAN_ID, my_can_id);
 
 
 	}
@@ -72,7 +72,7 @@ void eeprom_init(void)
 
 	factory_setting();
 
-	eeprom_read_8(SETTING_CAN_ID, &my_can_id);
+	eeprom_read_8(VADDR_SETTING_CAN_ID, &my_can_id);
 
 
 

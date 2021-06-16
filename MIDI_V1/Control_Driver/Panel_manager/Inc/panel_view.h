@@ -18,4 +18,5 @@ void View_1_SettingPreview(void);
 void View_2_SettingMenu(void);
 void View_3_AxleChange(void);
 void View_4_PageChange(void);
+void View_5_DeviceSetting(void);
 #endif /* PANEL_MANAGER_INC_PANEL_VIEW_H_ */

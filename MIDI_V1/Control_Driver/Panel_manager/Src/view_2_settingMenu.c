@@ -106,6 +106,7 @@ void View_2_SettingMenu(void)
 				f_release = 0;
 				break;
 			case 7:
+				View_Changer(VIEW_5_DEVICE_SETTING);
 				f_toggle = 1;
 				f_release = 0;
 				break;

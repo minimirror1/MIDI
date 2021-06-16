@@ -127,7 +127,7 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 }
 
 //=============================================================================
-float filterMap[14] = {
+/*float filterMap[14] = {
 		1.0f,
 		0.95f,
 		0.9f,
@@ -142,6 +142,22 @@ float filterMap[14] = {
 		0.15f,
 		0.1f,
 		0.05f
+};*/
+float filterMap[14] = {
+		1.0f,
+		0.95f,
+		0.9f,
+		0.85f,
+		0.8f,
+		0.7f,
+		0.6f,
+		0.32f,
+		0.16,
+		0.08f,
+		0.04f,
+		0.02f,
+		0.01f,
+		0.005f
 };
 
 int16_t filterCnt[8] = {0,};
