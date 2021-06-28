@@ -193,7 +193,7 @@ void welcome_opening(void) {
 			}
 			if(f_sine[0] == 0)
 			{
-				Slide_control(0, 16 * welcome_wave[sine_cnt]);
+				Slide_control(0, welcome_wave[sine_cnt] << 8);
 			}
 
 			//LCD_SetText_DEC(0, 16 * welcome_wave[sine_cnt]);
@@ -208,7 +208,7 @@ void welcome_opening(void) {
 				Slide_control(1, 0);
 			}
 			if (f_sine[1] == 0) {
-				Slide_control(1, 16 * welcome_wave[sine_shift]);
+				Slide_control(1, welcome_wave[sine_shift] << 8);
 			}
 			//LCD_SetText_DEC(1, 16 * welcome_wave[sine_shift]);
 		} else {
@@ -222,7 +222,7 @@ void welcome_opening(void) {
 				Slide_control(2, 0);
 			}
 			if (f_sine[2] == 0) {
-				Slide_control(2, 16 * welcome_wave[sine_shift]);
+				Slide_control(2, welcome_wave[sine_shift] << 8);
 			}
 			//LCD_SetText_DEC(2, 16 * welcome_wave[sine_shift]);
 		} else {
@@ -236,7 +236,7 @@ void welcome_opening(void) {
 				Slide_control(3, 0);
 			}
 			if (f_sine[3] == 0) {
-				Slide_control(3, 16 * welcome_wave[sine_shift]);
+				Slide_control(3, welcome_wave[sine_shift] << 8);
 			}
 			//LCD_SetText_DEC(3, 16 * welcome_wave[sine_shift]);
 		} else {
@@ -250,7 +250,7 @@ void welcome_opening(void) {
 				Slide_control(4, 0);
 			}
 			if (f_sine[4] == 0) {
-				Slide_control(4, 16 * welcome_wave[sine_shift]);
+				Slide_control(4, welcome_wave[sine_shift] << 8);
 			}
 			//LCD_SetText_DEC(4, 16 * welcome_wave[sine_shift]);
 		} else {
@@ -264,7 +264,7 @@ void welcome_opening(void) {
 				Slide_control(5, 0);
 			}
 			if (f_sine[5] == 0) {
-				Slide_control(5, 16 * welcome_wave[sine_shift]);
+				Slide_control(5, welcome_wave[sine_shift] << 8);
 			}
 			//LCD_SetText_DEC(5, 16 * welcome_wave[sine_shift]);
 		} else {
@@ -278,7 +278,7 @@ void welcome_opening(void) {
 				Slide_control(6, 0);
 			}
 			if (f_sine[6] == 0) {
-				Slide_control(6, 16 * welcome_wave[sine_shift]);
+				Slide_control(6, welcome_wave[sine_shift] << 8);
 			}
 			//LCD_SetText_DEC(6, 16 * welcome_wave[sine_shift]);
 		} else {
@@ -292,7 +292,7 @@ void welcome_opening(void) {
 				Slide_control(7, 0);
 			}
 			if (f_sine[7] == 0) {
-				Slide_control(7, 16 * welcome_wave[sine_shift]);
+				Slide_control(7, welcome_wave[sine_shift] << 8);
 			}
 			//LCD_SetText_DEC(7, 16 * welcome_wave[sine_shift]);
 		} else {

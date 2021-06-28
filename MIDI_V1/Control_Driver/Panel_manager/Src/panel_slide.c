@@ -59,6 +59,7 @@ void slide_slot_clear(void)
 		slide_master.f_slotEnable[i] = RESET;
 		MAL_LED_Button_Control(i, 3, LED_OFF);
 		Slide_control(i, 0);
+		LCD_pixel_write_sizeA_p(i, ' ', 15);
 		LCD_pixel_write_sizeA_p(i, ' ', 16);
 		LCD_pixel_write_sizeA_p(i, 'O', 17);
 		LCD_pixel_write_sizeA_p(i, 'F', 18);
@@ -120,30 +121,40 @@ void slide_value_tx(void)
 
 			if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
 			{
-				if (slide_master.oldAdc[i] != filter[i].filterData)
-				{
-					if (MAL_NonStopDelay(&slide_master.t_txTime[i], 20) == 1)
-					{
-						MAL_LED_BackLight_Control(i, LED_CYAN);
-						slide_master.oldAdc[i] = filter[i].filterData;
-						//canprotocol
-						app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
-								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, filter[i].filterData);
-						LCD_SetText_ADC_DEC(i, filter[i].filterData);
-
-						slide_master.t_motorPosi[i] = HAL_GetTick();
-					}
-				}
-				else if (slide_master.f_motorPosi[i] == 1)
+				if (slide_master.f_motorPosi[i] == 1)
 				{
 					MAL_LED_BackLight_Control(i, LED_YELLOW);
 					slide_master.f_motorPosi[i] = 0;
+
+					//210616
+					extenderPacket.adc[i] = slide_master.motorPosi[i];
+					filter[i].filterData = slide_master.motorPosi[i];
+					filter[i].SmoothData = slide_master.motorPosi[i];
+					slide_master.oldAdc[i] = slide_master.motorPosi[i];
+
 					Slide_control(i, slide_master.motorPosi[i]);
 
 					LCD_SetText_ADC_DEC(i, slide_master.motorPosi[i]);
 					slide_master.t_txTime[i] = HAL_GetTick();
 					slide_master.t_motorPosi[i] = HAL_GetTick();
 				}
+				else if (slide_master.oldAdc[i] != filter[i].filterData)
+				{
+					if (MAL_NonStopDelay(&slide_master.t_txTime[i], 20) == 1)
+					{
+						//canprotocol
+						app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
+								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, filter[i].filterData);
+
+						MAL_LED_BackLight_Control(i, LED_CYAN);
+						slide_master.oldAdc[i] = filter[i].filterData;
+
+						LCD_SetText_ADC_DEC(i, filter[i].filterData);
+
+						slide_master.t_motorPosi[i] = HAL_GetTick();
+					}
+				}
+
 			}
 
 			if (MAL_NonStopDelay(&slide_master.t_motorPosi[i], 50) == 1)

@@ -59,7 +59,7 @@ uint32_t MAL_SysTimer_GetTickCount(void)
   */
 uint8_t MAL_NonStopDelay(uint32_t *saveMem, uint32_t Delay)
 {
-	if(MAL_SysTimer_Elapsed(*saveMem) > Delay)
+	if(MAL_SysTimer_Elapsed(*saveMem) >= Delay)
 	{
 		*saveMem = HAL_GetTick();
 		return 1;

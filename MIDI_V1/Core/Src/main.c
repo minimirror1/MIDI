@@ -168,6 +168,7 @@ void MAL_CAN_FilterConfig(CAN_HandleTypeDef *hcan) {
 int main(void) {
 	/* USER CODE BEGIN 1 */
 
+	uint32_t t_hw = 0;
 	/* USER CODE END 1 */
 
 	/* MCU Configuration--------------------------------------------------------*/
@@ -337,9 +338,13 @@ int main(void) {
 
 		/* USER CODE BEGIN 3 */
 		//=============================================
-		MAL_LED_Refresh();
-		MAL_HC595_MIDI_SendTrigger();
-		MAL_HC165_MIDI_ReadTrigger();
+		//if (MAL_NonStopDelay(&t_hw, 3) == 1)
+		//{
+
+			MAL_LED_Refresh();
+			MAL_HC595_MIDI_SendTrigger();
+			MAL_HC165_MIDI_ReadTrigger();
+		//}
 		MAL_X_TouchExtender_ADC_Process();
 		//=============================================
 

@@ -40,10 +40,15 @@ void Slide_control(uint8_t SlideNo, uint16_t vel)
 	uint8_t send_buff[10] = {0,};
 	uint8_t send_cnt = 0;
 
+	  vel = vel >> 4;
+
   uint16_t sum      = LEN_MOTOR_CONTROL + MCU_CMD_MOTOR + SlideNo + (vel & 0xFF) + ((vel >> 8) & 0xFF);
   uint8_t sumNo     = (uint8_t)(sum/CHECK_SUM_LEF) + 1;
   uint8_t check_sum = CHECK_SUM_LEF*sumNo - sum;
+
   if (check_sum >= 0x80)   check_sum = 0x00;
+
+
 
   send_buff[send_cnt++] = MCU_END;                  // cmd
   send_buff[send_cnt++] = CHECK_SUM_LEF;                  // cmd

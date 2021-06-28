@@ -71,7 +71,7 @@ void LCD_SetText_ADC_DEC(uint8_t lcdNum, uint32_t value) {
 
 	if (value < 10)
 	{
-
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 15);
 		LCD_pixel_write_sizeA_p(lcdNum, ' ', 16);
 		LCD_pixel_write_sizeA_p(lcdNum, ' ', 17);
 		LCD_pixel_write_sizeA_p(lcdNum, ' ', 18);
@@ -79,7 +79,7 @@ void LCD_SetText_ADC_DEC(uint8_t lcdNum, uint32_t value) {
 	}
 	else if (value < 100)
 	{
-
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 15);
 		LCD_pixel_write_sizeA_p(lcdNum, ' ', 16);
 		LCD_pixel_write_sizeA_p(lcdNum, ' ', 17);
 		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 18);
@@ -88,7 +88,7 @@ void LCD_SetText_ADC_DEC(uint8_t lcdNum, uint32_t value) {
 	}
 	else if (value < 1000)
 	{
-
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 15);
 		LCD_pixel_write_sizeA_p(lcdNum, ' ', 16);
 		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 17);
 		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 18);
@@ -97,7 +97,7 @@ void LCD_SetText_ADC_DEC(uint8_t lcdNum, uint32_t value) {
 	}
 	else if (value < 10000)
 	{
-
+		LCD_pixel_write_sizeA_p(lcdNum, ' ', 15);
 		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 16);
 		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 17);
 		LCD_pixel_write_sizeA_p(lcdNum, temp[2], 18);
@@ -106,7 +106,11 @@ void LCD_SetText_ADC_DEC(uint8_t lcdNum, uint32_t value) {
 	}
 	else if (value < 100000)
 	{
-
+		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 15);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 16);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[2], 17);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[3], 18);
+		LCD_pixel_write_sizeA_p(lcdNum, temp[4], 19);
 	}
 
 	//자리수이동

@@ -61,13 +61,19 @@ void filter_calc_p()
 void filter_manager(void)
 {
 	static uint32_t t_filter = 0;
+	static int k = 0;
 
-	if (MAL_NonStopDelay(&t_filter, 20) == 1)
+/*	if (MAL_NonStopDelay(&t_filter, 5) == 1)
 	{
 		for (int i = 0; i < 8; i++)
 		{
 			filter_calc(&filter[i].SmoothData, &filter[i].filterData, *filter[i].RawData, filter[i].LPF_Beta);
 		}
-	}
+	}*/
+
+	filter_calc(&filter[k].SmoothData, &filter[k].filterData, *filter[k].RawData, filter[k].LPF_Beta);
+	k++;
+	if(k > 8)
+		k = 0;
 
 }

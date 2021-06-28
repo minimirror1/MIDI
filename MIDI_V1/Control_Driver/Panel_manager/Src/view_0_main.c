@@ -76,6 +76,7 @@ void View_0_enable(void)
 						set_slide_slot_flag(i, 0);
 						MAL_LED_Button_Control(i, 3, LED_OFF);
 						Slide_control(i, 0);
+						LCD_pixel_write_sizeA_p(i, ' ', 15);
 						LCD_pixel_write_sizeA_p(i, ' ', 16);
 						LCD_pixel_write_sizeA_p(i, 'O', 17);
 						LCD_pixel_write_sizeA_p(i, 'F', 18);
@@ -144,7 +145,8 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 		0.05f
 };*/
 float filterMap[14] = {
-		1.0f,
+		//1.0f,
+		0.97f,
 		0.95f,
 		0.9f,
 		0.85f,
@@ -208,6 +210,8 @@ void View_0_Main(void)//일반 조종화면
 
 
 	}
+	slide_tx_manager();
+
 	View_0_filterValChange();
 	View_0_enable();
 
@@ -218,6 +222,8 @@ void View_0_Main(void)//일반 조종화면
 
 	panel_longKey();
 	Page_Display();
+
+	slide_tx_manager();
 
 }
 
