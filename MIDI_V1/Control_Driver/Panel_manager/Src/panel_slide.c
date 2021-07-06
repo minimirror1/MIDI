@@ -138,7 +138,16 @@ void slide_value_tx(void)
 				{
 					MAL_LED_BackLight_Control(i, LED_YELLOW);
 					slide_master.f_motorPosi[i] = 0;
-					Slide_control(i, slide_master.motorPosi[i]);
+					//Slide_control(i, slide_master.motorPosi[i]);
+					Slide_control(i,
+							map(
+							slide_master.motorPosi[i],
+							com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].min,
+							com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].max,
+							0,
+							com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].range
+							));
+
 
 					LCD_SetText_ADC_DEC(i, slide_master.motorPosi[i]);
 					slide_master.t_txTime[i] = HAL_GetTick();

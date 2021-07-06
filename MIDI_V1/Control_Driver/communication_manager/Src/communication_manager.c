@@ -30,6 +30,8 @@ extern uint8_t f_v0_first;
 
 Comm_Page_TypeDef com_page = { 0, };
 Comm_Axle_TypeDef com_axle = { 0, };
+
+extern Panel_Page_TypeDef page;
 //=============================================================================
 void app_rx_midi_sub_pid_exist_rqt(uint8_t num, prtc_header_t *pPh, uint8_t *pData) {
 	app_tx_midi_sub_pid_exist_rsp(0, 1, my_can_id, pPh->souce_id, 0);
@@ -82,12 +84,14 @@ void app_rx_midi_sub_pid_nick_name_l_ctl(uint8_t num, prtc_header_t *pPh, prtc_d
 	com_axle.axleInfo[pData->motor_num].axle_num = pData->motor_num;
 	memcpy(&com_axle.axleInfo[pData->motor_num].nick_name[6], &pData->nick_name[0], 4);
 }
+
 void app_rx_midi_sub_pid_range_data_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl_midi_range_data_t *pData) {
 	//prtc_data_ctl_midi_range_data_t
 
 
 	if (pData->set_page_num < AXLE_SET_PAGE)
 	{
+		com_axle.axleInfo[pData->motor_num].setPage[pData->set_page_num].range = pData->range;
 		com_axle.axleInfo[pData->motor_num].setPage[pData->set_page_num].max = pData->max;
 		com_axle.axleInfo[pData->motor_num].setPage[pData->set_page_num].min = pData->min;
 	}
@@ -139,6 +143,10 @@ void app_rx_midi_sub_pid_adc_ctl(uint8_t num, prtc_header_t *pPh,  prtc_data_ctl
 	if(slot_id != 0xFF)
 	{
 		slide_master.motorPosi[slot_id] = pData->adc_val;
+/*		slide_master.motorPosi[slot_id] = map(
+				pData->adc_val,
+				com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].min,
+				com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].max);*/
 		slide_master.f_motorPosi[slot_id] = 1;
 		slide_master.t_motorPosi[slot_id] = HAL_GetTick();
 	}
@@ -159,5 +167,6 @@ void app_rx_midi_sub_pid_adc_rsp(uint8_t num, prtc_header_t *pPh, prtc_data_rsp_
 	}
 }
 
+//-----------------------------------------------------------------------------
 
 //=============================================================================

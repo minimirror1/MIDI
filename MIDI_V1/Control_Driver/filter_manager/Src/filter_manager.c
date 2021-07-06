@@ -13,7 +13,13 @@
 
 #include "X_Touch_Extender_MotorAdc_packet.h"
 
+#include "communication_info.h"
+#include "panel_page.h"
+
 extern X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
+extern Comm_Axle_TypeDef com_axle;
+extern Comm_Page_TypeDef com_page;
+extern Panel_Page_TypeDef page;
 filter_TypeDef filter[8] = {0,};
 
 void filter_init(void)
@@ -33,7 +39,7 @@ int64_t map(int64_t x, int64_t in_min, int64_t in_max, int64_t out_min, int64_t 
 }
 
 
-void filter_calc(uint32_t *SmoothData, uint32_t *filterData, uint32_t RawData, float LPF_Beta)
+void filter_calc(int i, uint32_t *SmoothData, uint32_t *filterData, uint32_t RawData, float LPF_Beta)
 {
 	int32_t errorVal = *SmoothData - RawData;
 
@@ -44,10 +50,22 @@ void filter_calc(uint32_t *SmoothData, uint32_t *filterData, uint32_t RawData, f
 	//*filterData = *SmoothData;
 
 	//*filterData = map(*SmoothData, 0, 0x7FFFFFFF, TEST_OUT_MIN, TEST_OUT_MAX);
-	if(*SmoothData >= 0x3FFFFFFF)
+
+
+/*	if(*SmoothData >= 0x3FFFFFFF)
 		*SmoothData = 0x3FFFFFFF;
 
-	*filterData = map(*SmoothData, 0, 0x3FFFFFFF, TEST_OUT_MIN, TEST_OUT_MAX);
+	 *filterData = map(*SmoothData, 0, 0x3FFFFFFF, TEST_OUT_MIN, TEST_OUT_MAX);*/
+
+	if (*SmoothData >= com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].range << ADC_SHIFT)
+		*SmoothData = com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].range << ADC_SHIFT;
+
+	*filterData = map(
+			*SmoothData,
+			0,
+			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].range << ADC_SHIFT,
+			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].min,
+			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].max);
 
 
 /*	*SmoothData = *SmoothData - (LPF_Beta * (*SmoothData - RawData));
@@ -86,7 +104,7 @@ void filter_manager(void)
 	{
 		for (int i = 0; i < 8; i++)
 		{
-			filter_calc(&filter[i].SmoothData, &filter[i].filterData, *filter[i].RawData, filter[i].LPF_Beta);
+			filter_calc(i,&filter[i].SmoothData, &filter[i].filterData, *filter[i].RawData, filter[i].LPF_Beta);
 		}
 	}
 
