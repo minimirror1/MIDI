@@ -17,7 +17,7 @@ typedef struct{
 		uint8_t f_motorPosi[8];
 		uint16_t motorPosi[8];
 
-		uint16_t oldAdc[8];
+		uint32_t oldAdc[8];
 
 		uint32_t t_txTime[8];
 }Slide_TypeDef;

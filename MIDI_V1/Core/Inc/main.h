@@ -32,6 +32,13 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
+
+#define ADC_SHIFT 19
+
+#define TEST_OUT_MIN 4095
+#define TEST_OUT_MAX 0
+
 //MASTER CAN ID
 #define MASTER_CAN_ID 0
 

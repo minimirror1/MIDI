@@ -27,11 +27,31 @@ void filter_init(void)
 }
 
 
-void filter_calc(float *SmoothData, uint16_t *filterData, uint16_t RawData, float LPF_Beta)
+int64_t map(int64_t x, int64_t in_min, int64_t in_max, int64_t out_min, int64_t out_max)
 {
+	 return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
 
-	*SmoothData = *SmoothData - (LPF_Beta * (*SmoothData - RawData));
-	*filterData = round(*SmoothData);
+
+void filter_calc(uint32_t *SmoothData, uint32_t *filterData, uint32_t RawData, float LPF_Beta)
+{
+	int32_t errorVal = *SmoothData - RawData;
+
+	int32_t reflection = errorVal * LPF_Beta;
+
+	*SmoothData = *SmoothData - reflection;
+
+	//*filterData = *SmoothData;
+
+	//*filterData = map(*SmoothData, 0, 0x7FFFFFFF, TEST_OUT_MIN, TEST_OUT_MAX);
+	if(*SmoothData >= 0x3FFFFFFF)
+		*SmoothData = 0x3FFFFFFF;
+
+	*filterData = map(*SmoothData, 0, 0x3FFFFFFF, TEST_OUT_MIN, TEST_OUT_MAX);
+
+
+/*	*SmoothData = *SmoothData - (LPF_Beta * (*SmoothData - RawData));
+	*filterData = round(*SmoothData);*/
 }
 
 #ifdef FIXED_POINT
@@ -50,7 +70,7 @@ void filter_calc_p()
 	       SmoothDataFP = (SmoothDataFP<< Beta)-SmoothDataFP;
 	       SmoothDataFP += RawData;
 	       SmoothDataFP >>= Beta;
-	       // Don't do the following shift if you want to do further
+	       // Don't do the fllowing shift if you want to do further
 	       // calculations in fixed-point using SmoothData
 	       SmoothDataINT = SmoothDataFP>> FP_Shift;
 	    }

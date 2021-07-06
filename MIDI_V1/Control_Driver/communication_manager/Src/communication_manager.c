@@ -17,6 +17,8 @@
 #include "panel_page.h"
 #include "panel_slide.h"
 
+#include "filter_manager.h"
+
 extern uint8_t my_can_id;
 
 extern uint8_t f_change_Page;
@@ -49,18 +51,17 @@ uint8_t reg_flag(uint8_t axleNum) {
 
 
 //-------------------------------------------------------------------
-void app_rx_midi_sub_pid_nick_name_h_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData) {
-	prtc_data_ctl_midi_nick_name_h_t *data = (prtc_data_ctl_midi_nick_name_h_t*) pData;
+void app_rx_midi_sub_pid_nick_name_h_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl_midi_nick_name_h_t *pData) {
 
 	uint8_t f_newAxle = 1;
 
-	com_axle.axleInfo[data->motor_num].axle_num = data->motor_num;
-	memcpy(&com_axle.axleInfo[data->motor_num].nick_name[0], &data->nick_name[0], 6);
+	com_axle.axleInfo[pData->motor_num].axle_num = pData->motor_num;
+	memcpy(&com_axle.axleInfo[pData->motor_num].nick_name[0], &pData->nick_name[0], 6);
 
 	//	//add page data
 	for (int i = 0; i < com_axle.list.cnt; i++)
 	{
-		if (com_axle.list.pAxleInfo[i]->axle_num == data->motor_num)
+		if (com_axle.list.pAxleInfo[i]->axle_num == pData->motor_num)
 		{
 			f_newAxle = 0;
 		}
@@ -69,80 +70,75 @@ void app_rx_midi_sub_pid_nick_name_h_ctl(uint8_t num, prtc_header_t *pPh, uint8_
 	if(f_newAxle == 1)
 	{
 		//add axle data
-		com_axle.axleInfo[data->motor_num].listNum = com_axle.list.cnt;
-		com_axle.list.pAxleInfo[com_axle.list.cnt] = &com_axle.axleInfo[data->motor_num];
+		com_axle.axleInfo[pData->motor_num].listNum = com_axle.list.cnt;
+		com_axle.list.pAxleInfo[com_axle.list.cnt] = &com_axle.axleInfo[pData->motor_num];
 		com_axle.list.cnt++;
 	}
 
 
 }
-void app_rx_midi_sub_pid_nick_name_l_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData) {
-	prtc_data_ctl_midi_nick_name_l_t *data = (prtc_data_ctl_midi_nick_name_l_t*) pData;
+void app_rx_midi_sub_pid_nick_name_l_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl_midi_nick_name_l_t *pData) {
 
-	com_axle.axleInfo[data->motor_num].axle_num = data->motor_num;
-	memcpy(&com_axle.axleInfo[data->motor_num].nick_name[6], &data->nick_name[0], 4);
+	com_axle.axleInfo[pData->motor_num].axle_num = pData->motor_num;
+	memcpy(&com_axle.axleInfo[pData->motor_num].nick_name[6], &pData->nick_name[0], 4);
 }
-void app_rx_midi_sub_pid_range_data_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData) {
+void app_rx_midi_sub_pid_range_data_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl_midi_range_data_t *pData) {
 	//prtc_data_ctl_midi_range_data_t
-	prtc_data_ctl_midi_range_data_t *data = (prtc_data_ctl_midi_range_data_t*) pData;
 
-	if (data->set_page_num < AXLE_SET_PAGE)
+
+	if (pData->set_page_num < AXLE_SET_PAGE)
 	{
-		com_axle.axleInfo[data->motor_num].setPage[data->set_page_num].max = data->max;
-		com_axle.axleInfo[data->motor_num].setPage[data->set_page_num].min = data->min;
+		com_axle.axleInfo[pData->motor_num].setPage[pData->set_page_num].max = pData->max;
+		com_axle.axleInfo[pData->motor_num].setPage[pData->set_page_num].min = pData->min;
 	}
 }
 //-------------------------------------------------------------------
-void app_rx_midi_sub_pid_page_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData) {
-	prtc_data_ctl_midi_page_t *data = (prtc_data_ctl_midi_page_t*) pData;
+void app_rx_midi_sub_pid_page_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl_midi_page_t *pData) {
 
 	uint8_t f_newPage = 1;
 	//data->slot_num --;
-	if (data->slot_num < 8)
+	if (pData->slot_num < 8)
 	{
-		com_page.pageInfo[data->page].pageNum = data->page;
-		com_page.pageInfo[data->page].slot_axle[data->slot_num].axleNum = data->motor_num;
-		com_page.pageInfo[data->page].slot_axle[data->slot_num].setPageNum = data->set_page_num;
+		com_page.pageInfo[pData->page].pageNum = pData->page;
+		com_page.pageInfo[pData->page].slot_axle[pData->slot_num].axleNum = pData->motor_num;
+		com_page.pageInfo[pData->page].slot_axle[pData->slot_num].setPageNum = pData->set_page_num;
 
 		//	//add page data
 		for (int i = 0; i < com_page.list.cnt; i++)
 		{
-			if (com_page.list.pPageInfo[i]->pageNum == data->page)
+			if (com_page.list.pPageInfo[i]->pageNum == pData->page)
 			{
 				f_newPage = 0;
 			}
 		}
 		if (f_newPage == 1)
 		{
-			com_page.pageInfo[data->page].listNum = com_page.list.cnt;
-			com_page.list.pPageInfo[com_page.list.cnt] = &com_page.pageInfo[data->page];
+			com_page.pageInfo[pData->page].listNum = com_page.list.cnt;
+			com_page.list.pPageInfo[com_page.list.cnt] = &com_page.pageInfo[pData->page];
 			com_page.list.cnt++;
 		}
 	}
 }
 
 
-void app_rx_midi_sub_pid_last_page_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData)
+void app_rx_midi_sub_pid_last_page_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl_midi_last_page_t *pData)
 {
-	prtc_data_ctl_midi_last_page_t *data = (prtc_data_ctl_midi_last_page_t *)pData;
 
-	Set_Page(data->last_page);
+	Set_Page(pData->last_page);
 
 	f_v0_first = 1;//예외처리 : 녹화기 재부팅시 새로고침
 
 }
 
 //-------------------------------------------------------------------
-void app_rx_midi_sub_pid_adc_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData)
+void app_rx_midi_sub_pid_adc_ctl(uint8_t num, prtc_header_t *pPh,  prtc_data_ctl_midi_adc_t *pData)
 {
-	prtc_data_ctl_midi_adc_t *data = (prtc_data_ctl_midi_adc_t *)pData;
-
 	uint8_t slot_id = 0xFF;
-	slot_id = slide_id_check(data->id);
+	slot_id = slide_id_check(pData->id);
 
 	if(slot_id != 0xFF)
 	{
-		slide_master.motorPosi[slot_id] = data->adc_val;
+		slide_master.motorPosi[slot_id] = pData->adc_val;
 		slide_master.f_motorPosi[slot_id] = 1;
 		slide_master.t_motorPosi[slot_id] = HAL_GetTick();
 	}
@@ -150,16 +146,16 @@ void app_rx_midi_sub_pid_adc_ctl(uint8_t num, prtc_header_t *pPh, uint8_t *pData
 }
 
 extern void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi);
-void app_rx_midi_sub_pid_adc_rsp(uint8_t num, prtc_header_t *pPh, uint8_t *pData)
+void app_rx_midi_sub_pid_adc_rsp(uint8_t num, prtc_header_t *pPh, prtc_data_rsp_midi_adc_t *pData)
 {
-	prtc_data_ctl_midi_adc_t *data = (prtc_data_ctl_midi_adc_t *)pData;
 
 	uint8_t slot_id = 0xFF;
-	slot_id = slide_id_check(data->id);
+	slot_id = slide_id_check(pData->id);
 
 	if(slot_id != 0xFF)
 	{
-		View_0_enableRsp(slot_id, data->adc_val);
+		View_0_enableRsp(slot_id, pData->adc_val);
+		//View_0_enableRsp(slot_id,map(pData->adc_val,500,6000,0,4095));
 	}
 }
 

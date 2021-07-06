@@ -159,6 +159,9 @@ void MAL_CAN_FilterConfig(CAN_HandleTypeDef *hcan) {
 	}
 }
 /* USER CODE END 0 */
+uint32_t t_time1;
+uint32_t t_time2;
+uint32_t t_tot;
 
 
 /**
@@ -327,6 +330,8 @@ int main(void) {
 	 uint8_t aData[8] = {0,};
 	 uint32_t pTxMailbox;*/
 
+
+
 	/* USER CODE END 2 */
 
 	/* Infinite loop */
@@ -342,8 +347,11 @@ int main(void) {
 		MAL_HC165_MIDI_ReadTrigger();
 		MAL_X_TouchExtender_ADC_Process();
 		//=============================================
-
+		t_time1 = HAL_GetTick();
 		filter_manager();
+		t_time2 = HAL_GetTick();
+		t_tot = t_time2 - t_time1;
+
 		Key_Manager();
 		Panel_Manager();
 		proc_can_rx();

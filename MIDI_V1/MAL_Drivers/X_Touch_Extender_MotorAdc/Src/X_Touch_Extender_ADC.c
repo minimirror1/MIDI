@@ -77,7 +77,8 @@ void packet_Parser_ADC(uint8_t *data)
 	{
 		if(packet->slideNo < 8)
 		{
-			extenderPacket.adc[packet->slideNo] = packet->data;
+			//210706 0x00000FFF   <<20    0xFFF00000
+			extenderPacket.adc[packet->slideNo] = packet->data << ADC_SHIFT;
 		}
 	}
 }

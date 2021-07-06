@@ -26,7 +26,7 @@ typedef struct{
 
 	X_Touch_Extender_RxData_TypeDef rxHandle;
 
-	uint16_t adc[8];
+	uint32_t adc[8];
 	uint16_t touch[8];
 
 }X_Touch_Extender_Packet_HandleTypeDef;

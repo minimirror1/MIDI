@@ -116,13 +116,24 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 	set_slide_slot_flag(slot_id, 1);
 	MAL_LED_Button_Control(slot_id, 3, LED_ON);
 
-	extenderPacket.adc[slot_id] = set_posi;
+	uint32_t posiMap = map(set_posi,TEST_OUT_MIN,TEST_OUT_MAX,0,2048);
+	uint32_t posiTemp = posiMap << ADC_SHIFT;
+
+/*	extenderPacket.adc[slot_id] = set_posi;
 
 	filter[slot_id].filterData = set_posi;
 	filter[slot_id].SmoothData = set_posi;
 
 	Slide_control(slot_id, set_posi);
-	LCD_SetText_ADC_DEC(slot_id, set_posi);
+	LCD_SetText_ADC_DEC(slot_id, set_posi);*/
+
+	extenderPacket.adc[slot_id] = posiTemp;
+
+	filter[slot_id].filterData = posiTemp;
+	filter[slot_id].SmoothData = posiTemp;
+
+	Slide_control(slot_id, posiMap);
+	LCD_SetText_ADC_DEC(slot_id, map(posiTemp, 0, 0x3FFFFFFF, TEST_OUT_MIN, TEST_OUT_MAX));
 
 }
 
