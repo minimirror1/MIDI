@@ -23,7 +23,7 @@ typedef struct{
 
 
 typedef struct{
-	uint8_t set_page_num;
+	//uint8_t set_page_num;
 	uint16_t range;
 	uint16_t max;
 	uint16_t min;

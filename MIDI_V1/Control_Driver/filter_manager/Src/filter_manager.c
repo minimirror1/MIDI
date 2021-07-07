@@ -30,6 +30,13 @@ void filter_init(void)
 		filter[i].SmoothData = 0;
 		filter[i].RawData = &extenderPacket.adc[i];
 	}
+
+	for(int i = 0; i < MAX_AXLE_INFO;i++)
+	{
+		com_axle.axleInfo[i].setPage[0].max = 4095;
+		com_axle.axleInfo[i].setPage[0].min = 0;
+		com_axle.axleInfo[i].setPage[0].range = 4095;
+	}
 }
 
 
@@ -41,11 +48,11 @@ int64_t map(int64_t x, int64_t in_min, int64_t in_max, int64_t out_min, int64_t 
 
 void filter_calc(int i, uint32_t *SmoothData, uint32_t *filterData, uint32_t RawData, float LPF_Beta)
 {
-	int32_t errorVal = *SmoothData - RawData;
+/*	int32_t errorVal = *SmoothData - RawData;
 
 	int32_t reflection = errorVal * LPF_Beta;
 
-	*SmoothData = *SmoothData - reflection;
+	*SmoothData = *SmoothData - reflection;*/
 
 	//*filterData = *SmoothData;
 
@@ -57,8 +64,20 @@ void filter_calc(int i, uint32_t *SmoothData, uint32_t *filterData, uint32_t Raw
 
 	 *filterData = map(*SmoothData, 0, 0x3FFFFFFF, TEST_OUT_MIN, TEST_OUT_MAX);*/
 
+	if (RawData >= com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].range << ADC_SHIFT)
+		RawData = com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].range << ADC_SHIFT;
+
+
+	int32_t errorVal = *SmoothData - RawData;
+
+	int32_t reflection = errorVal * LPF_Beta;
+
+	*SmoothData = *SmoothData - reflection;
+
 	if (*SmoothData >= com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].range << ADC_SHIFT)
 		*SmoothData = com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].setPage[0].range << ADC_SHIFT;
+
+
 
 	*filterData = map(
 			*SmoothData,
