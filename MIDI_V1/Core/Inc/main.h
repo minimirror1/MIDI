@@ -33,6 +33,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#define FW_VER_STR "0.0.1v"
 
 #define ADC_SHIFT 19
 

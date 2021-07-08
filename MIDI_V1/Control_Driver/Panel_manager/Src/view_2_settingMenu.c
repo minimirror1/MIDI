@@ -60,6 +60,9 @@ void View_2_SettingMenu(void)
 		LCD_Write_String(1, 1, "Page", sizeof("Page"));
 		LCD_Write_String(1, 2, "Change", sizeof("Change"));
 
+		LCD_Write_String(2, 1, "Slide", sizeof("Slide"));
+		LCD_Write_String(2, 2, "Setting", sizeof("Setting"));
+
 		LCD_Write_String(7, 1, "Device", sizeof("Device"));
 		LCD_Write_String(7, 2, "Setting", sizeof("Setting"));
 
@@ -86,6 +89,7 @@ void View_2_SettingMenu(void)
 				f_release = 0;
 				break;
 			case 2:
+				View_Changer(VIEW_6_SLIDE_SETTING);
 				f_toggle = 1;
 				f_release = 0;
 				break;
@@ -123,12 +127,14 @@ void View_2_SettingMenu(void)
 		{
 			MAL_LED_Wheel_Control(0, 13);
 			MAL_LED_Wheel_Control(1, 13);
+			MAL_LED_Wheel_Control(2, 13);
 			MAL_LED_Wheel_Control(7, 13);
 		}
 		else
 		{
 			MAL_LED_Wheel_Control(0, 0);
 			MAL_LED_Wheel_Control(1, 0);
+			MAL_LED_Wheel_Control(2, 0);
 			MAL_LED_Wheel_Control(7, 0);
 		}
 

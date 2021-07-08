@@ -89,6 +89,9 @@ void View_Selector(void) {
 				case VIEW_5_DEVICE_SETTING:
 					panel.view.viewFnc = View_5_DeviceSetting;
 					break;
+				case VIEW_6_SLIDE_SETTING:
+					panel.view.viewFnc = View_6_SlideSetting;
+					break;
 				case VIEW_LAST_NUM:
 					panel.view.viewFnc = View_0_Main;
 					break;

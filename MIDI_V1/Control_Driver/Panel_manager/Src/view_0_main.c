@@ -54,6 +54,7 @@ extern uint8_t my_can_id;
 
 extern filter_TypeDef filter[8];
 
+extern Slide_TypeDef slide_master;
 
 uint8_t f_v0_first = 1;
 
@@ -140,6 +141,8 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 
 	filter[slot_id].filterData = posiTemp;
 	filter[slot_id].SmoothData = posiTemp;
+
+	slide_master.oldAdc[slot_id] = posiTemp;
 
 	Slide_control(slot_id, posiMap);
 	LCD_SetText_ADC_DEC(slot_id, map(

@@ -153,7 +153,8 @@ void View_5_DeviceSetting(void) {
 		LCD_Write_String(CAN_ID_SLOT_NUM, 1, "MY ID", sizeof("MY ID"));
 		LCD_SetText_ADC_DEC(CAN_ID_SLOT_NUM, tempCanid);
 
-
+		LCD_Write_String(0, 1, "FW_VER", sizeof("FW_VER"));
+		LCD_Write_String(0, 2, FW_VER_STR, sizeof(FW_VER_STR));
 
 	}
 
