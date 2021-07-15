@@ -33,7 +33,9 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-#define FW_VER_STR "0.0.1v"
+//#define FW_VER_STR "0.0.1v"	//초기버전
+//#define FW_VER_STR "0.0.2v"	//필터 감도 변경
+#define FW_VER_STR "0.0.3v"	//버전표시, 슬라이드 범위, 슬라이드 맵핑
 
 #define ADC_SHIFT 19
 
