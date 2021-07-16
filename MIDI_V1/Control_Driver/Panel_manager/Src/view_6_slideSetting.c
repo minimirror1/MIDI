@@ -58,6 +58,13 @@ extern HC165_wheel_TypeDef wheel[8];
 extern X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
 
 extern HC165_btn_TypeDef btn[8];
+
+extern filter_TypeDef filter[8];
+
+extern Slide_TypeDef slide_master;
+
+
+uint8_t f_v6_enableToggle[8] = {0,};
 //-----------------------------------------------------------------------------
 
 uint8_t f_v6_first = 1;
@@ -102,6 +109,7 @@ void View_6_SettingMsg(uint8_t slot, uint8_t rangeAxle, uint8_t msgNum)
 			LCD_Write_String(slot, 1, "Range", sizeof("Range"));
 			break;
 		case V_6_APPLY:
+
 			LCD_Write_String(slot, 1, "Apply", sizeof("Apply"));
 			break;
 	}
@@ -119,14 +127,17 @@ void Changea_Setting(uint8_t *rangeAxle, uint8_t *rotCnt) {
 				{
 					rotCnt[i]++;
 					if (rotCnt[i] > V_6_APPLY)
-						rotCnt[i] = V_6_NOW;
+					{
+						//rotCnt[i] = V_6_NOW;
+						rotCnt[i] = V_6_APPLY;
+					}
 
 				}
 				else if (wheel[i].status.f_rot == ROT_CCW)
 				{
 					rotCnt[i]--;
 					if (rotCnt[i] == 0xFF)
-						rotCnt[i] = V_6_APPLY;
+						rotCnt[i] = V_6_NOW;
 				}
 				wheel[i].status.f_rot = ROT_CLEAR;
 
@@ -150,6 +161,10 @@ void View_6_ChangeVal(void)
 			if(f_v6_rotChage[i] == SET)
 			{
 				f_v6_rotChage[i] = RESET;
+
+				slide_master.f_slotEnable[i] = RESET;
+				MAL_LED_Button_Control(i, 3, LED_OFF);
+				f_v6_enableToggle[i] = 0;
 
 				switch(rotCnt[i])
 				{
@@ -180,11 +195,10 @@ void View_6_ChangeVal(void)
 			}
 		}
 
-		if(rotCnt[i] >= V_6_MAP_MIN)
+		if (rotCnt[i] >= V_6_MAP_MIN)
 		{
 
-
-			switch(rotCnt[i])
+			switch (rotCnt[i])
 			{
 				case V_6_NOW:
 					break;
@@ -204,6 +218,7 @@ void View_6_ChangeVal(void)
 					break;
 			}
 		}
+
 	}
 }
 
@@ -280,6 +295,86 @@ void SlideApplyManager(void) {
 
 	}
 }
+
+void View_6_enableRsp(uint8_t slot_id, uint16_t set_posi)
+{
+	if(slot_id > 8)
+		return;
+
+	set_slide_slot_flag(slot_id, 1);
+	MAL_LED_Button_Control(slot_id, 3, LED_ON);
+
+	uint32_t posiMap = set_posi;
+
+	uint32_t posiTemp = posiMap << ADC_SHIFT;
+
+/*	extenderPacket.adc[slot_id] = set_posi;
+
+	filter[slot_id].filterData = set_posi;
+	filter[slot_id].SmoothData = set_posi;
+
+	Slide_control(slot_id, set_posi);
+	LCD_SetText_ADC_DEC(slot_id, set_posi);*/
+
+	extenderPacket.adc[slot_id] = posiTemp;
+
+	filter[slot_id].filterData = posiTemp;
+	filter[slot_id].SmoothData = posiTemp;
+
+	slide_master.oldAdc[slot_id] = posiTemp;
+
+	Slide_control(slot_id, posiMap);
+	LCD_SetText_ADC_DEC(slot_id, posiMap);
+
+}
+void View_6_enable(void)
+{
+	for(int i = 0; i < 8; i++)
+	{
+		if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
+		{
+			switch(rotCnt[i])
+			{
+				case V_6_MAP_MIN:
+				case V_6_MAP_MAX:
+					//if (btn[i].status[3].btn == 1)
+					if (wheel[i].status.btn == 1)
+					{
+						if (f_v6_enableToggle[i] == 0)
+						{
+							f_v6_enableToggle[i] = 1;
+
+							if (get_slide_slot_flag(i) == 1)
+							{
+								set_slide_slot_flag(i, 0);
+								MAL_LED_Button_Control(i, 3, LED_OFF);
+							}
+							else if (get_slide_slot_flag(i) == 0)
+							{
+								/*						set_slide_slot_flag(i, 1);
+								 MAL_LED_Button_Control(i, 3, LED_ON);*/
+								//상위에 모터위치를 요청하고  응답받으면 활성화 한다.
+								app_tx_midi_sub_pid_adc_rqt(0, 1, my_can_id, 0, 31, com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num);
+							}
+						}
+					}
+					else
+					{
+						if (f_v6_enableToggle[i] == 1)
+						{
+							f_v6_enableToggle[i] = 0;
+						}
+					}
+					break;
+				case V_6_NOW:
+				case V_6_RANGE:
+				case V_6_APPLY:
+					break;
+			}
+		}
+	}
+}
+
 void View_6_Init(void)
 {
 	for(int i = 0; i < 8 ; i++)
@@ -309,17 +404,30 @@ void View_6_SlideSetting(void)
 		for(int i = 0; i < 8 ; i++)
 		{
 			View_6_SettingMsg(i, rangeAxle[i], rotCnt[i]);
+
+			set_slide_slot_flag(i, RESET);
+			f_v6_enableToggle[i] = 0;
 		}
 
 	}
 	Changea_Setting(rangeAxle, rotCnt);
 	View_6_ChangeVal();
+	View_6_enable();
 
 	SlideApplyManager();
 
+	slide_tx_manager();
+
 	if (MAL_NonStopDelay(&t_SetLed, 500) == 1)
 	{
-		MAL_LED_Button_Control(7, LED_SELECT, toggleLed);
+		if (get_slide_slot_flag(7) == 1)
+		{
+			MAL_LED_Button_Control(7, LED_SELECT, LED_ON);
+		}
+		else
+		{
+			MAL_LED_Button_Control(7, LED_SELECT, toggleLed);
+		}
 		MAL_LED_Button_Control(7, LED_MUTE, toggleLed);
 		toggleLed ^= 1;
 	}

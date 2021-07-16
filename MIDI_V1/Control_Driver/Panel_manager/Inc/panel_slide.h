@@ -19,6 +19,8 @@ typedef struct{
 
 		uint32_t oldAdc[8];
 
+		uint32_t oldAdc_v6[8];
+
 		uint32_t t_txTime[8];
 }Slide_TypeDef;
 

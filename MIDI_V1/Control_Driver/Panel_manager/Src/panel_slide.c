@@ -103,7 +103,7 @@ uint8_t slide_id_check(uint8_t motor_id)
 	return 0xff;
 }
 
-void slide_value_tx(void)
+void slide_v0_value_tx(void)
 {
 	//슬라이드에서 손땠을때 위치는?? 어떻게 처리하는가
 	for(int i = 0; i < 8; i++)
@@ -200,6 +200,97 @@ void slide_value_tx(void)
 		}
 	}
 }
+void slide_v6_value_tx(void)
+{
+	//슬라이드에서 손땠을때 위치는?? 어떻게 처리하는가
+	for(int i = 0; i < 8; i++)
+	{
+
+		if(slide_master.f_slotEnable[i] == RESET)// enable 일때만 동작함
+		{
+			MAL_LED_BackLight_Control(i, LED_WHITE);
+
+		}
+		else
+		{
+
+
+			if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
+			{
+				if (slide_master.oldAdc_v6[i] != extenderPacket.adc[i] >> ADC_SHIFT)
+				{
+					if (MAL_NonStopDelay(&slide_master.t_txTime[i], 20) == 1)
+					{
+						MAL_LED_BackLight_Control(i, LED_CYAN);
+						slide_master.oldAdc_v6[i] = extenderPacket.adc[i] >> ADC_SHIFT;
+						//canprotocol
+						app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
+								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, slide_master.oldAdc_v6[i]);
+						LCD_SetText_ADC_DEC(i, slide_master.oldAdc_v6[i]);
+
+						slide_master.t_motorPosi[i] = HAL_GetTick();
+					}
+				}
+				else if (slide_master.f_motorPosi[i] == 1)
+				{
+					MAL_LED_BackLight_Control(i, LED_YELLOW);
+					slide_master.f_motorPosi[i] = 0;
+					//Slide_control(i, slide_master.motorPosi[i]);
+					Slide_control(i,slide_master.motorPosi[i]);// 맵핑전 슬라이드위치로
+
+
+					LCD_SetText_ADC_DEC(i, slide_master.motorPosi[i]);
+					slide_master.t_txTime[i] = HAL_GetTick();
+					slide_master.t_motorPosi[i] = HAL_GetTick();
+				}
+
+			}
+
+			if (MAL_NonStopDelay(&slide_master.t_motorPosi[i], 50) == 1)
+								MAL_LED_BackLight_Control(i, LED_WHITE);
+
+#if 0
+			if (extenderPacket.touch[i] == 0x00)
+			{
+
+				if (slide_master.f_motorPosi[i] == 1)
+				{
+					MAL_LED_BackLight_Control(i, LED_YELLOW);
+					slide_master.f_motorPosi[i] = 0;
+					Slide_control(i, slide_master.motorPosi[i]);
+
+					LCD_SetText_ADC_DEC(i, slide_master.motorPosi[i]);
+				}
+				else
+				{
+					if (MAL_NonStopDelay(&slide_master.t_motorPosi[i], 25) == 1)
+						MAL_LED_BackLight_Control(i, LED_WHITE);
+				}
+
+				slide_master.t_txTime[i] = HAL_GetTick();
+			}
+			else
+			{
+				if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
+				{
+					MAL_LED_BackLight_Control(i, LED_CYAN);
+					if (slide_master.oldAdc[i] != filter[i].filterData)
+					{
+						if (MAL_NonStopDelay(&slide_master.t_txTime[i], 20) == 1)
+						{
+							slide_master.oldAdc[i] = filter[i].filterData;
+							//canprotocol
+							app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
+									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, filter[i].filterData);
+							LCD_SetText_ADC_DEC(i, filter[i].filterData);
+						}
+					}
+				}
+			}
+#endif
+		}
+	}
+}
 
 void slide_tx_manager(void)
 {
@@ -207,7 +298,10 @@ void slide_tx_manager(void)
 	switch(panel.view.nowView)
 	{
 		case VIEW_0_MAIN:
-			slide_value_tx();
+			slide_v0_value_tx();
+			break;
+		case VIEW_6_SLIDE_SETTING:
+			slide_v6_value_tx();
 			break;
 			//=====================================
 		case VIEW_1_SETTING_PREVIEW:

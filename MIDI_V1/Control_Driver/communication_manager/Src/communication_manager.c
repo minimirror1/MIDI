@@ -16,6 +16,7 @@
 
 #include "panel_page.h"
 #include "panel_slide.h"
+#include "panel_manager.h"
 
 #include "filter_manager.h"
 
@@ -27,6 +28,8 @@ extern uint8_t change_Page;
 extern Slide_TypeDef slide_master;
 
 extern uint8_t f_v0_first;
+
+extern PanelManager_TypeDef panel;
 
 Comm_Page_TypeDef com_page = { 0, };
 Comm_Axle_TypeDef com_axle = { 0, };
@@ -154,6 +157,7 @@ void app_rx_midi_sub_pid_adc_ctl(uint8_t num, prtc_header_t *pPh,  prtc_data_ctl
 }
 
 extern void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi);
+extern void View_6_enableRsp(uint8_t slot_id, uint16_t set_posi);
 void app_rx_midi_sub_pid_adc_rsp(uint8_t num, prtc_header_t *pPh, prtc_data_rsp_midi_adc_t *pData)
 {
 
@@ -162,7 +166,15 @@ void app_rx_midi_sub_pid_adc_rsp(uint8_t num, prtc_header_t *pPh, prtc_data_rsp_
 
 	if(slot_id != 0xFF)
 	{
-		View_0_enableRsp(slot_id, pData->adc_val);
+		switch(panel.view.nowView)
+		{
+			case VIEW_0_MAIN:
+				View_0_enableRsp(slot_id, pData->adc_val);
+				break;
+			case VIEW_6_SLIDE_SETTING:
+				View_6_enableRsp(slot_id, pData->adc_val);
+				break;
+		}
 		//View_0_enableRsp(slot_id,map(pData->adc_val,500,6000,0,4095));
 	}
 }

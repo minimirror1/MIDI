@@ -58,7 +58,7 @@ extern Slide_TypeDef slide_master;
 
 uint8_t f_v0_first = 1;
 
-uint8_t f_enableToggle[8] = {0,};
+uint8_t f_v0_enableToggle[8] = {0,};
 
 void View_0_enable(void)
 {
@@ -68,9 +68,9 @@ void View_0_enable(void)
 		{
 			if (btn[i].status[3].btn == 1)
 			{
-				if (f_enableToggle[i] == 0)
+				if (f_v0_enableToggle[i] == 0)
 				{
-					f_enableToggle[i] = 1;
+					f_v0_enableToggle[i] = 1;
 
 					if (get_slide_slot_flag(i) == 1)
 					{
@@ -100,9 +100,9 @@ void View_0_enable(void)
 			}
 			else
 			{
-				if (f_enableToggle[i] == 1)
+				if (f_v0_enableToggle[i] == 1)
 				{
-					f_enableToggle[i] = 0;
+					f_v0_enableToggle[i] = 0;
 				}
 			}
 		}
@@ -126,6 +126,7 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].max,
 			0,
 			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].range);
+
 
 	uint32_t posiTemp = posiMap << ADC_SHIFT;
 
@@ -230,6 +231,9 @@ void View_0_Main(void)//일반 조종화면
 			filterCnt[k] = 0;
 			filter[k].LPF_Beta = filterMap[filterCnt[k]];
 			MAL_LED_Wheel_Control(k,filterCnt[k]);
+
+			slide_master.f_slotEnable[k] = RESET;
+			f_v0_enableToggle[k] = 0;
 		}
 
 		slide_slot_clear();
