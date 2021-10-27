@@ -36,8 +36,10 @@ extern "C" {
 //#define FW_VER_STR "0.0.1v"	//초기버전
 //#define FW_VER_STR "0.0.2v"	//필터 감도 변경
 //#define FW_VER_STR "0.0.3v"	//버전표시, 슬라이드 범위, 슬라이드 맵핑
-#define FW_VER_STR "0.0.4v"	//장치설정 아이디 슬롯 8->2 로 변경, 범위설정시 휠 버튼으로 모터 위치 동기화
-//#define FW_VER_STR "0.0.5v" //todo : CAN 아이디 별 데이터 구분, 필터 활성,비활성, //링크 활성 비활성
+//#define FW_VER_STR "0.0.4v"	//장치설정 아이디 슬롯 8->2 로 변경, 범위설정시 휠 버튼으로 모터 위치 동기화
+//#define FW_VER_STR "0.0.5v"		//4094 슬라이드 미동작 수정
+#define FW_VER_STR "0.0.6v" 	//todo : 활성시 2씩 감소하는 현상 수정. 활성후 첫 슬라이드 위치가 받은 위치에서 +/- 200일때 통신 시작.
+//#define FW_VER_STR "0.0.7v" //todo : CAN 아이디 별 데이터 구분, 필터 활성,비활성, //링크 활성 비활성
 
 #define ADC_SHIFT 19
 

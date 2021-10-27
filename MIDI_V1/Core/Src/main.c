@@ -321,8 +321,8 @@ int main(void) {
 
 	uint32_t t_wheel = 0;
 #endif
-/*	uint32_t t_testss;
-	uint32_t t_testss1;*/
+//	uint32_t t_testss;
+//	uint32_t t_testss1;
 	/*
 
 
@@ -357,15 +357,23 @@ int main(void) {
 		proc_can_rx();
 		proc_can_tx();
 
-/*		if (MAL_NonStopDelay(&t_testss, 2000) == 1)
-		{
-			Slide_control(3, 3000);
-		}
-
-		if (MAL_NonStopDelay(&t_testss1, 7000) == 1)
-		{
-			Slide_control(3, 1000);
-		}*/
+//		if (MAL_NonStopDelay(&t_testss, 2000) == 1)
+//		{
+//			Slide_control(1, 4094);
+//			Slide_control(2, 4094);
+//			Slide_control(3, 4094);
+//			Slide_control(4, 4094);
+//			Slide_control(5, 4094);
+//		}
+//
+//		if (MAL_NonStopDelay(&t_testss1, 7000) == 1)
+//		{
+//			Slide_control(1, 0);
+//			Slide_control(2, 0);
+//			Slide_control(3, 0);
+//			Slide_control(4, 0);
+//			Slide_control(5, 0);
+//		}
 #if 0
 
 		/*	  LCD_SetText_DEC(0,val);

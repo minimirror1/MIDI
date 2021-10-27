@@ -145,6 +145,10 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 
 	slide_master.oldAdc[slot_id] = posiTemp;
 
+	//0.0.6v
+	slide_master.enablePosi[slot_id] = posiMap;
+	slide_master.f_enablePosi[slot_id] = SET;
+
 	Slide_control(slot_id, posiMap);
 	LCD_SetText_ADC_DEC(slot_id, map(
 			posiTemp,

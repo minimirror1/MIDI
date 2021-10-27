@@ -54,7 +54,7 @@ typedef struct{
 typedef struct{
 
 	PanelView_TypeDef view;
-	Panel_Interface	interface[8];
+	//Panel_Interface	interface[8];
 
 }PanelManager_TypeDef;
 

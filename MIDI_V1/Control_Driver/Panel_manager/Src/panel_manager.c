@@ -39,7 +39,7 @@ PanelManager_TypeDef panel = {0,};
 
 void Panel_Init(void)
 {
-	uint8_t column = 0;
+	//uint8_t column = 0;
 
 	panel.view.nowView = VIEW_0_MAIN;
 	panel.view.lastView = VIEW_0_MAIN;
@@ -47,7 +47,7 @@ void Panel_Init(void)
 
 
 
-	for (column = 0; column < 8; column++) {
+/*	for (column = 0; column < 8; column++) {
 
 		panel.interface[column].in.btn[0] = &btn[column].status[0].btn;
 		panel.interface[column].in.btn[1] = &btn[column].status[1].btn;
@@ -68,7 +68,7 @@ void Panel_Init(void)
 
 		panel.interface[column].out.barGauge = &led_group[column].barGauge.value;
 		panel.interface[column].out.wheelGauge = &led_group[column].wheelGauge.value;
-	}
+	}*/
 }
 
 

@@ -37,25 +37,32 @@ const uint8_t LEN_TOUCH         = 0x03;
 
 void Slide_control(uint8_t SlideNo, uint16_t vel)
 {
-	uint8_t send_buff[10] = {0,};
+	uint8_t send_buff[10] = { 0, };
 	uint8_t send_cnt = 0;
 
-  uint16_t sum      = LEN_MOTOR_CONTROL + MCU_CMD_MOTOR + SlideNo + (vel & 0xFF) + ((vel >> 8) & 0xFF);
-  uint8_t sumNo     = (uint8_t)(sum/CHECK_SUM_LEF) + 1;
-  uint8_t check_sum = CHECK_SUM_LEF*sumNo - sum;
-  if (check_sum >= 0x80)   check_sum = 0x00;
+	//4094 제어안됨.
+	if(vel == 4094)
+		vel = 4095;
 
-  send_buff[send_cnt++] = MCU_END;                  // cmd
-  send_buff[send_cnt++] = CHECK_SUM_LEF;                  // cmd
-  send_buff[send_cnt++] = MCU_CMD_MOTOR;                  // cmd
-  send_buff[send_cnt++] = SlideNo;                        // slide No
-  send_buff[send_cnt++] = vel & 0xFF;                     // data Low
-  send_buff[send_cnt++] = (vel >> 8) & 0xFF;              // data High
-  send_buff[send_cnt++] = MCU_END;                        // end : 0xFE
-  send_buff[send_cnt++] = check_sum;                      // chek sum
+	uint8_t val_low = vel & 0xFF;
+	uint8_t val_high = (vel >> 8) & 0xFF;
 
+	uint16_t sum = LEN_MOTOR_CONTROL + MCU_CMD_MOTOR + SlideNo + val_low + val_high;
+	uint8_t sumNo = (uint8_t) (sum / CHECK_SUM_LEF) + 1;
+	uint8_t check_sum = CHECK_SUM_LEF * sumNo - sum;
+	if (check_sum >= 0x80)
+		check_sum = 0x00;
 
-  MAL_UART_SendDataStream(extenderPacket.muart, send_buff, 8);
+	send_buff[send_cnt++] = MCU_END;                  // cmd
+	send_buff[send_cnt++] = CHECK_SUM_LEF;                  // cmd
+	send_buff[send_cnt++] = MCU_CMD_MOTOR;                  // cmd
+	send_buff[send_cnt++] = SlideNo;                        // slide No
+	send_buff[send_cnt++] = val_low;                     // data Low
+	send_buff[send_cnt++] = val_high;              // data High
+	send_buff[send_cnt++] = MCU_END;                        // end : 0xFE
+	send_buff[send_cnt++] = check_sum;                      // chek sum
+
+	MAL_UART_SendDataStream(extenderPacket.muart, send_buff, 8);
 }
 
 uint16_t test_cnt(void)

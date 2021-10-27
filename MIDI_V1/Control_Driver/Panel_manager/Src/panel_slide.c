@@ -52,6 +52,8 @@ extern filter_TypeDef filter[8];
 
 Slide_TypeDef slide_master = {0,};
 
+#define ENABLE_GAP		200
+
 void slide_slot_clear(void)
 {
 	for(int i = 0; i < 8; i++)
@@ -124,12 +126,28 @@ void slide_v0_value_tx(void)
 				{
 					if (MAL_NonStopDelay(&slide_master.t_txTime[i], 20) == 1)
 					{
-						MAL_LED_BackLight_Control(i, LED_CYAN);
-						slide_master.oldAdc[i] = filter[i].filterData;
-						//canprotocol
-						app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
-								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, filter[i].filterData);
-						LCD_SetText_ADC_DEC(i, filter[i].filterData);
+						//0.0.6v
+						if(slide_master.f_enablePosi[i] == SET)
+						{
+							int32_t range = filter[i].filterData;
+							slide_master.oldAdc[i] = filter[i].filterData;
+
+							if(((slide_master.enablePosi[i]-ENABLE_GAP) <= range)&&(range <= (slide_master.enablePosi[i]+ENABLE_GAP)))
+							{
+								slide_master.f_enablePosi[i] = RESET;
+							}
+						}
+
+						if(slide_master.f_enablePosi[i] == RESET)
+						{
+
+							MAL_LED_BackLight_Control(i, LED_CYAN);
+							slide_master.oldAdc[i] = filter[i].filterData;
+							//canprotocol
+							app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
+									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, filter[i].filterData);
+							LCD_SetText_ADC_DEC(i, filter[i].filterData);
+						}
 
 						slide_master.t_motorPosi[i] = HAL_GetTick();
 					}
