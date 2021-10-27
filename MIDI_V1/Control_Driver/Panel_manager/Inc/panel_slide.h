@@ -24,6 +24,9 @@ typedef struct{
 		//0.0.6v 활성 후 최초값이 모터위치 범위 내에 있을때 활성됨.
 		uint8_t f_enablePosi[8];
 		int32_t enablePosi[8];
+		//0.0.7v 범위 변환값이 모터위치를 벗어날경우 경고
+		uint8_t f_reMapOverPosi[8];
+		//int32_t testPosi[8];
 
 		uint32_t t_txTime[8];
 }Slide_TypeDef;

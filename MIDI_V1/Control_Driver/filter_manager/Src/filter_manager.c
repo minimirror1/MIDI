@@ -42,6 +42,20 @@ void filter_init(void)
 
 int64_t map(int64_t x, int64_t in_min, int64_t in_max, int64_t out_min, int64_t out_max)
 {
+//	if(in_min <= in_max)
+//	{
+//		if((x < in_min)||( in_max < x))
+//		{
+//			x = (in_min+in_max) /2;
+//		}
+//	}
+//	else
+//	{
+//		if((x < in_max)||( in_min < x))
+//		{
+//			x = (in_min+in_max) /2;
+//		}
+//	}
 	int64_t temp = (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 //	if(temp > 0)
 //		temp--;

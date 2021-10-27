@@ -114,6 +114,25 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 	if(slot_id > 8)
 		return;
 
+	//0.0.7v
+	if(com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].min <= com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].max)
+	{
+		if((set_posi < com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].min)||( com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].max < set_posi))
+		{
+			slide_master.f_reMapOverPosi[slot_id] = SET;
+			return;
+		}
+	}
+	else
+	{
+		if((set_posi < com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].max)||( com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].min < set_posi))
+		{
+			slide_master.f_reMapOverPosi[slot_id] = SET;
+			return;
+		}
+	}
+	slide_master.f_reMapOverPosi[slot_id] = RESET;
+
 	set_slide_slot_flag(slot_id, 1);
 	MAL_LED_Button_Control(slot_id, 3, LED_ON);
 
@@ -146,8 +165,10 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 	slide_master.oldAdc[slot_id] = posiTemp;
 
 	//0.0.6v
-	slide_master.enablePosi[slot_id] = posiMap;
+	slide_master.enablePosi[slot_id] = set_posi;
 	slide_master.f_enablePosi[slot_id] = SET;
+	//slide_master.testPosi[slot_id] = posiMap;
+
 
 	Slide_control(slot_id, posiMap);
 	LCD_SetText_ADC_DEC(slot_id, map(

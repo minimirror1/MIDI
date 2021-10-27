@@ -113,8 +113,14 @@ void slide_v0_value_tx(void)
 
 		if(slide_master.f_slotEnable[i] == RESET)// enable 일때만 동작함
 		{
-			MAL_LED_BackLight_Control(i, LED_WHITE);
-
+			if(slide_master.f_reMapOverPosi[i] == SET)
+			{
+				MAL_LED_BackLight_Control(i, LED_RED);
+			}
+			else
+			{
+				MAL_LED_BackLight_Control(i, LED_WHITE);
+			}
 		}
 		else
 		{
