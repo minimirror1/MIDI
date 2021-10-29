@@ -26,6 +26,9 @@
 #include "LCD_MIDI.h"
 #include "HC595_MIDI.h"
 #include "HC165_MIDI.h"
+#ifdef PROTOCOL_DEF
+#include "can_com.h"
+#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,7 +48,9 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+#ifdef PROTOCOL_DEF
+extern MAL_CAN_ManagerHandleTypeDef mcanManager;
+#endif
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -195,7 +200,9 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-
+#ifdef PROTOCOL_DEF
+  MAL_CAN_TxQueueTransmit(mcanManager.addrRegist.list[0].pmcan);
+#endif
   /* USER CODE END SysTick_IRQn 1 */
 }
 

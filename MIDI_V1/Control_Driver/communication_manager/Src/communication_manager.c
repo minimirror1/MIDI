@@ -9,11 +9,11 @@
 #include "string.h"
 #include "communication_manager.h"
 #include "communication_info.h"
-
+#ifndef PROTOCOL_DEF
 #include "app_pid_init_cmd.h"
 #include "app_pid_midi_cmd.h"
 #include "prtc_data_pid_midi.h"
-
+#endif
 #include "panel_page.h"
 #include "panel_slide.h"
 #include "panel_manager.h"
@@ -35,6 +35,8 @@ Comm_Page_TypeDef com_page = { 0, };
 Comm_Axle_TypeDef com_axle = { 0, };
 
 extern Panel_Page_TypeDef page;
+
+#ifndef PROTOCOL_DEF
 //=============================================================================
 void app_rx_midi_sub_pid_exist_rqt(uint8_t num, prtc_header_t *pPh, uint8_t *pData) {
 	app_tx_midi_sub_pid_exist_rsp(0, 1, my_can_id, pPh->souce_id, 0);
@@ -182,3 +184,19 @@ void app_rx_midi_sub_pid_adc_rsp(uint8_t num, prtc_header_t *pPh, prtc_data_rsp_
 //-----------------------------------------------------------------------------
 
 //=============================================================================
+#endif
+
+
+#ifdef PROTOCOL_DEF
+
+
+
+
+
+
+
+
+
+
+
+#endif

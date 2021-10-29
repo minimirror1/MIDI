@@ -40,9 +40,11 @@
 
 #include "welcome.h"
 
+
 #include "app_pid_init_cmd.h"
 #include "app_pid_midi_cmd.h"
 #include "prtc_data_pid_midi.h"
+
 
 #include "communication_info.h"
 
@@ -51,6 +53,11 @@
 
 #include "eeprom.h"
 #include "eeprom_manager.h"
+
+
+#ifdef PROTOCOL_DEF
+#include "can_com.h"
+#endif
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -87,6 +94,9 @@ TIM_HandleTypeDef htim4;
 UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
+#ifdef PROTOCOL_DEF
+MAL_CAN_HandleTypeDef mcan1;
+#endif
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -122,7 +132,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 			 break;*/
 	}
 }
-
+#ifndef PROTOCOL_DEF
 void MAL_CAN_FilterConfig(CAN_HandleTypeDef *hcan) {
 	CAN_FilterTypeDef sFilterConfig;
 
@@ -158,6 +168,17 @@ void MAL_CAN_FilterConfig(CAN_HandleTypeDef *hcan) {
 		Error_Handler();
 	}
 }
+#endif
+
+#ifdef PROTOCOL_DEF
+void MAL_CAN1_Init(void)
+{
+	MAL_CAN_FilterConfig(&hcan1);
+	MAL_CAN_HandleMatching(&mcan1,&hcan1);
+}
+#endif
+
+
 /* USER CODE END 0 */
 uint32_t t_time1;
 uint32_t t_time2;
@@ -200,9 +221,14 @@ int main(void) {
 
 
 
-
+#ifndef PROTOCOL_DEF
 	can_init_data_save(&hcan1);
 	MAL_CAN_FilterConfig(&hcan1);
+#endif
+
+#ifdef PROTOCOL_DEF
+	MAL_CAN1_Init();
+#endif
 	Key_Init();
 
 	MAL_UART_Init();
@@ -235,8 +261,9 @@ int main(void) {
 		MAL_LED_BackLight_Control(k, LED_WHITE);
 	}
 
+#ifndef PROTOCOL_DEF
 	app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, 0);
-
+#endif
 	//LCD_SetText_DEC(0,5);
 
 	//LCD_Pixel_wirte_logo(0);
@@ -354,9 +381,14 @@ int main(void) {
 
 		Key_Manager();
 		Panel_Manager();
+
+#ifndef PROTOCOL_DEF
 		proc_can_rx();
 		proc_can_tx();
-
+#endif
+#ifdef PROTOCOL_DEF
+		MAL_CAN_Process();
+#endif
 //		if (MAL_NonStopDelay(&t_testss, 2000) == 1)
 //		{
 //			Slide_control(1, 4094);

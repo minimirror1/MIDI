@@ -33,6 +33,8 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#define PROTOCOL_DEF
+
 //#define FW_VER_STR "0.0.1v"	//초기버전
 //#define FW_VER_STR "0.0.2v"	//필터 감도 변경
 //#define FW_VER_STR "0.0.3v"	//버전표시, 슬라이드 범위, 슬라이드 맵핑
@@ -51,10 +53,17 @@ extern "C" {
 #define MASTER_CAN_ID 0
 
 /*************?��?��?�� RAM버퍼?�� ?��?�� ?��?��******************/
+#ifndef PROTOCOL_DEF
 #define CAN_Q_BUFF_SIZE 	512   //  ((?��?�� 4 Byte + ?��?��?�� 8 Byte) x 512(CAN_Q_BUFF_SIZE)) x 2(rx,tx) = 12,288 Byte
 // CAN 1개일 경우
 #define CAN_1	0 // ?��?���? ?��?��?�� define
 #define CAN_CNT 1
+#endif
+#ifdef PROTOCOL_DEF
+#define CAN_Q_BUFF_SIZE 	1
+#define CAN_1	0 // ?��?���? ?��?��?�� define
+#define CAN_CNT 1
+#endif
 /*
 // CAN 2개일 경우
 #define CAN_1	0 // ?��?���? ?��?��?�� define
@@ -66,6 +75,7 @@ extern "C" {
 
 #include "dl_can.h"
 #include "net_phd_pid.h"
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
