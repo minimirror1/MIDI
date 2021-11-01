@@ -41,5 +41,15 @@
 			<type>2</type>
 			<locationURI>PARENT-3-PROJECT_LOC/driver/eeprom_emu/stm32f1xx_emu/stm32f107xC_eepEmu</locationURI>
 		</link>
+		<link>
+			<name>Control_Driver/CAN_Driver</name>
+			<type>2</type>
+			<locationURI>PARENT-3-PROJECT_LOC/driver/CAN_Driver</locationURI>
+		</link>
+		<link>
+			<name>Control_Driver/CAN_Parsing</name>
+			<type>2</type>
+			<locationURI>PARENT-3-PROJECT_LOC/driver/CAN_Parsing</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>

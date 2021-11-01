@@ -348,13 +348,17 @@ int main(void) {
 
 	uint32_t t_wheel = 0;
 #endif
-//	uint32_t t_testss;
+/*	uint32_t t_testss;
+
+	uint32_t pHeader;
+	uint8_t aData[8] = {0,};*/
+
+
 //	uint32_t t_testss1;
 	/*
 
 
-	 CAN_TxHeaderTypeDef pHeader;
-	 uint8_t aData[8] = {0,};
+
 	 uint32_t pTxMailbox;*/
 
 
@@ -388,6 +392,12 @@ int main(void) {
 #endif
 #ifdef PROTOCOL_DEF
 		MAL_CAN_Process();
+
+/*		if (MAL_NonStopDelay(&t_testss, 100) == 1)
+		{
+			MAL_CAN_SendAddQueue_ExtData(&mcan1,pHeader, aData, 8);
+			aData[0]++;
+		}*/
 #endif
 //		if (MAL_NonStopDelay(&t_testss, 2000) == 1)
 //		{
