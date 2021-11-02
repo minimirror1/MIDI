@@ -34,7 +34,9 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 
 #define PROTOCOL_DEF
+#define BOARD_TYPE	1//midi
 
+extern uint8_t my_can_id;
 //#define FW_VER_STR "0.0.1v"	//초기버전
 //#define FW_VER_STR "0.0.2v"	//필터 감도 변경
 //#define FW_VER_STR "0.0.3v"	//버전표시, 슬라이드 범위, 슬라이드 맵핑

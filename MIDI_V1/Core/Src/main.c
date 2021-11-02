@@ -57,6 +57,7 @@
 
 #ifdef PROTOCOL_DEF
 #include "can_com.h"
+#include "can_command.h"
 #endif
 /* USER CODE END Includes */
 
@@ -255,6 +256,8 @@ int main(void) {
 	welcome();
 
 	eeprom_init();
+
+	CAN_COM_BootAlm_Event();
 
 	for (int k = 0; k < 8; k++)
 	{
