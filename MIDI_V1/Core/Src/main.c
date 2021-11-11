@@ -256,8 +256,9 @@ int main(void) {
 	welcome();
 
 	eeprom_init();
-
+#ifdef PROTOCOL_DEF
 	CAN_COM_BootAlm_Event();
+#endif
 
 	for (int k = 0; k < 8; k++)
 	{

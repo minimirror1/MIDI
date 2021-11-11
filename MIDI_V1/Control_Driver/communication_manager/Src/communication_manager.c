@@ -143,7 +143,8 @@ void app_rx_midi_sub_pid_last_page_ctl(uint8_t num, prtc_header_t *pPh, prtc_dat
 void app_rx_midi_sub_pid_adc_ctl(uint8_t num, prtc_header_t *pPh,  prtc_data_ctl_midi_adc_t *pData)
 {
 	uint8_t slot_id = 0xFF;
-	slot_id = slide_id_check(pData->id);
+	//slot_id = slide_id_check(pData->id);
+	slot_id = slide_id_check_group(pData->motor_id, pData->motor_sub_id);
 
 	if(slot_id != 0xFF)
 	{
@@ -164,7 +165,8 @@ void app_rx_midi_sub_pid_adc_rsp(uint8_t num, prtc_header_t *pPh, prtc_data_rsp_
 {
 
 	uint8_t slot_id = 0xFF;
-	slot_id = slide_id_check(pData->id);
+	//slot_id = slide_id_check(pData->id);
+	slot_id = slide_id_check_group(pData->motor_id, pData->motor_sub_id);
 
 	if(slot_id != 0xFF)
 	{

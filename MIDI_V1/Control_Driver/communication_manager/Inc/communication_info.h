@@ -30,6 +30,7 @@ typedef struct{
 }Comm_AxleInfo_SetPage_TypeDef;
 
 typedef struct{
+	uint8_t group_num;
 	uint8_t axle_num;
 	char nick_name[AXLE_NICK_NAME_LEN];
 	Comm_AxleInfo_SetPage_TypeDef setPage[AXLE_SET_PAGE];

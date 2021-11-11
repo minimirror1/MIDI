@@ -33,6 +33,7 @@ typedef struct{
 
 void slide_tx_manager(void);
 uint8_t slide_id_check(uint8_t motor_id);
+uint8_t slide_id_check_group(uint8_t group_id, uint8_t motor_id);
 
 void slide_slot_clear(void);
 void set_slide_slot_flag(uint8_t slotNum, uint8_t status);

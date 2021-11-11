@@ -354,7 +354,9 @@ void View_6_enable(void)
 								/*						set_slide_slot_flag(i, 1);
 								 MAL_LED_Button_Control(i, 3, LED_ON);*/
 								//상위에 모터위치를 요청하고  응답받으면 활성화 한다.
-								app_tx_midi_sub_pid_adc_rqt(0, 1, my_can_id, 0, 31, com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num);
+								app_tx_midi_sub_pid_adc_rqt(0, 1, my_can_id, 0, 31,
+										com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].group_num,
+										com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num);
 							}
 						}
 					}

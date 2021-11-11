@@ -105,6 +105,20 @@ uint8_t slide_id_check(uint8_t motor_id)
 	return 0xff;
 }
 
+uint8_t slide_id_check_group(uint8_t group_id, uint8_t motor_id)
+{
+	for(int i = 0; i < 8; i++)
+	{
+		if(group_id == com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].group_num)
+		{
+			if(motor_id == com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num)
+				return i;
+		}
+	}
+	return 0xff;
+}
+
+
 void slide_v0_value_tx(void)
 {
 	//슬라이드에서 손땠을때 위치는?? 어떻게 처리하는가
@@ -151,7 +165,9 @@ void slide_v0_value_tx(void)
 							slide_master.oldAdc[i] = filter[i].filterData;
 							//canprotocol
 							app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
-									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, filter[i].filterData);
+									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].group_num,
+									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num,
+									filter[i].filterData);
 							LCD_SetText_ADC_DEC(i, filter[i].filterData);
 						}
 
@@ -249,7 +265,9 @@ void slide_v6_value_tx(void)
 						slide_master.oldAdc_v6[i] = extenderPacket.adc[i] >> ADC_SHIFT;
 						//canprotocol
 						app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
-								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num, slide_master.oldAdc_v6[i]);
+								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].group_num,
+								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num,
+								slide_master.oldAdc_v6[i]);
 						LCD_SetText_ADC_DEC(i, slide_master.oldAdc_v6[i]);
 
 						slide_master.t_motorPosi[i] = HAL_GetTick();
