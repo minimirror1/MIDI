@@ -53,12 +53,14 @@ void ChangePage_Display(void) {
 		f_pageChange = RESET;
 		for (int i = 0; i < 8; i++)
 		{
-			if (com_axle.axleInfo[com_page.pageInfo[tempPageNum].slot_axle[i].axleNum].nick_name != 0)
-				LCD_Write_String(i, 1, com_axle.axleInfo[com_page.pageInfo[tempPageNum].slot_axle[i].axleNum].nick_name, 10);
+			if (com_axle.axleInfo[com_page.pageInfo[tempPageNum].slot_axle[i].listNum].nick_name != 0)
+				LCD_Write_String(i, 1, com_axle.axleInfo[com_page.pageInfo[tempPageNum].slot_axle[i].listNum].nick_name, 10);
 
-			if (com_axle.axleInfo[com_page.pageInfo[tempPageNum].slot_axle[i].axleNum].axle_num != 0)
+			if (com_axle.axleInfo[com_page.pageInfo[tempPageNum].slot_axle[i].listNum].listNum != 0)
 			{
-				LCD_SetText_AXLENUM_DEC(i, com_axle.axleInfo[com_page.pageInfo[tempPageNum].slot_axle[i].axleNum].axle_num);
+				LCD_SetText_AXLENUM_DEC(i,
+						com_axle.axleInfo[com_page.pageInfo[tempPageNum].slot_axle[i].listNum].group_num,
+						com_axle.axleInfo[com_page.pageInfo[tempPageNum].slot_axle[i].listNum].motor_num);
 				LCD_pixel_write_sizeA_p(i, '|', 14);
 
 				LCD_SetText_ADC_DEC(i, tempPageNum);

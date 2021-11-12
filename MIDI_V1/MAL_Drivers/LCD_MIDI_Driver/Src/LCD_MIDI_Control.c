@@ -46,22 +46,33 @@ void MAL_LCD_Set_Clear(void) {
 	LCD_Pixel_wirte_logo(6, ' ');
 	LCD_Pixel_wirte_logo(7, ' ');
 }
-void LCD_SetText_AXLENUM_DEC(uint8_t lcdNum, uint8_t axleNum) {
+void LCD_SetText_AXLENUM_DEC(uint8_t lcdNum, uint8_t group_num,uint8_t motor_num) {
 
 	char temp[10] = { 0, };
-	sprintf(temp, "%d", (int) axleNum);
+	sprintf(temp, "%d-%d", (int) group_num,  (int) motor_num);
 
-	if (axleNum < 10)
-	{
-		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 10);
-		LCD_pixel_write_sizeA_p(lcdNum, ' ', 11);
-	}
-	else if (axleNum < 100)
-	{
-		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 10);
-		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 11);
+	uint8_t len = strlen(temp);
 
+	for(int i = 0; i < 4; i++)
+	{
+		if(i < len)
+			LCD_pixel_write_sizeA_p(lcdNum, temp[i], 10 + i);
+		else
+			LCD_pixel_write_sizeA_p(lcdNum, ' ', 10 + i);
 	}
+	//	char temp[10] = { 0, };
+	//	sprintf(temp, "%d", (int) axleNum);
+	//
+	//	if (axleNum < 10)
+	//	{
+	//		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 10);
+	//		LCD_pixel_write_sizeA_p(lcdNum, ' ', 11);
+	//	}
+	//	else if (axleNum < 100)
+	//	{
+	//		LCD_pixel_write_sizeA_p(lcdNum, temp[0], 10);
+	//		LCD_pixel_write_sizeA_p(lcdNum, temp[1], 11);
+	//	}
 }
 
 void LCD_SetText_ADC_DEC(uint8_t lcdNum, uint32_t value) {

@@ -93,9 +93,11 @@ void View_6_SettingMsg(uint8_t slot, uint8_t rangeAxle, uint8_t msgNum)
 			if (com_axle.axleInfo[rangeAxle].nick_name != 0)
 				LCD_Write_String(slot, 1, com_axle.axleInfo[rangeAxle].nick_name, 10);
 
-			if (com_axle.axleInfo[rangeAxle].axle_num != 0)
+			if (com_axle.axleInfo[rangeAxle].listNum != 0)
 			{
-				LCD_SetText_AXLENUM_DEC(slot, com_axle.axleInfo[rangeAxle].axle_num);
+				LCD_SetText_AXLENUM_DEC(slot,
+						com_axle.axleInfo[rangeAxle].group_num,
+						com_axle.axleInfo[rangeAxle].motor_num);
 				//LCD_pixel_write_sizeA_p(slot, '|', 14);
 			}
 			break;
@@ -173,19 +175,19 @@ void View_6_ChangeVal(void)
 						extenderPacket.adc[i] = 0;
 						break;
 					case V_6_MAP_MIN:
-						Slide_control(i, com_axle.axleInfo[rangeAxle[i]].setPage[0].min);
-						LCD_SetText_ADC_DEC(i, com_axle.axleInfo[rangeAxle[i]].setPage[0].min);
-						extenderPacket.adc[i] = com_axle.axleInfo[rangeAxle[i]].setPage[0].min << ADC_SHIFT;
+						Slide_control(i, com_axle.axleInfo[rangeAxle[i]].setPage.min);
+						LCD_SetText_ADC_DEC(i, com_axle.axleInfo[rangeAxle[i]].setPage.min);
+						extenderPacket.adc[i] = com_axle.axleInfo[rangeAxle[i]].setPage.min << ADC_SHIFT;
 						break;
 					case V_6_MAP_MAX:
-						Slide_control(i, com_axle.axleInfo[rangeAxle[i]].setPage[0].max);
-						LCD_SetText_ADC_DEC(i, com_axle.axleInfo[rangeAxle[i]].setPage[0].max);
-						extenderPacket.adc[i] = com_axle.axleInfo[rangeAxle[i]].setPage[0].max << ADC_SHIFT;
+						Slide_control(i, com_axle.axleInfo[rangeAxle[i]].setPage.max);
+						LCD_SetText_ADC_DEC(i, com_axle.axleInfo[rangeAxle[i]].setPage.max);
+						extenderPacket.adc[i] = com_axle.axleInfo[rangeAxle[i]].setPage.max << ADC_SHIFT;
 						break;
 					case V_6_RANGE:
-						Slide_control(i, com_axle.axleInfo[rangeAxle[i]].setPage[0].range);
-						LCD_SetText_ADC_DEC(i, com_axle.axleInfo[rangeAxle[i]].setPage[0].range);
-						extenderPacket.adc[i] = com_axle.axleInfo[rangeAxle[i]].setPage[0].range << ADC_SHIFT;
+						Slide_control(i, com_axle.axleInfo[rangeAxle[i]].setPage.range);
+						LCD_SetText_ADC_DEC(i, com_axle.axleInfo[rangeAxle[i]].setPage.range);
+						extenderPacket.adc[i] = com_axle.axleInfo[rangeAxle[i]].setPage.range << ADC_SHIFT;
 						break;
 					case V_6_APPLY:
 						Slide_control(i, 0);
@@ -264,9 +266,9 @@ void SlideApplyManager(void) {
 		{
 			if(rotCnt[i] == V_6_APPLY)
 			{
-				com_axle.axleInfo[rangeAxle[i]].setPage[0].min = settingTemp[i].min;
-				com_axle.axleInfo[rangeAxle[i]].setPage[0].max = settingTemp[i].max;
-				com_axle.axleInfo[rangeAxle[i]].setPage[0].range = settingTemp[i].range;
+				com_axle.axleInfo[rangeAxle[i]].setPage.min = settingTemp[i].min;
+				com_axle.axleInfo[rangeAxle[i]].setPage.max = settingTemp[i].max;
+				com_axle.axleInfo[rangeAxle[i]].setPage.range = settingTemp[i].range;
 
 				app_tx_midi_sub_pid_range_data_ctl(
 						0,
@@ -276,9 +278,9 @@ void SlideApplyManager(void) {
 						CAN_SUB_ID_BROAD_CAST,
 						rangeAxle[i],
 						0,
-						com_axle.axleInfo[rangeAxle[i]].setPage[0].range,
-						com_axle.axleInfo[rangeAxle[i]].setPage[0].max,
-						com_axle.axleInfo[rangeAxle[i]].setPage[0].min);
+						com_axle.axleInfo[rangeAxle[i]].setPage.range,
+						com_axle.axleInfo[rangeAxle[i]].setPage.max,
+						com_axle.axleInfo[rangeAxle[i]].setPage.min);
 			}
 		}
 
@@ -331,7 +333,7 @@ void View_6_enable(void)
 {
 	for(int i = 0; i < 8; i++)
 	{
-		if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
+		if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].listNum != 0)
 		{
 			switch(rotCnt[i])
 			{
@@ -355,8 +357,8 @@ void View_6_enable(void)
 								 MAL_LED_Button_Control(i, 3, LED_ON);*/
 								//상위에 모터위치를 요청하고  응답받으면 활성화 한다.
 								app_tx_midi_sub_pid_adc_rqt(0, 1, my_can_id, 0, 31,
-										com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].group_num,
-										com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num);
+										com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].group_num,
+										com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].motor_num);
 							}
 						}
 					}
@@ -381,13 +383,13 @@ void View_6_Init(void)
 {
 	for(int i = 0; i < 8 ; i++)
 	{
-		rangeAxle[i] = com_page.pageInfo[page.changeNum].slot_axle[i].axleNum;
+		rangeAxle[i] = com_page.pageInfo[page.changeNum].slot_axle[i].listNum;
 		rotCnt[i] = V_6_NOW;
 		f_v6_rotChage[i] = 0;
 
-		settingTemp[i].min = com_axle.axleInfo[rangeAxle[i]].setPage[0].min;
-		settingTemp[i].max = com_axle.axleInfo[rangeAxle[i]].setPage[0].max;
-		settingTemp[i].range = com_axle.axleInfo[rangeAxle[i]].setPage[0].range;
+		settingTemp[i].min = com_axle.axleInfo[rangeAxle[i]].setPage.min;
+		settingTemp[i].max = com_axle.axleInfo[rangeAxle[i]].setPage.max;
+		settingTemp[i].range = com_axle.axleInfo[rangeAxle[i]].setPage.range;
 	}
 }
 

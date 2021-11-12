@@ -31,9 +31,9 @@ typedef struct{
 
 typedef struct{
 	uint8_t group_num;
-	uint8_t axle_num;
+	uint8_t motor_num;
 	char nick_name[AXLE_NICK_NAME_LEN];
-	Comm_AxleInfo_SetPage_TypeDef setPage[AXLE_SET_PAGE];
+	Comm_AxleInfo_SetPage_TypeDef setPage;
 	uint8_t listNum;
 }Comm_AxleInfo_TypeDef;
 
@@ -56,7 +56,7 @@ typedef struct{
 //================================================
 
 typedef struct{
-	uint8_t axleNum;
+	uint8_t listNum;
 	uint8_t setPageNum;
 
 }Comm_Slot_TypeDef;

@@ -58,9 +58,9 @@ void now_AxleNumber_Copy(void) {
 
 	for (int i = 0; i < 8; i++)
 	{
-		tempAxleSlot[i] = com_page.pageInfo[page.changeNum].slot_axle[i].axleNum;
+		tempAxleSlot[i] = com_page.pageInfo[page.changeNum].slot_axle[i].listNum;
 
-		f_changeAxleSlot[i] = com_page.pageInfo[page.changeNum].slot_axle[i].axleNum;
+		f_changeAxleSlot[i] = com_page.pageInfo[page.changeNum].slot_axle[i].listNum;
 	}
 }
 
@@ -70,9 +70,11 @@ void ChangeAxle_Display(void) {
 		f_axleChange = RESET;
 		for (int i = 0; i < 8; i++)
 		{
-			if (com_axle.axleInfo[tempAxleSlot[i]].axle_num != 0)
+			if (com_axle.axleInfo[tempAxleSlot[i]].listNum != 0)
 			{
-				LCD_SetText_AXLENUM_DEC(i, com_axle.axleInfo[tempAxleSlot[i]].axle_num);
+				LCD_SetText_AXLENUM_DEC(i,
+						com_axle.axleInfo[tempAxleSlot[i]].group_num,
+						com_axle.axleInfo[tempAxleSlot[i]].motor_num);
 				LCD_Write_String(i, 1, com_axle.axleInfo[tempAxleSlot[i]].nick_name, 10);
 				LCD_pixel_write_sizeA_p(i, '|', 14);
 			}
@@ -92,7 +94,8 @@ uint8_t slotCheck(uint8_t axleNum)
 	uint8_t f_check = 0;// 0 : 일치하는축 없음 ,1 : 일치하는축 있음
 	for(int i = 0 ; i < 8 ; i++)
 	{
-		if(com_axle.list.pAxleInfo[axleNum]->axle_num == tempAxleSlot[i])
+		//if(com_axle.list.pAxleInfo[axleNum]->motor_num == tempAxleSlot[i])
+		if(com_axle.list.pAxleInfo[axleNum]->listNum == tempAxleSlot[i])
 		{
 			f_check = 1;
 		}
@@ -109,7 +112,8 @@ void Change_Axle(void) {
 		{
 			changeSlotCnt[i] = 0;
 
-			tempAxleSlot[i] = com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num;
+			//tempAxleSlot[i] = com_axle.list.pAxleInfo[changeSlotCnt[i]]->motor_num;
+			tempAxleSlot[i] = com_axle.list.pAxleInfo[changeSlotCnt[i]]->listNum;
 			wheel[i].status.f_rot = ROT_CLEAR;
 			f_axleChange = SET;
 		}
@@ -171,7 +175,8 @@ void Change_Axle(void) {
 				}*/
 			}
 
-			tempAxleSlot[i] = com_axle.list.pAxleInfo[changeSlotCnt[i]]->axle_num;
+			//tempAxleSlot[i] = com_axle.list.pAxleInfo[changeSlotCnt[i]]->motor_num;
+			tempAxleSlot[i] = com_axle.list.pAxleInfo[changeSlotCnt[i]]->listNum;
 			wheel[i].status.f_rot = ROT_CLEAR;
 			f_axleChange = SET;
 		}
@@ -212,7 +217,7 @@ void AxleApplyManager(void) {
 
 		for (int i = 0; i < 8; i++)
 		{
-			com_page.pageInfo[tempPageNum].slot_axle[i].axleNum = tempAxleSlot[i];
+			com_page.pageInfo[tempPageNum].slot_axle[i].listNum = tempAxleSlot[i];
 
 			if (f_changeAxleSlot[i] != tempAxleSlot[i])
 			{ //canprotocol

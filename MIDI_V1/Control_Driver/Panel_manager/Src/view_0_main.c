@@ -64,7 +64,7 @@ void View_0_enable(void)
 {
 	for(int i = 0; i < 8; i++)
 	{
-		if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num != 0)
+		if (com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].listNum != 0)
 		{
 			if (btn[i].status[3].btn == 1)
 			{
@@ -101,8 +101,8 @@ void View_0_enable(void)
 														my_can_id,
 														0,
 														31,
-														com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].group_num,
-														com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num);
+														com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].group_num,
+														com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].motor_num);
 					}
 				}
 			}
@@ -123,9 +123,9 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 		return;
 
 	//0.0.7v
-	if(com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].min <= com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].max)
+	if(com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.min <= com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.max)
 	{
-		if((set_posi < com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].min)||( com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].max < set_posi))
+		if((set_posi < com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.min)||( com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.max < set_posi))
 		{
 			slide_master.f_reMapOverPosi[slot_id] = SET;
 			return;
@@ -133,7 +133,7 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 	}
 	else
 	{
-		if((set_posi < com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].max)||( com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].min < set_posi))
+		if((set_posi < com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.max)||( com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.min < set_posi))
 		{
 			slide_master.f_reMapOverPosi[slot_id] = SET;
 			return;
@@ -149,10 +149,10 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 
 	uint32_t posiMap = map(
 			set_posi,
-			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].min,
-			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].max,
+			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.min,
+			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.max,
 			0,
-			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].range);
+			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.range);
 
 
 	uint32_t posiTemp = posiMap << ADC_SHIFT;
@@ -182,9 +182,9 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 	LCD_SetText_ADC_DEC(slot_id, map(
 			posiTemp,
 			0,
-			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].range << ADC_SHIFT,
-			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].min,
-			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].axleNum].setPage[0].max));
+			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.range << ADC_SHIFT,
+			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.min,
+			com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[slot_id].listNum].setPage.max));
 
 }
 

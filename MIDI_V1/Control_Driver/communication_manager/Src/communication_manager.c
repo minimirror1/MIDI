@@ -56,50 +56,86 @@ uint8_t reg_flag(uint8_t axleNum) {
 	com_axle.setFlag.flag[buffNum] |= 1 << bitNum;
 }
 
+uint8_t getListNum(uint8_t group_id, uint8_t motor_id)
+{
+	uint8_t ret = 0xff;
+
+	for (int i = 0; i <= com_axle.list.cnt; i++)
+	{
+		if (com_axle.list.pAxleInfo[i]->group_num == group_id) //group
+		{
+			if (com_axle.list.pAxleInfo[i]->motor_num == motor_id)
+			ret = com_axle.list.pAxleInfo[i]->listNum;
+		}
+	}
+	return ret;
+}
 
 //-------------------------------------------------------------------
 void app_rx_midi_sub_pid_nick_name_h_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl_midi_nick_name_h_t *pData) {
 
 	uint8_t f_newAxle = 1;
 
-	com_axle.axleInfo[pData->motor_num].axle_num = pData->motor_num;
-	memcpy(&com_axle.axleInfo[pData->motor_num].nick_name[0], &pData->nick_name[0], 6);
+	//com_axle.axleInfo[pData->motor_num].motor_num = pData->motor_num;
+	//memcpy(&com_axle.axleInfo[pData->motor_num].nick_name[0], &pData->nick_name[0], 6);
 
 	//	//add page data
-	for (int i = 0; i < com_axle.list.cnt; i++)
+//	for (int i = 0; i < com_axle.list.cnt; i++)
+//	{
+//		if (com_axle.list.pAxleInfo[i]->group_num == pData->motor_num)//group
+//		{
+//			if (com_axle.list.pAxleInfo[i]->motor_num == pData->motor_num)
+//			f_newAxle = 0;
+//		}
+//	}
+
+	if(getListNum(pData->motor_id,pData->motor_sub_id) != 0xff)
 	{
-		if (com_axle.list.pAxleInfo[i]->axle_num == pData->motor_num)
-		{
-			f_newAxle = 0;
-		}
+		f_newAxle = 0;
 	}
 
 	if(f_newAxle == 1)
 	{
 		//add axle data
-		com_axle.axleInfo[pData->motor_num].listNum = com_axle.list.cnt;
-		com_axle.list.pAxleInfo[com_axle.list.cnt] = &com_axle.axleInfo[pData->motor_num];
+		com_axle.axleInfo[com_axle.list.cnt].listNum = com_axle.list.cnt;
+
+		com_axle.axleInfo[com_axle.list.cnt].motor_num = pData->motor_sub_id;
+		com_axle.axleInfo[com_axle.list.cnt].group_num = pData->motor_id;
+
+		com_axle.list.pAxleInfo[com_axle.list.cnt] = &com_axle.axleInfo[com_axle.list.cnt];
+		memcpy(&com_axle.axleInfo[com_axle.list.cnt].nick_name[0], &pData->nick_name[0], 6);
 		com_axle.list.cnt++;
 	}
 
 
 }
 void app_rx_midi_sub_pid_nick_name_l_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl_midi_nick_name_l_t *pData) {
+	//com_axle.axleInfo[pData->motor_num].motor_num = pData->motor_num;
+	//memcpy(&com_axle.axleInfo[pData->motor_num].nick_name[6], &pData->nick_name[0], 4);
 
-	com_axle.axleInfo[pData->motor_num].axle_num = pData->motor_num;
-	memcpy(&com_axle.axleInfo[pData->motor_num].nick_name[6], &pData->nick_name[0], 4);
+	uint8_t listnum = getListNum(pData->motor_id,pData->motor_sub_id);
+
+	if(listnum != 0xff)
+		memcpy(&com_axle.axleInfo[listnum].nick_name[6], &pData->nick_name[0], 4);
 }
 
 void app_rx_midi_sub_pid_range_data_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl_midi_range_data_t *pData) {
 	//prtc_data_ctl_midi_range_data_t
 
 
-	if (pData->set_page_num < AXLE_SET_PAGE)
+
+//	com_axle.axleInfo[pData->motor_num].setPage[pData->set_page_num].range = pData->range;
+//	com_axle.axleInfo[pData->motor_num].setPage[pData->set_page_num].max = pData->max;
+//	com_axle.axleInfo[pData->motor_num].setPage[pData->set_page_num].min = pData->min;
+	uint8_t listnum = getListNum(pData->motor_id,pData->motor_sub_id);
+
+	if(listnum != 0xff)
 	{
-		com_axle.axleInfo[pData->motor_num].setPage[pData->set_page_num].range = pData->range;
-		com_axle.axleInfo[pData->motor_num].setPage[pData->set_page_num].max = pData->max;
-		com_axle.axleInfo[pData->motor_num].setPage[pData->set_page_num].min = pData->min;
+		com_axle.axleInfo[listnum].setPage.range = pData->range;
+		com_axle.axleInfo[listnum].setPage.max = pData->max;
+		com_axle.axleInfo[listnum].setPage.min = pData->min;
 	}
+
 }
 //-------------------------------------------------------------------
 void app_rx_midi_sub_pid_page_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl_midi_page_t *pData) {
@@ -108,9 +144,11 @@ void app_rx_midi_sub_pid_page_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl
 	//data->slot_num --;
 	if (pData->slot_num < 8)
 	{
+		uint8_t listnum = getListNum(pData->motor_id,pData->motor_sub_id);
+
 		com_page.pageInfo[pData->page].pageNum = pData->page;
-		com_page.pageInfo[pData->page].slot_axle[pData->slot_num].axleNum = pData->motor_num;
-		com_page.pageInfo[pData->page].slot_axle[pData->slot_num].setPageNum = pData->set_page_num;
+		com_page.pageInfo[pData->page].slot_axle[pData->slot_num].listNum = listnum;
+		//com_page.pageInfo[pData->page].slot_axle.setPageNum = pData->set_page_num;
 
 		//	//add page data
 		for (int i = 0; i < com_page.list.cnt; i++)
