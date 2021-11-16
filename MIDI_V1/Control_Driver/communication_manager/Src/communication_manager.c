@@ -13,6 +13,8 @@
 #include "app_pid_init_cmd.h"
 #include "app_pid_midi_cmd.h"
 #include "prtc_data_pid_midi.h"
+#else
+#include "can_command.h"
 #endif
 #include "panel_page.h"
 #include "panel_slide.h"
@@ -229,8 +231,15 @@ void app_rx_midi_sub_pid_adc_rsp(uint8_t num, prtc_header_t *pPh, prtc_data_rsp_
 
 #ifdef PROTOCOL_DEF
 
+extern void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi);
+void CAN_COM_Slot_Enable(uint8_t group_id, uint8_t motor_id, uint16_t value)
+{
+	uint8_t slot_id = 0xFF;
+	slot_id = slide_id_check_group(group_id, motor_id);
 
-
+	if(slot_id != 0xFF)
+		View_0_enableRsp(slot_id, value);
+}
 
 
 
