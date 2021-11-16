@@ -33,7 +33,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
-//#define PROTOCOL_DEF
+#define PROTOCOL_DEF
 #define BOARD_TYPE	1//midi
 
 extern uint8_t my_can_id;
