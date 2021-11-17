@@ -96,7 +96,7 @@ void View_0_enable(void)
 //								31,
 //								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].axleNum].axle_num);
 #ifdef PROTOCOL_DEF
-						CAN_COM_Tx_SlotEnable_Req(
+						CAN_App_MIDI_SlotEnable_TxReq(
 								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].group_num,
 								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].motor_num);
 #else

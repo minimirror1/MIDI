@@ -169,7 +169,7 @@ void slide_v0_value_tx(void)
 							slide_master.oldAdc[i] = filter[i].filterData;
 							//canprotocol
 #ifdef PROTOCOL_DEF
-							CAN_COM_Tx_SlideDataSend(
+							CAN_App_MIDI_SlideDataSend_TxReq(
 									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].group_num,
 									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].motor_num,
 									MAL_SysTimer_GetTickCount(),

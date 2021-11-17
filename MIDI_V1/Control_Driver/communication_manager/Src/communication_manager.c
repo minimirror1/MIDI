@@ -232,7 +232,7 @@ void app_rx_midi_sub_pid_adc_rsp(uint8_t num, prtc_header_t *pPh, prtc_data_rsp_
 #ifdef PROTOCOL_DEF
 
 extern void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi);
-void CAN_COM_Slot_Enable(uint8_t group_id, uint8_t motor_id, uint16_t value)
+void CAN_App_MIDI_SlotEnable_RxRsp(uint8_t group_id, uint8_t motor_id, uint16_t value)
 {
 	uint8_t slot_id = 0xFF;
 	slot_id = slide_id_check_group(group_id, motor_id);
@@ -241,7 +241,27 @@ void CAN_COM_Slot_Enable(uint8_t group_id, uint8_t motor_id, uint16_t value)
 		View_0_enableRsp(slot_id, value);
 }
 
+void CAN_App_MIDI_AxleInfo_RxRsp(PC_CAN_MIDI_ArrayAxleInfo_Typedef *arrAxleInfo, uint32_t size)
+{
 
+	com_axle.list.cnt = 1;
+
+	for (uint16_t i = 0; i < size; i++)
+	{
+		com_axle.axleInfo[i].group_num = arrAxleInfo[i].group_id;
+		com_axle.axleInfo[i].motor_num = arrAxleInfo[i].motor_id;
+		memcpy(com_axle.axleInfo[i].nick_name, arrAxleInfo[i].name, 10);
+
+		com_axle.axleInfo[i].setPage.range = arrAxleInfo[i].slide_range;
+		com_axle.axleInfo[i].setPage.min = arrAxleInfo[i].slide_min;
+		com_axle.axleInfo[i].setPage.max = arrAxleInfo[i].slide_max;
+
+		com_axle.axleInfo[i].listNum = com_axle.list.cnt;
+		com_axle.list.pAxleInfo[com_axle.list.cnt] = &com_axle.axleInfo[i];
+		com_axle.list.cnt++;
+	}
+
+}
 
 
 

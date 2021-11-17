@@ -257,7 +257,7 @@ int main(void) {
 
 	eeprom_init();
 #ifdef PROTOCOL_DEF
-	CAN_COM_BootAlm_Event();
+	CAN_App_BootAlm_Event_TxReq();
 #endif
 
 	for (int k = 0; k < 8; k++)
