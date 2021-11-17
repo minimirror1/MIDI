@@ -36,7 +36,7 @@
 #include "app_pid_midi_cmd.h"
 
 #ifdef PROTOCOL_DEF
-#include "can_command.h"
+#include "can_datalink.h"
 #endif
 
 

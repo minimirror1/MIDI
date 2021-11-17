@@ -14,7 +14,7 @@
 #include "app_pid_midi_cmd.h"
 #include "prtc_data_pid_midi.h"
 #else
-#include "can_command.h"
+#include "can_datalink.h"
 #endif
 #include "panel_page.h"
 #include "panel_slide.h"

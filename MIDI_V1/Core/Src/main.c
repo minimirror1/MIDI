@@ -57,7 +57,7 @@
 
 #ifdef PROTOCOL_DEF
 #include "can_com.h"
-#include "can_command.h"
+#include "can_datalink.h"
 #endif
 /* USER CODE END Includes */
 
