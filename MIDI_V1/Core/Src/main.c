@@ -58,6 +58,8 @@
 #ifdef PROTOCOL_DEF
 #include "can_com.h"
 #include "can_datalink.h"
+
+#include "communication_manager.h"
 #endif
 /* USER CODE END Includes */
 
@@ -390,7 +392,7 @@ int main(void) {
 
 		Key_Manager();
 		Panel_Manager();
-
+		InfoManager();
 #ifndef PROTOCOL_DEF
 		proc_can_rx();
 		proc_can_tx();

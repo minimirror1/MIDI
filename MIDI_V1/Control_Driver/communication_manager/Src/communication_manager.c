@@ -21,6 +21,7 @@
 #include "panel_manager.h"
 
 #include "filter_manager.h"
+#include "non_stop_delay_main.h"
 
 extern uint8_t my_can_id;
 
@@ -46,7 +47,8 @@ uint8_t getListNum(uint8_t group_id, uint8_t motor_id)
 
 	for (int i = 0; i <= com_axle.list.cnt; i++)
 	{
-		if (com_axle.list.pAxleInfo[i]->group_num == group_id) //group
+		uint8_t tempGroup = com_axle.list.pAxleInfo[i]->group_num;
+		if (tempGroup == group_id) //group
 		{
 			if (com_axle.list.pAxleInfo[i]->motor_num == motor_id)
 			{
@@ -251,20 +253,19 @@ void CAN_App_MIDI_AxleInfo_RxRsp(PC_CAN_MIDI_ArrayAxleInfo_Typedef *arrAxleInfo,
 {
 	com_axle.list.cnt = 1;
 
-	int j=0;
 	for (uint16_t i = 0; i < size; i++)
 	{
 
-		com_axle.axleInfo[i].group_num = arrAxleInfo[i].group_id;
-		com_axle.axleInfo[i].motor_num = arrAxleInfo[i].motor_id;
-		memcpy(com_axle.axleInfo[i].nick_name, arrAxleInfo[i].name, 10);
+		com_axle.axleInfo[com_axle.list.cnt].group_num = arrAxleInfo[i].group_id;
+		com_axle.axleInfo[com_axle.list.cnt].motor_num = arrAxleInfo[i].motor_id;
+		memcpy(com_axle.axleInfo[com_axle.list.cnt].nick_name, arrAxleInfo[i].name, 10);
 
-		com_axle.axleInfo[i].setPage.range = arrAxleInfo[i].slide_range;
-		com_axle.axleInfo[i].setPage.min = arrAxleInfo[i].slide_min;
-		com_axle.axleInfo[i].setPage.max = arrAxleInfo[i].slide_max;
+		com_axle.axleInfo[com_axle.list.cnt].setPage.range = arrAxleInfo[i].slide_range;
+		com_axle.axleInfo[com_axle.list.cnt].setPage.min = arrAxleInfo[i].slide_min;
+		com_axle.axleInfo[com_axle.list.cnt].setPage.max = arrAxleInfo[i].slide_max;
 
-		com_axle.axleInfo[i].listNum = com_axle.list.cnt;
-		com_axle.list.pAxleInfo[com_axle.list.cnt] = &com_axle.axleInfo[i];
+		com_axle.axleInfo[com_axle.list.cnt].listNum = com_axle.list.cnt;
+		com_axle.list.pAxleInfo[com_axle.list.cnt] = &com_axle.axleInfo[com_axle.list.cnt];
 		com_axle.list.cnt++;
 	}
 }
@@ -279,7 +280,9 @@ void CAN_App_MIDI_PageDownload_RxRsp(PC_CAN_MIDI_PAGE_DOWNLOAD_Rsp_Typedef *arrP
 		for(int j = 0; j < 8; j++)
 		{
 			uint8_t listnum = getListNum(arrPageInfo[i].slot[j].group_id,arrPageInfo[i].slot[j].motor_id);
-			com_page.pageInfo[arrPageInfo[i].PageNum].slot_axle[j].listNum = listnum;
+
+			if(listnum !=0xff)
+				com_page.pageInfo[arrPageInfo[i].PageNum].slot_axle[j].listNum = listnum;
 		}
 
 		com_page.pageInfo[arrPageInfo[i].PageNum].listNum = com_page.list.cnt;
@@ -288,6 +291,21 @@ void CAN_App_MIDI_PageDownload_RxRsp(PC_CAN_MIDI_PAGE_DOWNLOAD_Rsp_Typedef *arrP
 	}
 }
 
+void InfoManager(void)
+{
+	static uint32_t t_info;
+	if(MAL_NonStopDelay(&t_info, 500))
+	{
+		if(com_axle.list.cnt == 1)
+		{
+			CAN_App_MIDI_AxleInfo_TxReq();
+		}
+		else if(com_page.list.cnt == 0)
+		{
+			CAN_App_MIDI_PageDownload_TxReq();
+		}
+	}
+}
 
 
 
