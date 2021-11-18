@@ -270,7 +270,7 @@ void CAN_App_MIDI_AxleInfo_RxRsp(PC_CAN_MIDI_ArrayAxleInfo_Typedef *arrAxleInfo,
 	}
 }
 
-void CAN_App_MIDI_PageDownload_RxRsp(PC_CAN_MIDI_PAGE_DOWNLOAD_Rsp_Typedef *arrPageInfo, uint32_t size)
+void CAN_App_MIDI_PageDownload_RxRsp(uint8_t setPage, PC_CAN_MIDI_PAGE_DOWNLOAD_Rsp_Typedef *arrPageInfo, uint32_t size)
 {
 	com_page.list.cnt = 0;
 
@@ -289,6 +289,10 @@ void CAN_App_MIDI_PageDownload_RxRsp(PC_CAN_MIDI_PAGE_DOWNLOAD_Rsp_Typedef *arrP
 		com_page.list.pPageInfo[com_page.list.cnt] = &com_page.pageInfo[arrPageInfo[i].PageNum];
 		com_page.list.cnt++;
 	}
+
+	Set_Page(setPage);
+
+	f_v0_first = 1;//예외처리 : 녹화기 재부팅시 새로고침
 }
 
 void InfoManager(void)
