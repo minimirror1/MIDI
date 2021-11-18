@@ -258,6 +258,7 @@ int main(void) {
 	eeprom_init();
 #ifdef PROTOCOL_DEF
 	CAN_App_BootAlm_Event_TxReq();
+	CAN_App_MIDI_AxleInfo_TxReq();
 #endif
 
 	for (int k = 0; k < 8; k++)

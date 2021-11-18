@@ -38,6 +38,26 @@ Comm_Axle_TypeDef com_axle = { 0, };
 
 extern Panel_Page_TypeDef page;
 
+
+
+uint8_t getListNum(uint8_t group_id, uint8_t motor_id)
+{
+	uint8_t ret = 0xff;
+
+	for (int i = 0; i <= com_axle.list.cnt; i++)
+	{
+		if (com_axle.list.pAxleInfo[i]->group_num == group_id) //group
+		{
+			if (com_axle.list.pAxleInfo[i]->motor_num == motor_id)
+			{
+				ret = com_axle.list.pAxleInfo[i]->listNum;
+				return ret;
+			}
+		}
+	}
+	return ret;
+}
+
 #ifndef PROTOCOL_DEF
 //=============================================================================
 void app_rx_midi_sub_pid_exist_rqt(uint8_t num, prtc_header_t *pPh, uint8_t *pData) {
@@ -58,20 +78,6 @@ uint8_t reg_flag(uint8_t axleNum) {
 	com_axle.setFlag.flag[buffNum] |= 1 << bitNum;
 }
 
-uint8_t getListNum(uint8_t group_id, uint8_t motor_id)
-{
-	uint8_t ret = 0xff;
-
-	for (int i = 0; i <= com_axle.list.cnt; i++)
-	{
-		if (com_axle.list.pAxleInfo[i]->group_num == group_id) //group
-		{
-			if (com_axle.list.pAxleInfo[i]->motor_num == motor_id)
-			ret = com_axle.list.pAxleInfo[i]->listNum;
-		}
-	}
-	return ret;
-}
 
 //-------------------------------------------------------------------
 void app_rx_midi_sub_pid_nick_name_h_ctl(uint8_t num, prtc_header_t *pPh, prtc_data_ctl_midi_nick_name_h_t *pData) {
@@ -243,11 +249,12 @@ void CAN_App_MIDI_SlotEnable_RxRsp(uint8_t group_id, uint8_t motor_id, uint16_t 
 
 void CAN_App_MIDI_AxleInfo_RxRsp(PC_CAN_MIDI_ArrayAxleInfo_Typedef *arrAxleInfo, uint32_t size)
 {
-
 	com_axle.list.cnt = 1;
 
+	int j=0;
 	for (uint16_t i = 0; i < size; i++)
 	{
+
 		com_axle.axleInfo[i].group_num = arrAxleInfo[i].group_id;
 		com_axle.axleInfo[i].motor_num = arrAxleInfo[i].motor_id;
 		memcpy(com_axle.axleInfo[i].nick_name, arrAxleInfo[i].name, 10);
@@ -260,9 +267,26 @@ void CAN_App_MIDI_AxleInfo_RxRsp(PC_CAN_MIDI_ArrayAxleInfo_Typedef *arrAxleInfo,
 		com_axle.list.pAxleInfo[com_axle.list.cnt] = &com_axle.axleInfo[i];
 		com_axle.list.cnt++;
 	}
-
 }
 
+void CAN_App_MIDI_PageDownload_RxRsp(PC_CAN_MIDI_PAGE_DOWNLOAD_Rsp_Typedef *arrPageInfo, uint32_t size)
+{
+	com_page.list.cnt = 0;
+
+	for(uint16_t i = 0; i < size ; i++)
+	{
+		com_page.pageInfo[arrPageInfo[i].PageNum].pageNum = arrPageInfo[i].PageNum;
+		for(int j = 0; j < 8; j++)
+		{
+			uint8_t listnum = getListNum(arrPageInfo[i].slot[j].group_id,arrPageInfo[i].slot[j].motor_id);
+			com_page.pageInfo[arrPageInfo[i].PageNum].slot_axle[j].listNum = listnum;
+		}
+
+		com_page.pageInfo[arrPageInfo[i].PageNum].listNum = com_page.list.cnt;
+		com_page.list.pPageInfo[com_page.list.cnt] = &com_page.pageInfo[arrPageInfo[i].PageNum];
+		com_page.list.cnt++;
+	}
+}
 
 
 
