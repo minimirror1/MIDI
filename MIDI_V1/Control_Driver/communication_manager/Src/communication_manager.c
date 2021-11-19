@@ -311,6 +311,11 @@ void InfoManager(void)
 	}
 }
 
+void CAN_App_MIDI_MotionTimeClear_RxReq(void)
+{
+	Motion_Tick_Clear();
+}
+
 
 
 

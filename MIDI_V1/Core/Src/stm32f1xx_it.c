@@ -26,6 +26,7 @@
 #include "LCD_MIDI.h"
 #include "HC595_MIDI.h"
 #include "HC165_MIDI.h"
+#include "panel_slide.h"
 #ifdef PROTOCOL_DEF
 #include "can_com.h"
 #endif
@@ -201,6 +202,7 @@ void SysTick_Handler(void)
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
 #ifdef PROTOCOL_DEF
+  Motion_Tick();
   //MAL_CAN_TxQueueTransmit(mcanManager.addrRegist.list[0].pmcan);
 #endif
   /* USER CODE END SysTick_IRQn 1 */

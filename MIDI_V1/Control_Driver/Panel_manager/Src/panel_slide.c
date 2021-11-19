@@ -56,7 +56,22 @@ extern filter_TypeDef filter[8];
 
 Slide_TypeDef slide_master = {0,};
 
+uint32_t motionTick = 0;
+
 #define ENABLE_GAP		200
+
+void Motion_Tick(void)
+{
+	motionTick++;
+}
+void Motion_Tick_Clear(void)
+{
+	motionTick = 0;
+}
+uint32_t Motion_GetTickCount(void)
+{
+	return motionTick;
+}
 
 void slide_slot_clear(void)
 {
@@ -172,7 +187,7 @@ void slide_v0_value_tx(void)
 							CAN_App_MIDI_SlideDataSend_TxReq(
 									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].group_num,
 									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].motor_num,
-									MAL_SysTimer_GetTickCount(),
+									Motion_GetTickCount(),
 									filter[i].filterData);
 #else
 							app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,

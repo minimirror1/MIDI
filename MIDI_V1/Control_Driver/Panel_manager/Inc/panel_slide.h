@@ -31,6 +31,10 @@ typedef struct{
 		uint32_t t_txTime[8];
 }Slide_TypeDef;
 
+void Motion_Tick(void);
+void Motion_Tick_Clear(void);
+uint32_t Motion_GetTickCount(void);
+
 void slide_tx_manager(void);
 uint8_t slide_id_check(uint8_t motor_id);
 uint8_t slide_id_check_group(uint8_t group_id, uint8_t motor_id);
