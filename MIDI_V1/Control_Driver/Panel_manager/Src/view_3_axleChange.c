@@ -221,8 +221,11 @@ void AxleApplyManager(void) {
 
 			if (f_changeAxleSlot[i] != tempAxleSlot[i])
 			{ //canprotocol
-				app_tx_midi_sub_pid_page_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST, tempPageNum, i, tempAxleSlot[i],
-						com_page.pageInfo[tempPageNum].slot_axle[i].setPageNum);
+				app_tx_midi_sub_pid_page_ctl(0, 0,
+						my_can_id, MASTER_CAN_ID, 0, 0,
+						tempPageNum, i,
+						com_axle.list.pAxleInfo[com_page.pageInfo[tempPageNum].slot_axle[i].listNum]->group_num,
+						com_axle.list.pAxleInfo[com_page.pageInfo[tempPageNum].slot_axle[i].listNum]->motor_num);
 			}
 		}
 

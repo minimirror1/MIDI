@@ -120,7 +120,7 @@ void DeviceSettingApplyManager(void) {
 		{
 			my_can_id = tempCanid;
 			eeprom_write_8(VADDR_SETTING_CAN_ID, my_can_id);
-			app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, 0);
+			app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, 0, 0);
 		}
 
 

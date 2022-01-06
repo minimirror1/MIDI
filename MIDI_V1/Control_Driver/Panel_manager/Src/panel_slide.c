@@ -190,7 +190,7 @@ void slide_v0_value_tx(void)
 									Motion_GetTickCount(),
 									filter[i].filterData);
 #else
-							app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
+							app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, 0, 0,
 									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].group_num,
 									com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].motor_num,
 									filter[i].filterData);
@@ -292,7 +292,7 @@ void slide_v6_value_tx(void)
 						MAL_LED_BackLight_Control(i, LED_CYAN);
 						slide_master.oldAdc_v6[i] = extenderPacket.adc[i] >> ADC_SHIFT;
 						//canprotocol
-						app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST,
+						app_tx_midi_sub_pid_adc_ctl(0, 0, my_can_id, MASTER_CAN_ID, 0, 0,
 								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].group_num,
 								com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].motor_num,
 								slide_master.oldAdc_v6[i]);

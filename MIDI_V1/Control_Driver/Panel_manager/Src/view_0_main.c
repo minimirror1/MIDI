@@ -105,7 +105,8 @@ void View_0_enable(void)
 																				1,
 																				my_can_id,
 																				0,
-																				31,
+																				0,
+																				0,
 																				com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].group_num,
 																				com_axle.axleInfo[com_page.pageInfo[page.changeNum].slot_axle[i].listNum].motor_num);
 #endif
@@ -177,7 +178,11 @@ void View_0_enableRsp(uint8_t slot_id, uint16_t set_posi)
 	filter[slot_id].filterData = posiTemp;
 	filter[slot_id].SmoothData = posiTemp;
 
+	//220106 활성화시
+	*filter[slot_id].RawData = posiTemp;
+
 	slide_master.oldAdc[slot_id] = posiTemp;
+
 
 	//0.0.6v
 	slide_master.enablePosi[slot_id] = set_posi;

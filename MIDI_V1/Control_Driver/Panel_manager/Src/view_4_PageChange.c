@@ -137,7 +137,7 @@ void PageApplyManager(void) {
 		page.changeNum = tempPageNum;
 
 		//canprotocol
-		app_tx_midi_sub_pid_last_page_ctl(0, 0, my_can_id, MASTER_CAN_ID, CAN_SUB_ID_BROAD_CAST, page.changeNum);
+		app_tx_midi_sub_pid_last_page_ctl(0, 0, my_can_id, MASTER_CAN_ID, 0, 0, page.changeNum);
 
 		View_Changer(VIEW_0_MAIN);
 

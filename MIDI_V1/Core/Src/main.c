@@ -269,7 +269,8 @@ int main(void) {
 	}
 
 #ifndef PROTOCOL_DEF
-	app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, 0);
+	app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, my_can_sub_id, 0);
+	//app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, 0);
 #endif
 	//LCD_SetText_DEC(0,5);
 
@@ -392,12 +393,13 @@ int main(void) {
 
 		Key_Manager();
 		Panel_Manager();
-		InfoManager();
+
 #ifndef PROTOCOL_DEF
 		proc_can_rx();
 		proc_can_tx();
 #endif
 #ifdef PROTOCOL_DEF
+		InfoManager();
 		MAL_CAN_Process();
 
 /*		if (MAL_NonStopDelay(&t_testss, 100) == 1)
