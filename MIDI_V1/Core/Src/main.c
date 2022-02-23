@@ -116,7 +116,8 @@ extern HC165_wheel_TypeDef wheel[8];
 extern X_Touch_Extender_Packet_HandleTypeDef extenderPacket;
 
 extern Comm_Axle_TypeDef com_axle;
-extern uint8_t my_can_id;
+uint8_t my_can_id;
+extern uint8_t my_can_sub_id;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -269,7 +270,13 @@ int main(void) {
 	}
 
 #ifndef PROTOCOL_DEF
-	app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, my_can_sub_id, 0);
+	//app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, 1, 0);
+	//app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, my_can_sub_id, 0);
+
+	my_can_id = 1;
+	set_my_can_id(1);
+	add_my_can_sub_id(1, 1);
+	app_tx_midi_sub_pid_exist_ctl(0, 1, 1, 0, 1, 0);
 	//app_tx_midi_sub_pid_exist_ctl(0, 1, my_can_id, 0, 0);
 #endif
 	//LCD_SetText_DEC(0,5);

@@ -13,6 +13,8 @@
 #include "app_pid_init_cmd.h"
 #include "app_pid_midi_cmd.h"
 #include "prtc_data_pid_midi.h"
+#include "dl_can.h"
+
 #else
 #include "can_datalink.h"
 #endif
@@ -63,8 +65,10 @@ uint8_t getListNum(uint8_t group_id, uint8_t motor_id)
 #ifndef PROTOCOL_DEF
 //=============================================================================
 void app_rx_midi_sub_pid_exist_rqt(uint8_t num, prtc_header_t *pPh, uint8_t *pData) {
-	app_tx_midi_sub_pid_exist_rsp(0, 1, my_can_id, pPh->souce_id, my_can_sub_id, pPh->target_sub_id);
+	//app_tx_midi_sub_pid_exist_rsp(0, 1, my_can_id, pPh->souce_id, my_can_sub_id, pPh->target_sub_id);
 	//app_tx_midi_sub_pid_exist_rsp(0, 1, my_can_id, pPh->souce_id, 0);
+
+	app_tx_midi_sub_pid_exist_rsp(0, 1, my_can_id_data.id, pPh->souce_id, my_can_id_data.sub_id[0], pPh->target_sub_id);
 
 
 }

@@ -47,6 +47,7 @@ extern uint8_t my_can_id;
 //#define FW_VER_STR "0.0.7v" //todo : CAN 아이디 별 데이터 구분, 필터 활성,비활성, //링크 활성 비활성
 #define FW_VER_STR "0.0.8v" 	//필터에 의해 움직이고있을때
 
+#define CAN1_ENABLE
 
 #define ADC_SHIFT 19
 
