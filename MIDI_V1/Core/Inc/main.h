@@ -45,7 +45,10 @@ extern uint8_t my_can_id;
 //#define FW_VER_STR "0.0.6v" 	//todo : 활성시 2씩 감소하는 현상 수정. 활성후 첫 슬라이드 위치가 받은 위치에서 +/- 200일때 통신 시작.
 //#define FW_VER_STR "0.0.7v" 	//슬라이드 최대 최소값 맵핑시 모터위치가 밖에 있을경우 활성화때 4095를 벗어나는 오류가 생김.
 //#define FW_VER_STR "0.0.7v" //todo : CAN 아이디 별 데이터 구분, 필터 활성,비활성, //링크 활성 비활성
-#define FW_VER_STR "0.0.8v" 	//필터에 의해 움직이고있을때
+//#define FW_VER_STR "0.0.8v" 	//필터에 의해 움직이고있을때
+
+
+#define FW_VER_STR "0.0.9v" 	//sub id 방식 변경
 
 #define CAN1_ENABLE
 
