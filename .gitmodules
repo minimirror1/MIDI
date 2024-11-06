@@ -1,0 +1,3 @@
+[submodule "MIDI_V1/Component/GM_MOTION"]
+	path = MIDI_V1/Component/GM_MOTION
+	url = https://github.com/KimJunHyung1991/GM_MOTION
