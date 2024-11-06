@@ -40,7 +40,7 @@ extern Comm_Axle_TypeDef com_axle;
 extern HC165_wheel_TypeDef wheel[8];
 extern HC165_btn_TypeDef btn[8];
 
-uint8_t tempPageNum;
+static uint8_t tempPageNum;
 
 uint8_t f_pageChange = SET;
 uint8_t changePageCnt = 0;

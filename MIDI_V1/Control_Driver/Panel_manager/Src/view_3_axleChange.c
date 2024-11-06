@@ -42,7 +42,7 @@ extern HC165_btn_TypeDef btn[8];
 
 extern LongKey_TypeDef LongKeyWheel[8];
 
-uint8_t tempPageNum;
+static uint8_t tempPageNum;
 uint8_t tempAxleSlot[8] = { 0, };
 
 uint8_t f_changeAxleSlot[8] = { 0, };
