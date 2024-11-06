@@ -40,16 +40,16 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/key_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Panel_Driver}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/Panel_manager/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_APP/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_DL/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PDA/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHA/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHD/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_PRTC/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/communication_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/eeprom_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/CAN_Driver/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/CAN_Parsing/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_APP/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PDA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_DL/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PHA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PHD/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_PRTC/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.1720469951" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -77,18 +77,18 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/key_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Panel_Driver}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/Panel_manager/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_APP/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_DL/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PDA/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHA/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHD/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_PRTC/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/communication_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/stm32f107xC_eepEmu/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/filter_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/eeprom_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/CAN_Driver/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/CAN_Parsing/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_APP/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_DL/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PDA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PHA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PHD/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_PRTC/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.648116166" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -137,16 +137,16 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/key_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Panel_Driver}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/Panel_manager/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_APP/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_DL/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PDA/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHA/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHD/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_PRTC/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/communication_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/eeprom_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/CAN_Driver/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/CAN_Parsing/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_APP/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PDA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_DL/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PHA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PHD/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_PRTC/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.417072101" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -167,18 +167,18 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/key_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Panel_Driver}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/Panel_manager/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_APP/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_DL/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PDA/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHA/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_NET/PHD/Inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/gm_motion_CANprotocol/common/GM_PRTC/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/communication_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/stm32f107xC_eepEmu/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/filter_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/eeprom_manager/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/CAN_Driver/Inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Control_Driver/CAN_Parsing/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_APP/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_DL/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PDA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PHA/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_NET/PHD/Inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MIDI_V1/Component/GM_MOTION/common/GM_PRTC/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.461037148" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -201,7 +201,6 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="MAL_Drivers"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="gm_motion_CANprotocol"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="stm32f107xC_eepEmu"/>
 					</sourceEntries>
 				</configuration>
@@ -281,7 +280,6 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="MAL_Drivers"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="gm_motion_CANprotocol"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="stm32f107xC_eepEmu"/>
 					</sourceEntries>
 				</configuration>
@@ -295,15 +293,6 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.1085266866;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.1085266866.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1151456142;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.214435716">
-			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1430983009;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1430983009.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.524738202;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.648116166">
-			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-	</storageModule>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/MIDI_V1"/>
@@ -311,5 +300,14 @@
 		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/MIDI_V1"/>
 		</configuration>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1430983009;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1430983009.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.524738202;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.648116166">
+			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.1085266866;com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.1085266866.;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1151456142;com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.214435716">
+			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 	</storageModule>
 </cproject>
